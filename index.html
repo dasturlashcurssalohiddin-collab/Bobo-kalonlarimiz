@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bobo Kalonlarimiz</title>
+
+<style>
+
+/* BODY */
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+color:white;
+overflow-x:hidden;
+background:black;
+}
+
+/* VIDEO BACKGROUND */
+
+#bgVideo{
+position:fixed;
+right:0;
+bottom:0;
+min-width:100%;
+min-height:100%;
+z-index:-1;
+object-fit:cover;
+opacity:0.35;
+}
+
+/* TOP BAR */
+
+.topbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px 30px;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+/* LOGO */
+
+.logo{
+height:70px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.logo:hover{
+transform:scale(1.1);
+}
+
+/* BUTTONS */
+
+#menuBtn,#helpBtn{
+background:#6ad8ff;
+border:none;
+padding:10px 15px;
+border-radius:10px;
+font-size:22px;
+cursor:pointer;
+transition:0.2s;
+}
+
+#menuBtn:hover,#helpBtn:hover{
+transform:scale(1.1);
+background:#4cc4ec;
+}
+
+/* SEARCH AREA */
+
+.searchBox{
+text-align:center;
+margin-top:30px;
+}
+
+#search{
+padding:15px;
+width:320px;
+font-size:18px;
+border-radius:10px;
+border:none;
+outline:none;
+}
+
+#voiceBtn{
+padding:15px;
+font-size:18px;
+border:none;
+border-radius:10px;
+margin-left:10px;
+cursor:pointer;
+background:#6ad8ff;
+}
+
+/* GRID */
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+padding:40px;
+}
+
+/* CARD */
+
+.card{
+background:rgba(0,0,0,0.6);
+padding:15px;
+border-radius:15px;
+cursor:pointer;
+transition:0.3s;
+backdrop-filter:blur(10px);
+}
+
+.card:hover{
+transform:scale(1.05);
+background:rgba(20,40,60,0.7);
+}
+
+/* CARD IMAGE */
+
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:10px;
+}
+
+/* NAME */
+
+.name{
+font-size:20px;
+margin-top:10px;
+color:#6ad8ff;
+}
+
+/* MENU PANEL */
+
+#menuPanel{
+position:absolute;
+top:80px;
+left:20px;
+background:#1b2a33;
+padding:15px;
+border-radius:15px;
+display:none;
+width:200px;
+box-shadow:0 0 10px black;
+}
+
+.menuItem{
+padding:10px;
+cursor:pointer;
+border-radius:8px;
+}
+
+.menuItem:hover{
+background:#6ad8ff;
+color:black;
+}
+
+/* SUB MENUS */
+
+#translateMenu,#filterMenu{
+display:none;
+margin-top:10px;
+}
+
+.lang{
+padding:8px;
+cursor:pointer;
+}
+
+.lang:hover{
+background:#6ad8ff;
+color:black;
+}
+
+/* HELP WINDOW */
+
+#helpWindow{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:2000;
+}
+
+.helpContent{
+background:#1b2a33;
+padding:30px;
+border-radius:15px;
+width:420px;
+max-height:80%;
+overflow:auto;
+}
+
+/* TOP BUTTON */
+
+#topBtn{
+position:fixed;
+bottom:30px;
+right:30px;
+font-size:20px;
+padding:12px 15px;
+border:none;
+border-radius:10px;
+background:#6ad8ff;
+cursor:pointer;
+display:none;
+}
+
+/* FOOTER */
+
+footer{
+margin-top:40px;
+padding:20px;
+background:rgba(0,0,0,0.7);
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- VIDEO BACKGROUND -->
+
+<video autoplay muted loop id="bgVideo">
+<source src="bobokalonlar.mp4" type="video/mp4">
+</video>
+
+<!-- TOP BAR -->
+
+<header class="topbar">
+
+<button id="menuBtn">☰</button>
+
+<img src="bobo.penj.png" class="logo">
+
+<button id="helpBtn">?</button>
+
+</header>
+
+<!-- SEARCH -->
+
+<div class="searchBox">
+
+<input id="search" placeholder="Bobo kalon nomini yozing...">
+
+<button id="voiceBtn">🎤</button>
+
+</div>
+
+<!-- MENU PANEL -->
+
+<div id="menuPanel">
+
+<div class="menuItem" onclick="toggleTranslate()">🌐 Translate</div>
+
+<div id="translateMenu">
+<div class="lang">🇺🇿 Uzbek</div>
+<div class="lang">🇬🇧 English</div>
+<div class="lang">🇷🇺 Russian</div>
+</div>
+
+<div class="menuItem" onclick="toggleFilter()">📂 Filter</div>
+
+<div id="filterMenu">
+<div class="lang">Hammasi</div>
+<div class="lang">Olimlar</div>
+<div class="lang">Sarkardalar</div>
+<div class="lang">Yozuvchilar</div>
+<div class="lang">Din Allomalari</div>
+</div>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="container" id="container"></div>
+
+<!-- HELP WINDOW -->
+
+<div id="helpWindow">
+
+<div class="helpContent">
+
+<h2>Bu sayt haqida</h2>
+
+<p>
+Bu sayt buyuk bobokalonlarimizni tanishtirish uchun yaratilgan
+ta'limiy loyiha hisoblanadi.
+</p>
+
+<p>
+Sayt orqali siz tarixiy shaxslarning rasmlarini ko‘rib,
+ular haqida ma'lumot olish uchun Wikipedia sahifasiga
+o‘tishingiz mumkin.
+</p>
+
+<p>
+Qidiruv, filter va translate funksiyalari yordamida
+saytdan foydalanish juda oson.
+</p>
+
+<button onclick="closeHelp()">Yopish</button>
+
+</div>
+
+</div>
+
+<!-- TOP BUTTON -->
+
+<button id="topBtn">⬆</button>
+
+<footer>
+
+<p>© 2026 Bobo Kalonlarimiz</p>
+<p>Tarixiy shaxslar haqida ta'limiy loyiha</p>
+
+</footer>
+
+<script>
+
+/* MENU */
+
+menuBtn.onclick=()=>{
+
+menuPanel.style.display=
+menuPanel.style.display==="block"?"none":"block";
+
+}
+
+/* HELP */
+
+helpBtn.onclick=()=>{
+helpWindow.style.display="flex";
+}
+
+function closeHelp(){
+helpWindow.style.display="none";
+}
+
+/* TRANSLATE MENU */
+
+function toggleTranslate(){
+
+let menu=document.getElementById("translateMenu");
+
+menu.style.display=
+menu.style.display==="block"?"none":"block";
+
+}
+
+/* FILTER MENU */
+
+function toggleFilter(){
+
+let menu=document.getElementById("filterMenu");
+
+menu.style.display=
+menu.style.display==="block"?"none":"block";
+
+}
+
+/* SCROLL BUTTON */
+
+let topBtn=document.getElementById("topBtn");
+
+window.onscroll=function(){
+
+if(document.documentElement.scrollTop>200){
+topBtn.style.display="block";
+}else{
+topBtn.style.display="none";
+}
+
+}
+
+topBtn.onclick=function(){
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+</script>
+
+</body>
+</html>
+
+<script>
+
+/* =========================
+   BOBOKALONLAR RO‘YXATI
+========================= */
+
+const bobolar=[
+
+"Alisher Navoiy",
+"Amir Temur",
+"Mirzo Ulug‘bek",
+"Zahiriddin Bobur",
+"Ibn Sino",
+"Muhammad al-Xorazmiy",
+"Al-Beruniy",
+"Ahmad al-Farg‘oniy",
+"Imom al-Buxoriy",
+"Imom at-Termiziy",
+"Ahmad Yassaviy",
+"Bahouddin Naqshband",
+"Najmiddin Kubro",
+"Mahmud Qoshg‘ariy",
+"Mahmud Zamaxshariy",
+"Abu Mansur Moturidiy",
+"Al-Farobiy",
+"Abdulla Qodiriy",
+"Cho‘lpon",
+"To'maris",
+"Jaloliddin Manguberdi",
+"Nodira Begim",
+"Uvaysiy"
+
+];
+
+
+/* =========================
+   RASMLAR
+========================= */
+
+const images={
+
+"Alisher Navoiy":"download (1).jpeg",
+"Amir Temur":"download (2).jpeg",
+"Mirzo Ulug‘bek":"download (3).jpeg",
+"Zahiriddin Bobur":"download (4).jpeg",
+"Ibn Sino":"download (5).jpeg",
+"Muhammad al-Xorazmiy":"download (6).jpeg",
+"Al-Beruniy":"download (7).jpeg",
+"Ahmad al-Farg‘oniy":"download (8).jpeg",
+"Imom al-Buxoriy":"download (9).jpeg",
+"Imom at-Termiziy":"download (10).jpeg",
+"Ahmad Yassaviy":"download (11).jpeg",
+"Bahouddin Naqshband":"download (12).jpeg",
+"Najmiddin Kubro":"download (13).jpeg",
+"Mahmud Qoshg‘ariy":"download (14).jpeg",
+"Mahmud Zamaxshariy":"download (15).jpeg",
+"Abu Mansur Moturidiy":"download (16).jpeg",
+"Al-Farobiy":"download (17).jpeg",
+"Abdulla Qodiriy":"download (18).jpeg",
+"Cho‘lpon":"download (19).jpeg",
+"To'maris":"download (20).jpeg",
+"Jaloliddin Manguberdi":"download (21).jpeg",
+"Nodira Begim":"download (22).jpeg",
+"Uvaysiy":"download (23).jpeg"
+
+};
+
+
+/* =========================
+   CARD CHIQARISH
+========================= */
+
+const container=document.getElementById("container");
+
+function showCards(list){
+
+container.innerHTML="";
+
+list.forEach(name=>{
+
+const card=document.createElement("div");
+
+card.className="card";
+
+card.innerHTML=`
+
+<img src="${images[name]}">
+
+<div class="name">${name}</div>
+
+`;
+
+/* CLICK WIKIPEDIA */
+
+card.onclick=()=>{
+
+window.open(
+"https://uz.wikipedia.org/wiki/"+name.replaceAll(" ","_")
+);
+
+};
+
+/* IMAGE ANIMATION */
+
+card.addEventListener("mousemove",(e)=>{
+
+let x=e.offsetX;
+let y=e.offsetY;
+
+card.style.transform=
+"rotateY("+(x/20)+"deg) rotateX("+(y/20)+"deg) scale(1.05)";
+
+});
+
+card.addEventListener("mouseleave",()=>{
+
+card.style.transform="rotate(0)";
+
+});
+
+container.appendChild(card);
+
+});
+
+}
+
+
+/* SAHIFA BOSHLANGANDA */
+
+showCards(bobolar);
+
+
+/* =========================
+   RANDOM BOBOKALON
+========================= */
+
+function randomBobo(){
+
+let random=
+bobolar[Math.floor(Math.random()*bobolar.length)];
+
+alert("Tasodifiy bobokalon: "+random);
+
+window.open(
+"https://uz.wikipedia.org/wiki/"+random.replaceAll(" ","_")
+);
+
+}
+
+
+/* RANDOM BUTTON */
+
+const randomBtn=document.createElement("button");
+
+randomBtn.innerText="🎲 Random Bobokalon";
+
+randomBtn.style.padding="15px";
+randomBtn.style.margin="20px";
+randomBtn.style.fontSize="18px";
+randomBtn.style.borderRadius="10px";
+randomBtn.style.cursor="pointer";
+
+document.body.insertBefore(randomBtn,container);
+
+randomBtn.onclick=randomBobo;
+
+
+/* =========================
+   SEARCH SYSTEM
+========================= */
+
+search.onkeyup=()=>{
+
+let value=search.value.toLowerCase();
+
+let filtered=bobolar.filter(person=>
+person.toLowerCase().includes(value)
+);
+
+showCards(filtered);
+
+};
+
+
+/* =========================
+   VOICE SEARCH
+========================= */
+
+if('webkitSpeechRecognition' in window){
+
+const recognition=new webkitSpeechRecognition();
+
+recognition.lang="uz-UZ";
+
+voiceBtn.onclick=()=>{
+
+recognition.start();
+
+};
+
+recognition.onresult=(event)=>{
+
+let text=event.results[0][0].transcript;
+
+search.value=text;
+
+let filtered=bobolar.filter(person=>
+person.toLowerCase().includes(text.toLowerCase())
+);
+
+showCards(filtered);
+
+};
+
+}
+
+</script>
+
+<script>
+
+/* =========================
+   CATEGORY SYSTEM
+========================= */
+
+const categories={
+
+"Alisher Navoiy":"yozuvchi",
+"Amir Temur":"sarkarda",
+"Mirzo Ulug‘bek":"olim",
+"Zahiriddin Bobur":"yozuvchi",
+"Ibn Sino":"olim",
+"Muhammad al-Xorazmiy":"olim",
+"Al-Beruniy":"olim",
+"Ahmad al-Farg‘oniy":"olim",
+"Imom al-Buxoriy":"din",
+"Imom at-Termiziy":"din",
+"Ahmad Yassaviy":"din",
+"Bahouddin Naqshband":"din",
+"Najmiddin Kubro":"din",
+"Mahmud Qoshg‘ariy":"olim",
+"Mahmud Zamaxshariy":"olim",
+"Abu Mansur Moturidiy":"din",
+"Al-Farobiy":"olim",
+"Abdulla Qodiriy":"yozuvchi",
+"Cho‘lpon":"yozuvchi",
+"To'maris":"sarkarda",
+"Jaloliddin Manguberdi":"sarkarda",
+"Nodira Begim":"yozuvchi",
+"Uvaysiy":"yozuvchi"
+
+};
+
+
+/* =========================
+   FILTER SYSTEM
+========================= */
+
+function filterPeople(type){
+
+if(type==="all"){
+
+showCards(bobolar);
+return;
+
+}
+
+let filtered=bobolar.filter(name=>
+categories[name]===type
+);
+
+showCards(filtered);
+
+}
+
+
+/* =========================
+   MENU FILTER BUTTONS
+========================= */
+
+document.querySelectorAll("#filterMenu .lang")[0].onclick=()=>filterPeople("all");
+document.querySelectorAll("#filterMenu .lang")[1].onclick=()=>filterPeople("olim");
+document.querySelectorAll("#filterMenu .lang")[2].onclick=()=>filterPeople("sarkarda");
+document.querySelectorAll("#filterMenu .lang")[3].onclick=()=>filterPeople("yozuvchi");
+document.querySelectorAll("#filterMenu .lang")[4].onclick=()=>filterPeople("din");
+
+
+/* =========================
+   TRANSLATE SYSTEM
+========================= */
+
+function changeLang(lang){
+
+if(lang==="uz"){
+
+search.placeholder="Bobo kalon nomini yozing...";
+
+}
+
+if(lang==="en"){
+
+search.placeholder="Type ancestor name...";
+
+}
+
+if(lang==="ru"){
+
+search.placeholder="Введите имя предка...";
+
+}
+
+}
+
+
+/* TRANSLATE BUTTONS */
+
+document.querySelectorAll("#translateMenu .lang")[0].onclick=()=>changeLang("uz");
+document.querySelectorAll("#translateMenu .lang")[1].onclick=()=>changeLang("en");
+document.querySelectorAll("#translateMenu .lang")[2].onclick=()=>changeLang("ru");
+
+
+/* =========================
+   FAVORITES SYSTEM
+========================= */
+
+let favorites=[];
+
+function toggleFavorite(name){
+
+if(favorites.includes(name)){
+
+favorites=favorites.filter(item=>item!==name);
+
+}else{
+
+favorites.push(name);
+
+}
+
+alert("Favorites: "+favorites.join(", "));
+
+}
+
+
+/* FAVORITES BUTTON */
+
+const favBtn=document.createElement("button");
+
+favBtn.innerText="⭐ Favorites";
+
+favBtn.style.padding="15px";
+favBtn.style.margin="10px";
+favBtn.style.fontSize="18px";
+favBtn.style.borderRadius="10px";
+favBtn.style.cursor="pointer";
+
+document.body.insertBefore(favBtn,container);
+
+
+favBtn.onclick=()=>{
+
+if(favorites.length===0){
+
+alert("Sevimli bobokalonlar yo'q");
+
+return;
+
+}
+
+showCards(favorites);
+
+};
+
+
+/* =========================
+   CARD UPDATE
+========================= */
+
+function showCards(list){
+
+container.innerHTML="";
+
+list.forEach(name=>{
+
+const card=document.createElement("div");
+
+card.className="card";
+
+card.innerHTML=`
+
+<img src="${images[name]}">
+
+<div class="name">${name}</div>
+
+<button onclick="toggleFavorite('${name}')">
+⭐
+</button>
+
+`;
+
+card.onclick=()=>{
+
+window.open(
+"https://uz.wikipedia.org/wiki/"+name.replaceAll(" ","_")
+);
+
+};
+
+container.appendChild(card);
+
+});
+
+}
+
+
+/* =========================
+   STATISTICS SYSTEM
+========================= */
+
+function showStats(){
+
+let total=bobolar.length;
+
+let olim=bobolar.filter(p=>categories[p]==="olim").length;
+let yozuvchi=bobolar.filter(p=>categories[p]==="yozuvchi").length;
+let sarkarda=bobolar.filter(p=>categories[p]==="sarkarda").length;
+let din=bobolar.filter(p=>categories[p]==="din").length;
+
+alert(
+
+"📊 Statistika\n\n"+
+"Jami: "+total+"\n"+
+"Olimlar: "+olim+"\n"+
+"Yozuvchilar: "+yozuvchi+"\n"+
+"Sarkardalar: "+sarkarda+"\n"+
+"Din allomalari: "+din
+
+);
+
+}
+
+
+/* STAT BUTTON */
+
+const statsBtn=document.createElement("button");
+
+statsBtn.innerText="📊 Statistika";
+
+statsBtn.style.padding="15px";
+statsBtn.style.margin="10px";
+statsBtn.style.fontSize="18px";
+statsBtn.style.borderRadius="10px";
+statsBtn.style.cursor="pointer";
+
+document.body.insertBefore(statsBtn,container);
+
+statsBtn.onclick=showStats;
+
+
+/* =========================
+   EXTRA CARD ANIMATION
+========================= */
+
+function animateCards(){
+
+let cards=document.querySelectorAll(".card");
+
+cards.forEach((card,i)=>{
+
+card.style.opacity="0";
+card.style.transform="translateY(20px)";
+
+setTimeout(()=>{
+
+card.style.transition="0.6s";
+card.style.opacity="1";
+card.style.transform="translateY(0)";
+
+},i*80);
+
+});
+
+}
+
+setTimeout(animateCards,400);
+
+</script>
+
+<script>
+
+/* =========================
+   LOADING SCREEN
+========================= */
+
+const loader=document.createElement("div");
+
+loader.style.position="fixed";
+loader.style.top="0";
+loader.style.left="0";
+loader.style.width="100%";
+loader.style.height="100%";
+loader.style.background="black";
+loader.style.display="flex";
+loader.style.alignItems="center";
+loader.style.justifyContent="center";
+loader.style.fontSize="30px";
+loader.style.zIndex="9999";
+loader.innerText="Yuklanmoqda...";
+
+document.body.appendChild(loader);
+
+window.addEventListener("load",()=>{
+
+setTimeout(()=>{
+
+loader.style.opacity="0";
+
+setTimeout(()=>{
+
+loader.remove();
+
+},600);
+
+},800);
+
+});
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+let dark=false;
+
+const darkBtn=document.createElement("button");
+
+darkBtn.innerText="🌙 Dark Mode";
+
+darkBtn.style.padding="15px";
+darkBtn.style.margin="10px";
+darkBtn.style.borderRadius="10px";
+darkBtn.style.cursor="pointer";
+
+document.body.insertBefore(darkBtn,container);
+
+darkBtn.onclick=()=>{
+
+dark=!dark;
+
+if(dark){
+
+document.body.style.background="#050505";
+
+darkBtn.innerText="☀ Light Mode";
+
+}else{
+
+document.body.style.background="black";
+
+darkBtn.innerText="🌙 Dark Mode";
+
+}
+
+};
+
+
+/* =========================
+   VIDEO CONTROL
+========================= */
+
+const video=document.getElementById("bgVideo");
+
+const videoBtn=document.createElement("button");
+
+videoBtn.innerText="🎥 Pause Video";
+
+videoBtn.style.padding="15px";
+videoBtn.style.margin="10px";
+videoBtn.style.borderRadius="10px";
+
+document.body.insertBefore(videoBtn,container);
+
+videoBtn.onclick=()=>{
+
+if(video.paused){
+
+video.play();
+videoBtn.innerText="🎥 Pause Video";
+
+}else{
+
+video.pause();
+videoBtn.innerText="▶ Play Video";
+
+}
+
+};
+
+
+/* =========================
+   FAVORITES SAVE
+========================= */
+
+function saveFavorites(){
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(favorites)
+);
+
+}
+
+function loadFavorites(){
+
+let data=localStorage.getItem("favorites");
+
+if(data){
+
+favorites=JSON.parse(data);
+
+}
+
+}
+
+loadFavorites();
+
+
+/* FAVORITE UPDATE */
+
+function toggleFavorite(name){
+
+if(favorites.includes(name)){
+
+favorites=favorites.filter(f=>f!==name);
+
+}else{
+
+favorites.push(name);
+
+}
+
+saveFavorites();
+
+}
+
+
+/* =========================
+   NOTIFICATION
+========================= */
+
+function notify(text){
+
+const box=document.createElement("div");
+
+box.innerText=text;
+
+box.style.position="fixed";
+box.style.top="20px";
+box.style.right="20px";
+box.style.padding="15px";
+box.style.background="#6ad8ff";
+box.style.color="black";
+box.style.borderRadius="10px";
+box.style.zIndex="9999";
+
+document.body.appendChild(box);
+
+setTimeout(()=>{
+
+box.remove();
+
+},3000);
+
+}
+
+
+/* WELCOME */
+
+setTimeout(()=>{
+
+notify("Saytga xush kelibsiz!");
+
+},2000);
+
+
+/* =========================
+   AUTO RANDOM BOBOKALON
+========================= */
+
+setInterval(()=>{
+
+let random=
+bobolar[Math.floor(Math.random()*bobolar.length)];
+
+notify("Bugungi bobokalon: "+random);
+
+},30000);
+
+
+/* =========================
+   CARD HOVER EFFECT
+========================= */
+
+document.addEventListener("mousemove",(e)=>{
+
+let cards=document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+
+let rect=card.getBoundingClientRect();
+
+let x=e.clientX-rect.left;
+let y=e.clientY-rect.top;
+
+card.style.transform=
+"rotateY("+(x/50)+"deg) rotateX("+(y/50)+"deg)";
+
+});
+
+});
+
+
+/* =========================
+   PERFORMANCE LOG
+========================= */
+
+window.addEventListener("load",()=>{
+
+let time=performance.now();
+
+console.log("Page load time:",Math.floor(time),"ms");
+
+});
+
+
+/* =========================
+   KEYBOARD SHORTCUTS
+========================= */
+
+document.addEventListener("keydown",(e)=>{
+
+if(e.key==="r"){
+
+randomBobo();
+
+}
+
+if(e.key==="f"){
+
+favBtn.click();
+
+}
+
+if(e.key==="s"){
+
+statsBtn.click();
+
+}
+
+});
+
+</script>
+
+<script>
+
+/* =========================
+   REAL TIME CLOCK
+========================= */
+
+const clock=document.createElement("div");
+
+clock.style.position="fixed";
+clock.style.bottom="20px";
+clock.style.left="20px";
+clock.style.background="rgba(0,0,0,0.6)";
+clock.style.padding="10px 15px";
+clock.style.borderRadius="10px";
+clock.style.fontSize="18px";
+
+document.body.appendChild(clock);
+
+function updateClock(){
+
+let now=new Date();
+
+let h=now.getHours().toString().padStart(2,"0");
+let m=now.getMinutes().toString().padStart(2,"0");
+let s=now.getSeconds().toString().padStart(2,"0");
+
+clock.innerText=h+":"+m+":"+s;
+
+}
+
+setInterval(updateClock,1000);
+
+
+/* =========================
+   ADVANCED STATISTICS PANEL
+========================= */
+
+const statsPanel=document.createElement("div");
+
+statsPanel.style.position="fixed";
+statsPanel.style.top="50%";
+statsPanel.style.left="50%";
+statsPanel.style.transform="translate(-50%,-50%)";
+statsPanel.style.background="#1b2a33";
+statsPanel.style.padding="30px";
+statsPanel.style.borderRadius="15px";
+statsPanel.style.display="none";
+statsPanel.style.zIndex="9999";
+statsPanel.style.width="350px";
+
+document.body.appendChild(statsPanel);
+
+
+function openStatsPanel(){
+
+let olim=bobolar.filter(p=>categories[p]==="olim").length;
+let yozuvchi=bobolar.filter(p=>categories[p]==="yozuvchi").length;
+let sarkarda=bobolar.filter(p=>categories[p]==="sarkarda").length;
+let din=bobolar.filter(p=>categories[p]==="din").length;
+
+statsPanel.innerHTML=
+
+`
+<h2>📊 Statistika</h2>
+
+<p>👴 Jami bobokalon: ${bobolar.length}</p>
+<p>🧠 Olimlar: ${olim}</p>
+<p>📜 Yozuvchilar: ${yozuvchi}</p>
+<p>⚔ Sarkardalar: ${sarkarda}</p>
+<p>🕌 Din allomalari: ${din}</p>
+
+<button onclick="closeStatsPanel()">
+Yopish
+</button>
+`;
+
+statsPanel.style.display="block";
+
+}
+
+function closeStatsPanel(){
+
+statsPanel.style.display="none";
+
+}
+
+
+/* STATS BUTTON UPDATE */
+
+statsBtn.onclick=openStatsPanel;
+
+
+/* =========================
+   RANDOM FACTS
+========================= */
+
+const facts=[
+
+"Alisher Navoiy 30 dan ortiq asar yozgan.",
+"Amir Temur buyuk sarkarda va davlat arbobi bo'lgan.",
+"Ibn Sino tibbiyot tarixidagi eng mashhur olimlardan biri.",
+"Al-Xorazmiy algebra fanining asoschilaridan biri.",
+"Mirzo Ulug‘bek mashhur astronom bo‘lgan.",
+"Al-Beruniy 150 dan ortiq ilmiy asar yozgan."
+
+];
+
+
+function randomFact(){
+
+let fact=facts[Math.floor(Math.random()*facts.length)];
+
+notify("📚 Fakt: "+fact);
+
+}
+
+setInterval(randomFact,45000);
+
+
+/* =========================
+   MOBILE OPTIMIZATION
+========================= */
+
+function mobileCheck(){
+
+if(window.innerWidth<600){
+
+document.body.style.fontSize="14px";
+
+let cards=document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+
+card.style.padding="10px";
+
+});
+
+}
+
+}
+
+mobileCheck();
+
+window.addEventListener("resize",mobileCheck);
+
+
+/* =========================
+   CARD FLOAT ANIMATION
+========================= */
+
+function floatCards(){
+
+let cards=document.querySelectorAll(".card");
+
+cards.forEach((card,i)=>{
+
+card.animate(
+
+[
+{transform:"translateY(0px)"},
+{transform:"translateY(-8px)"},
+{transform:"translateY(0px)"}
+],
+
+{
+duration:4000+(i*200),
+iterations:Infinity
+}
+
+);
+
+});
+
+}
+
+setTimeout(floatCards,1000);
+
+
+/* =========================
+   BACKGROUND PARTICLES
+========================= */
+
+for(let i=0;i<40;i++){
+
+let dot=document.createElement("div");
+
+dot.style.position="fixed";
+dot.style.width="4px";
+dot.style.height="4px";
+dot.style.background="#6ad8ff";
+dot.style.borderRadius="50%";
+dot.style.left=Math.random()*100+"%";
+dot.style.top=Math.random()*100+"%";
+dot.style.opacity="0.5";
+
+document.body.appendChild(dot);
+
+dot.animate(
+
+[
+{transform:"translateY(0px)"},
+{transform:"translateY(-200px)"}
+],
+
+{
+duration:5000+Math.random()*5000,
+iterations:Infinity
+}
+
+);
+
+}
+
+
+/* =========================
+   PERFORMANCE BOOST
+========================= */
+
+function lazyImages(){
+
+let imgs=document.querySelectorAll("img");
+
+imgs.forEach(img=>{
+
+img.loading="lazy";
+
+});
+
+}
+
+lazyImages();
+
+
+/* =========================
+   END MESSAGE
+========================= */
+
+setTimeout(()=>{
+
+console.log("🚀 Bobo Kalonlarimiz sayti to‘liq yuklandi.");
+
+},3000);
+
+</script>
