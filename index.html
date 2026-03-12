@@ -332,13 +332,8 @@ saytdan foydalanish juda oson.
 
 <footer>
 
-<p>© 2026 <b>Bobo Kalonlarimiz</b></p>
-
+<p>© 2026 Bobo Kalonlarimiz</p>
 <p>Tarixiy shaxslar haqida ta'limiy loyiha</p>
-
-<p>10-IDUM 6-"D" sinf o'quvchisi</p>
-
-<p><b>Tehaboyev Salohiddinning loyihasi</b></p>
 
 </footer>
 
@@ -438,10 +433,43 @@ const bobolar=[
 "To'maris",
 "Jaloliddin Manguberdi",
 "Nodira Begim",
-"Uvaysiy"
+"Uvaysiy",
+
+/* Jadidlar */
+
+"Mahmudxo‘ja Behbudiy",
+"Munavvar Qori Abdurashidxonov",
+"Abdulla Avloniy",
+"Is’hoqxon Ibrat",
+"Sadriddin Ayni",
+"Hamza Hakimzoda Niyoziy",
+"Usmon Nosir",
+"Ahmad Donish",
+
+/* Sarkarda va olimlar */
+
+"Qutayba ibn Muslim",
+"Mahmud of Ghazni",
+"Abu Hafs Kabir",
+"Burhan al-Din al-Marghinani",
+"Ali Qushchi",
+"Abu Bakr Narshakhi",
+"Abu Muin Nasafi",
+"Najm al-Din Kubra",
+"Yusuf Hamadani",
+
+/* Ayol tarixiy shaxslar */
+
+"Zulfiya",
+"Saida Zunnunova",
+"Halima Xudoyberdiyeva",
+"Gulchehra Nurullayeva",
+"Komila Yashin",
+"Rabia Balkhi",
+"Gawharshad Begum",
+"Bibi-Khanym",
 
 ];
-
 
 /* =========================
    RASMLAR
@@ -471,7 +499,37 @@ const images={
 "To'maris":"download (20).jpeg",
 "Jaloliddin Manguberdi":"download (21).jpeg",
 "Nodira Begim":"download (22).jpeg",
-"Uvaysiy":"download (23).jpeg"
+"Uvaysiy":"download (23).jpeg",
+
+/* Yangi qo‘shilganlar */
+
+"Mahmudxo‘ja Behbudiy":"download (24).jpeg",
+"Munavvar Qori Abdurashidxonov":"download (25).jpeg",
+"Abdulla Avloniy":"download (26).jpeg",
+"Is’hoqxon Ibrat":"download (27).jpeg",
+"Sadriddin Ayni":"download (28).jpeg",
+"Hamza Hakimzoda Niyoziy":"download (29).jpeg",
+"Usmon Nosir":"download (30).jpeg",
+"Ahmad Donish":"download (31).jpeg",
+
+"Qutayba ibn Muslim":"download (32).jpeg",
+"Mahmud of Ghazni":"download.jpeg",
+"Abu Hafs Kabir":"download (34).jpeg",
+"Burhan al-Din al-Marghinani":"download (35).jpeg",
+"Ali Qushchi":"download (36).jpeg",
+"Abu Bakr Narshakhi":"download (37).jpeg",
+"Abu Muin Nasafi":"download (38).jpeg",
+"Najm al-Din Kubra":"download (39).jpeg",
+"Yusuf Hamadani":"download (40).jpeg",
+
+"Zulfiya":"download (41).jpeg",
+"Saida Zunnunova":"download (42).jpeg",
+"Halima Xudoyberdiyeva":"download (43).jpeg",
+"Gulchehra Nurullayeva":"download (44).jpeg",
+"Komila Yashin":"download (45).jpeg",
+"Rabia Balkhi":"download (46).jpeg",
+"Gawharshad Begum":"download (47).jpeg",
+"Bibi-Khanym":"download (48).jpeg",
 
 };
 
@@ -656,7 +714,41 @@ const categories={
 "To'maris":"sarkarda",
 "Jaloliddin Manguberdi":"sarkarda",
 "Nodira Begim":"yozuvchi",
-"Uvaysiy":"yozuvchi"
+"Uvaysiy":"yozuvchi",
+
+/* Jadidlar */
+
+"Mahmudxo‘ja Behbudiy":"yozuvchi",
+"Munavvar Qori Abdurashidxonov":"yozuvchi",
+"Abdulla Avloniy":"yozuvchi",
+"Is’hoqxon Ibrat":"yozuvchi",
+"Sadriddin Ayni":"yozuvchi",
+"Hamza Hakimzoda Niyoziy":"yozuvchi",
+"Usmon Nosir":"yozuvchi",
+"Ahmad Donish":"olim",
+
+/* Sarkarda va olimlar */
+
+"Qutayba ibn Muslim":"sarkarda",
+"Mahmud of Ghazni":"sarkarda",
+"Abu Hafs Kabir":"din",
+"Burhan al-Din al-Marghinani":"din",
+"Ali Qushchi":"olim",
+"Abu Bakr Narshakhi":"olim",
+"Abu Muin Nasafi":"din",
+"Najm al-Din Kubra":"din",
+"Yusuf Hamadani":"din",
+
+/* Ayol tarixiy shaxslar */
+
+"Zulfiya":"yozuvchi",
+"Saida Zunnunova":"yozuvchi",
+"Halima Xudoyberdiyeva":"yozuvchi",
+"Gulchehra Nurullayeva":"yozuvchi",
+"Komila Yashin":"yozuvchi",
+"Rabia Balkhi":"yozuvchi",
+"Gawharshad Begum":"sarkarda",
+"Bibi-Khanym":"sarkarda",
 
 };
 
@@ -2604,3 +2696,151 @@ location.reload();
 <script>
 
  
+</script>
+
+<!-- RESPONSIVE SETUP -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+/* =========================
+GLOBAL
+========================= */
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial, sans-serif;
+background:#0f1724;
+color:white;
+}
+
+/* =========================
+CONTAINER
+========================= */
+
+.container{
+width:100%;
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+/* =========================
+GRID KARTALAR
+========================= */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+/* =========================
+CARD
+========================= */
+
+.card{
+background:#111827;
+border-radius:14px;
+overflow:hidden;
+text-align:center;
+transition:0.3s;
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
+}
+
+.card:hover{
+transform:translateY(-6px);
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.card h3{
+padding:10px;
+font-size:18px;
+}
+
+/* =========================
+BUTTON
+========================= */
+
+button{
+padding:8px 14px;
+border:none;
+border-radius:8px;
+background:#f4e27a;
+cursor:pointer;
+margin-bottom:12px;
+}
+
+/* =========================
+TABLET
+========================= */
+
+@media (max-width:900px){
+
+.grid{
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+}
+
+.card img{
+height:200px;
+}
+
+}
+
+/* =========================
+PHONE
+========================= */
+
+@media (max-width:600px){
+
+.container{
+padding:10px;
+}
+
+.grid{
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.card img{
+height:160px;
+}
+
+.card h3{
+font-size:15px;
+}
+
+button{
+font-size:14px;
+padding:6px 10px;
+}
+
+}
+
+/* =========================
+SMALL PHONE
+========================= */
+
+@media (max-width:400px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.card img{
+height:180px;
+}
+
+}
+
+</style>
