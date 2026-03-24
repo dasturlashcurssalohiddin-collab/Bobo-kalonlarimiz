@@ -1,0 +1,114 @@
+/* Umumiy sahifa */
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0f2027;
+color:white;
+}
+
+/* Navbar */
+.navbar{
+background:#111;
+padding:15px;
+font-size:18px;
+display:flex;
+gap:20px;
+}
+
+.navbar a{
+color:white;
+text-decoration:none;
+}
+
+.navbar a:hover{
+color:#00ffcc;
+}
+
+/* Qidiruv panel */
+.searchBox{
+text-align:center;
+margin:20px;
+}
+
+#search{
+padding:12px;
+width:300px;
+border:none;
+border-radius:8px;
+font-size:16px;
+}
+
+/* Kartalar konteyner */
+#container{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+gap:20px;
+padding:20px;
+}
+
+/* Card */
+.card{
+background:#1b2a35;
+border-radius:12px;
+padding:15px;
+text-align:center;
+cursor:pointer;
+transition:0.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px rgba(0,255,200,0.4);
+}
+
+/* Rasm */
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:10px;
+}
+
+/* Ism */
+.name{
+margin-top:10px;
+font-size:18px;
+font-weight:bold;
+}
+
+/* Favorite tugma */
+.favBtn{
+margin-top:10px;
+padding:5px 10px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+background:#ffd700;
+}
+
+/* Menu panel */
+#menuPanel{
+position:fixed;
+left:0;
+top:0;
+width:220px;
+height:100%;
+background:#111;
+padding:20px;
+display:none;
+}
+
+#menuPanel button{
+width:100%;
+padding:10px;
+margin-top:10px;
+border:none;
+background:#333;
+color:white;
+cursor:pointer;
+border-radius:6px;
+}
+
+#menuPanel button:hover{
+background:#00b894;
+}

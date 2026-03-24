@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="0TmdOwfuTq9gV3K36z6rckiLWkeg6aQl1Fffs9hYXUo" />
+    <title>Bobo Kalonlarimiz - Tarixiy Shaxslar Ensiklopediyasi</title>
+    <style>
+        /* ====================================
+           GLOBAL STYLES & RESET
+           =================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a1428 0%, #0d2438 50%, #0f3a52 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ===================================
+           VIDEO BACKGROUND
+           =================================== */
+        #bgVideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        /* ===================================
+           NAVIGATION BAR
+           =================================== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 20, 40, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid rgba(106, 216, 255, 0.3);
+            padding: 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 30px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6ad8ff, #f4e27a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: #6ad8ff;
+            background: rgba(106, 216, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-menu a.active {
+            color: #f4e27a;
+            background: rgba(244, 226, 122, 0.15);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: #6ad8ff;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(10px, -10px);
+        }
+
+        /* ===================================
+           MOBILE MENU
+           =================================== */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: rgba(10, 20, 40, 0.98);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid rgba(106, 216, 255, 0.3);
+            padding: 20px;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .mobile-menu a:hover {
+            color: #6ad8ff;
+            background: rgba(106, 216, 255, 0.1);
+            padding-left: 24px;
+        }
+
+        /* ===================================
+           LANGUAGE SWITCHER
+           =================================== */
+        .lang-switcher {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .lang-btn {
+            padding: 6px 12px;
+            border: 2px solid #6ad8ff;
+            background: transparent;
+            color: #6ad8ff;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #6ad8ff;
+            color: #0a1428;
+        }
+
+        .lang-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* ===================================
+           MAIN CONTENT
+           =================================== */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 30px 40px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===================================
+           HOME PAGE STYLES
+           =================================== */
+        .search-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        #search {
+            padding: 16px 24px;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            border: 2px solid #6ad8ff;
+            background: rgba(255, 255, 255, 0.95);
+            color: #0a1428;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #search:focus {
+            box-shadow: 0 0 20px rgba(106, 216, 255, 0.6);
+            transform: scale(1.02);
+        }
+
+        .voice-btn {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #6ad8ff, #00d4ff);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .voice-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(106, 216, 255, 0.4);
+        }
+
+        /* ===================================
+           FILTER BAR
+           =================================== */
+        .filter-section {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(106, 216, 255, 0.15);
+            border: 2px solid #6ad8ff;
+            color: #6ad8ff;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #6ad8ff, #00d4ff);
+            color: white;
+            box-shadow: 0 0 20px rgba(106, 216, 255, 0.5);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ===================================
+           CARD GRID
+           =================================== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(20, 30, 50, 0.8), rgba(10, 50, 80, 0.6));
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(106, 216, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.05);
+            border-color: rgba(106, 216, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(106, 216, 255, 0.3);
+        }
+
+        .card-image {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.15) rotate(2deg);
+        }
+
+        .card-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            z-index: 2;
+        }
+
+        .card-info {
+            padding: 20px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f4e27a;
+            text-align: center;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .card:hover .card-title {
+            text-shadow: 0 0 10px rgba(244, 226, 122, 0.8);
+        }
+
+        .card-category {
+            font-size: 13px;
+            color: #6ad8ff;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* ===================================
+           ABOUT PAGE
+           =================================== */
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .about-header h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6ad8ff, #f4e27a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-content {
+            background: rgba(20, 30, 50, 0.6);
+            border-radius: 15px;
+            padding: 40px;
+            border: 2px solid rgba(106, 216, 255, 0.2);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+        }
+
+        .about-content h3 {
+            color: #6ad8ff;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .about-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .about-content li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .about-content li::before {
+            content: '▸';
+            color: #6ad8ff;
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        /* ===================================
+           BUTTONS
+           =================================== */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            background: linear-gradient(135deg, #6ad8ff, #00d4ff);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(106, 216, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(106, 216, 255, 0.2);
+            border: 2px solid #6ad8ff;
+            color: #6ad8ff;
+        }
+
+        .btn-secondary:hover {
+            background: #6ad8ff;
+            color: #0a1428;
+        }
+
+        /* ===================================
+           FOOTER
+           =================================== */
+        footer {
+            margin-top: 100px;
+            padding: 40px 30px;
+            background: rgba(10, 20, 40, 0.8);
+            border-top: 2px solid rgba(106, 216, 255, 0.3);
+            text-align: center;
+            color: #888;
+        }
+
+        footer p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        footer .footer-title {
+            color: #6ad8ff;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        /* ===================================
+           SCROLL TO TOP BUTTON
+           =================================== */
+        #topBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #6ad8ff, #00d4ff);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            display: none;
+            z-index: 900;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(106, 216, 255, 0.4);
+        }
+
+        #topBtn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(106, 216, 255, 0.6);
+        }
+
+        #topBtn.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===================================
+           LOADING ANIMATION
+           =================================== */
+        .loader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #6ad8ff;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-15px);
+                opacity: 1;
+            }
+        }
+
+        /* ===================================
+           RESPONSIVE DESIGN
+           =================================== */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .lang-switcher {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .main-container {
+                padding: 80px 20px 40px;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 20px;
+            }
+
+            #search {
+                max-width: 100%;
+            }
+
+            .about-header h1 {
+                font-size: 36px;
+            }
+
+            .about-content {
+                padding: 30px;
+            }
+
+            .nav-container {
+                padding: 12px 20px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .card-image {
+                height: 200px;
+            }
+
+            .card-title {
+                font-size: 16px;
+            }
+
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            .about-header h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- VIDEO BACKGROUND -->
+    <video autoplay muted loop id="bgVideo">
+        <source src="bobokalonlar.mp4" type="video/mp4">
+    </video>
+
+    <!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo" onclick="showPage('home')">
+            🏛️ Bobo Kalonlarimiz
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+            <li>
+                <a href="#" onclick="showPage('home')" class="nav-link">
+                    Bosh Sahifa
+                </a>
+            </li>
+
+            <li>
+                <a href="https://dasturlashcurssalohiddin-collab.github.io/men/" target="_blank" class="nav-link">
+                    Yaratuvchi Haqida
+                </a>
+            </li>
+
+            <li>
+                <a href="https://dasturlashcurssalohiddin-collab.github.io/quiz/" target="_blank" class="nav-link">
+                    Quiz
+                </a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+            <!-- LANGUAGE SWITCHER -->
+            <div class="lang-switcher">
+                <button class="lang-btn active" onclick="changeLang('uz')">O'z</button>
+                <button class="lang-btn" onclick="changeLang('en')">EN</button>
+                <button class="lang-btn" onclick="changeLang('ru')">РУ</button>
+            </div>
+
+            <!-- HAMBURGER MENU -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <!-- MOBILE MENU -->
+        <div class="mobile-menu" id="mobileMenu">
+
+<a href="#" onclick="showPage('home')">
+Bosh Sahifa
+</a>
+
+<a href="https://dasturlashcurssalohiddin-collab.github.io/men/" target="_blank">
+Yaratuvchi Haqida
+</a>
+
+<a href="https://dasturlashcurssalohiddin-collab.github.io/quiz/" target="_blank">
+Quiz
+</a>
+
+</div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-container">
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <!-- SEARCH SECTION -->
+            <div class="search-section">
+                <h2 style="font-size: 32px; margin-bottom: 30px; color: #6ad8ff;">
+                    Tarixiy Shaxslarni Izlang
+                </h2>
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="search"
+                        placeholder="Bobo kalon nomini yozing..."
+                        onkeyup="filterCards()"
+                    >
+                    <button class="voice-btn" id="voiceBtn" title="Ovoz orqali izlash">
+                        🎤
+                    </button>
+                </div>
+            </div>
+
+            <!-- FILTER SECTION -->
+            <div class="filter-section">
+                <button class="filter-btn active" onclick="filterByCategory('all')">
+                    Hammasi
+                </button>
+                <button class="filter-btn" onclick="filterByCategory('olim')">
+                    🧠 Olimlar
+                </button>
+                <button class="filter-btn" onclick="filterByCategory('sarkarda')">
+                    ⚔️ Sarkardalar
+                </button>
+                <button class="filter-btn" onclick="filterByCategory('yozuvchi')">
+                    📜 Yozuvchilar
+                </button>
+                <button class="filter-btn" onclick="filterByCategory('din')">
+                    🕌 Din Allomalari
+                </button>
+            </div>
+
+            <!-- CARD GRID -->
+            <div class="card-grid" id="cardGrid">
+                <!-- Cards will be generated here -->
+            </div>
+        </div>
+
+        <!-- ABOUT PAGE -->
+
+                    <div class="btn-group" style="margin-top: 50px;">
+                        <a href="https://dasturlashcurssalohiddin-collab.github.io/quiz/" target="_blank" class="btn">
+                            📝 Quiz'ni Boshlash
+                        </a>
+                        <button class="btn btn-secondary" onclick="showPage('home')">
+                            🏛️ Asosiy Sahifaga
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p class="footer-title">© 2026 Bobo Kalonlarimiz</p>
+        <p>Tarixiy shaxslar haqida ta'limiy loyiha</p>
+        <p>Muallif: Teshaboyev Salohiddin</p>
+    </footer>
+
+    <!-- SCROLL TO TOP BUTTON -->
+    <button id="topBtn" onclick="scrollToTop()">⬆️</button>
+
+    <!-- SCRIPTS -->
+    <script>
+        /* =========================
+           TRANSLATION DATA
+           ========================= */
+        const translations = {
+            uz: {
+                searchPlaceholder: "Bobo kalon nomini yozing...",
+                homeTitle: "Tarixiy Shaxslarni Izlang",
+                allFilter: "Hammasi",
+                scholarsFilter: "🧠 Olimlar",
+                commandersFilter: "⚔️ Sarkardalar",
+                writersFilter: "📜 Yozuvchilar",
+                religiousFilter: "🕌 Din Allomalari",
+                mainPage: "Bosh Sahifa",
+                aboutCreator: "Yaratuvchi Haqida",
+                quiz: "Quiz"
+            },
+            en: {
+                searchPlaceholder: "Type ancestor name...",
+                homeTitle: "Search Historical Figures",
+                allFilter: "All",
+                scholarsFilter: "🧠 Scholars",
+                commandersFilter: "⚔️ Commanders",
+                writersFilter: "📜 Writers",
+                religiousFilter: "🕌 Religious Scholars",
+                mainPage: "Main Page",
+                aboutCreator: "About Creator",
+                quiz: "Quiz"
+            },
+            ru: {
+                searchPlaceholder: "Введите имя предка...",
+                homeTitle: "Поиск исторических фигур",
+                allFilter: "Все",
+                scholarsFilter: "🧠 Ученые",
+                commandersFilter: "⚔️ Командиры",
+                writersFilter: "📜 Писатели",
+                religiousFilter: "🕌 Религиозные деятели",
+                mainPage: "Главная страница",
+                aboutCreator: "О создателе",
+                quiz: "Викторина"
+            }
+        };
+
+        /* =========================
+           PEOPLE DATA
+           ========================= */
+        const bobolar = [
+            "Alisher Navoiy",
+            "Amir Temur",
+            "Mirzo Ulug'bek",
+            "Zahiriddin Bobur",
+            "Ibn Sino",
+            "Muhammad al-Xorazmiy",
+            "Al-Beruniy",
+            "Ahmad al-Farg'oniy",
+            "Imom al-Buxoriy",
+            "Imom at-Termiziy",
+            "Ahmad Yassaviy",
+            "Bahouddin Naqshband",
+            "Najmiddin Kubro",
+            "Mahmud Qoshg'ariy",
+            "Mahmud Zamaxshariy",
+            "Abu Mansur Moturidiy",
+            "Al-Farobiy",
+            "Abdulla Qodiriy",
+            "Cho'lpon",
+            "To'maris",
+            "Jaloliddin Manguberdi",
+            "Nodira Begim",
+            "Uvaysiy",
+            "Mahmudxo'ja Behbudiy",
+            "Munavvar Qori Abdurashidxonov",
+            "Abdulla Avloniy",
+            "Is'hoqxon Ibrat",
+            "Sadriddin Ayni",
+            "Hamza Hakimzoda Niyoziy",
+            "Usmon Nosir",
+            "Ahmad Donish",
+            "Qutayba ibn Muslim",
+            "Mahmud of Ghazni",
+            "Abu Hafs Kabir",
+            "Burhan al-Din al-Marghinani",
+            "Ali Qushchi",
+            "Abu Bakr Narshakhi",
+            "Abu Muin Nasafi",
+            "Najm al-Din Kubra",
+            "Yusuf Hamadani",
+            "Zulfiya",
+            "Saida Zunnunova",
+            "Halima Xudoyberdiyeva",
+            "Gulchehra Nurullayeva",
+            "Komila Yashin",
+            "Rabia Balkhi",
+            "Gawharshad Begum",
+            "Bibi-Khanym"
+        ];
+
+        /* =========================
+           CATEGORIES
+           ========================= */
+        const categories = {
+            "Alisher Navoiy": "yozuvchi",
+            "Amir Temur": "sarkarda",
+            "Mirzo Ulug'bek": "olim",
+            "Zahiriddin Bobur": "yozuvchi",
+            "Ibn Sino": "olim",
+            "Muhammad al-Xorazmiy": "olim",
+            "Al-Beruniy": "olim",
+            "Ahmad al-Farg'oniy": "olim",
+            "Imom al-Buxoriy": "din",
+            "Imom at-Termiziy": "din",
+            "Ahmad Yassaviy": "din",
+            "Bahouddin Naqshband": "din",
+            "Najmiddin Kubro": "din",
+            "Mahmud Qoshg'ariy": "olim",
+            "Mahmud Zamaxshariy": "olim",
+            "Abu Mansur Moturidiy": "din",
+            "Al-Farobiy": "olim",
+            "Abdulla Qodiriy": "yozuvchi",
+            "Cho'lpon": "yozuvchi",
+            "To'maris": "sarkarda",
+            "Jaloliddin Manguberdi": "sarkarda",
+            "Nodira Begim": "yozuvchi",
+            "Uvaysiy": "yozuvchi",
+            "Mahmudxo'ja Behbudiy": "yozuvchi",
+            "Munavvar Qori Abdurashidxonov": "yozuvchi",
+            "Abdulla Avloniy": "yozuvchi",
+            "Is'hoqxon Ibrat": "yozuvchi",
+            "Sadriddin Ayni": "yozuvchi",
+            "Hamza Hakimzoda Niyoziy": "yozuvchi",
+            "Usmon Nosir": "yozuvchi",
+            "Ahmad Donish": "olim",
+            "Qutayba ibn Muslim": "sarkarda",
+            "Mahmud of Ghazni": "sarkarda",
+            "Abu Hafs Kabir": "din",
+            "Burhan al-Din al-Marghinani": "din",
+            "Ali Qushchi": "olim",
+            "Abu Bakr Narshakhi": "olim",
+            "Abu Muin Nasafi": "din",
+            "Najm al-Din Kubra": "din",
+            "Yusuf Hamadani": "din",
+            "Zulfiya": "yozuvchi",
+            "Saida Zunnunova": "yozuvchi",
+            "Halima Xudoyberdiyeva": "yozuvchi",
+            "Gulchehra Nurullayeva": "yozuvchi",
+            "Komila Yashin": "yozuvchi",
+            "Rabia Balkhi": "yozuvchi",
+            "Gawharshad Begum": "sarkarda",
+            "Bibi-Khanym": "sarkarda"
+        };
+
+        /* =========================
+           IMAGES
+           ========================= */
+        const images = {
+            "Alisher Navoiy": "download (1).jpeg",
+            "Amir Temur": "download (2).jpeg",
+            "Mirzo Ulug'bek": "download (3).jpeg",
+            "Zahiriddin Bobur": "download (4).jpeg",
+            "Ibn Sino": "download (5).jpeg",
+            "Muhammad al-Xorazmiy": "download (6).jpeg",
+            "Al-Beruniy": "download (7).jpeg",
+            "Ahmad al-Farg'oniy": "download (8).jpeg",
+            "Imom al-Buxoriy": "download (9).jpeg",
+            "Imom at-Termiziy": "download (10).jpeg",
+            "Ahmad Yassaviy": "download (11).jpeg",
+            "Bahouddin Naqshband": "download (12).jpeg",
+            "Najmiddin Kubro": "download (13).jpeg",
+            "Mahmud Qoshg'ariy": "download (14).jpeg",
+            "Mahmud Zamaxshariy": "download (15).jpeg",
+            "Abu Mansur Moturidiy": "download (16).jpeg",
+            "Al-Farobiy": "download (17).jpeg",
+            "Abdulla Qodiriy": "download (18).jpeg",
+            "Cho'lpon": "download (19).jpeg",
+            "To'maris": "download (20).jpeg",
+            "Jaloliddin Manguberdi": "download (21).jpeg",
+            "Nodira Begim": "download (22).jpeg",
+            "Uvaysiy": "download (23).jpeg",
+            "Mahmudxo'ja Behbudiy": "download (24).jpeg",
+            "Munavvar Qori Abdurashidxonov": "download (25).jpeg",
+            "Abdulla Avloniy": "download (26).jpeg",
+            "Is'hoqxon Ibrat": "download (27).jpeg",
+            "Sadriddin Ayni": "download (28).jpeg",
+            "Hamza Hakimzoda Niyoziy": "download (29).jpeg",
+            "Usmon Nosir": "download (30).jpeg",
+            "Ahmad Donish": "download (31).jpeg",
+            "Qutayba ibn Muslim": "download (32).jpeg",
+            "Mahmud of Ghazni": "download.jpeg",
+            "Abu Hafs Kabir": "download (34).jpeg",
+            "Burhan al-Din al-Marghinani": "download (35).jpeg",
+            "Ali Qushchi": "download (36).jpeg",
+            "Abu Bakr Narshakhi": "download (37).jpeg",
+            "Abu Muin Nasafi": "download (38).jpeg",
+            "Najm al-Din Kubra": "download (39).jpeg",
+            "Yusuf Hamadani": "download (40).jpeg",
+            "Zulfiya": "download (41).jpeg",
+            "Saida Zunnunova": "download (42).jpeg",
+            "Halima Xudoyberdiyeva": "download (43).jpeg",
+            "Gulchehra Nurullayeva": "download (44).jpeg",
+            "Komila Yashin": "download (45).jpeg",
+            "Rabia Balkhi": "download (46).jpeg",
+            "Gawharshad Begum": "download (47).jpeg",
+            "Bibi-Khanym": "download (48).jpeg"
+        };
+
+        /* =========================
+           GLOBAL VARIABLES
+           ========================= */
+        let currentLang = 'uz';
+        let currentCategory = 'all';
+
+        /* =========================
+           INITIALIZATION
+           ========================= */
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCards(bobolar);
+            setupVoiceSearch();
+            setupScrollToTop();
+            setupMobileMenu();
+        });
+
+        /* =========================
+           RENDER CARDS
+           ========================= */
+        function renderCards(people) {
+    const cardGrid = document.getElementById('cardGrid');
+    cardGrid.innerHTML = '';
+
+    people.forEach(person => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        // CARD BOSILGANDA WIKIPEDIA OCHILADI
+    card.onclick = () => {
+
+    let fileName = person
+        .toLowerCase()
+        .replaceAll(" ", "_")
+        .replaceAll("'", "")
+        .replaceAll("‘", "");
+
+    const pageUrl = fileName + ".html";
+
+    window.location.href = pageUrl;
+};
+
+        const category = categories[person] || 'Noma\'lum';
+        const categoryName = getCategoryName(category);
+        const imageUrl = images[person] || 'placeholder.jpg';
+
+        card.innerHTML = `
+            <div class="card-image ">
+                <img src="${imageUrl}" alt="${person}">
+            </div>
+            <div class="card-info">
+                <h3 class="card-title">${person}</h3>
+                <p class="card-category">${categoryName}</p>
+            </div>
+        `;
+        cardGrid.appendChild(card);
+    });
+    // Animate cards
+    animateCards();
+}
+
+        /* =========================
+           GET CATEGORY NAME
+           ========================= */
+        function getCategoryName(cat) {
+            const names = {
+                olim: '🧠 Olim',
+                sarkarda: '⚔️ Sarkarda',
+                yozuvchi: '📜 Yozuvchi',
+                din: '🕌 Din Allomai'
+            };
+            return names[cat] || cat;
+        }
+
+        /* =========================
+           FILTER BY CATEGORY
+           ========================= */
+        function filterByCategory(category) {
+            currentCategory = category;
+
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filter people
+            let filtered = category === 'all' 
+                ? bobolar 
+                : bobolar.filter(p => categories[p] === category);
+
+            renderCards(filtered);
+        }
+
+        /* =========================
+           FILTER CARDS
+           ========================= */
+        function filterCards() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            let filtered = bobolar.filter(person =>
+                person.toLowerCase().includes(searchValue)
+            );
+
+            // Apply category filter
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(p => categories[p] === currentCategory);
+            }
+
+            renderCards(filtered);
+        }
+
+        /* =========================
+           VOICE SEARCH
+           ========================= */
+        function setupVoiceSearch() {
+            const voiceBtn = document.getElementById('voiceBtn');
+            
+            if (!('webkitSpeechRecognition' in window)) {
+                voiceBtn.style.display = 'none';
+                return;
+            }
+
+            const recognition = new webkitSpeechRecognition();
+            recognition.lang = currentLang + '-' + currentLang.toUpperCase();
+
+            voiceBtn.onclick = () => {
+                recognition.start();
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('search').value = transcript;
+                filterCards();
+            };
+
+            recognition.onerror = () => {
+                alert('Ovoz tanishtirilmadi. Iltimos qayta urinib ko\'ring.');
+            };
+        }
+
+        /* =========================
+           CHANGE LANGUAGE
+           ========================= */
+        function changeLang(lang) {
+            currentLang = lang;
+
+            // Update active language button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update search placeholder
+            document.getElementById('search').placeholder = translations[lang].searchPlaceholder;
+
+            // Update page title and content
+            updatePageContent(lang);
+        }
+
+        function updatePageContent(lang) {
+            const t = translations[lang];
+            
+            // Update search title
+            const searchTitle = document.querySelector('.search-section h2');
+            if (searchTitle) {
+                searchTitle.textContent = t.homeTitle;
+            }
+
+            // Update nav menu
+            document.querySelectorAll('.nav-menu a').forEach((link, index) => {
+                if (index === 0) link.textContent = t.mainPage;
+                else if (index === 1) link.textContent = t.aboutCreator;
+                else if (index === 2) link.textContent = t.quiz;
+            });
+
+            // Update mobile menu
+            document.querySelectorAll('.mobile-menu a').forEach((link, index) => {
+                if (index === 0) link.textContent = t.mainPage;
+                else if (index === 1) link.textContent = t.aboutCreator;
+                else if (index === 2) link.textContent = t.quiz;
+            });
+
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach((btn, index) => {
+                const filters = [t.allFilter, t.scholarsFilter, t.commandersFilter, t.writersFilter, t.religiousFilter];
+                if (index < filters.length) {
+                    btn.textContent = filters[index];
+                }
+            });
+        }
+
+        /* =========================
+           SHOW PAGE
+           ========================= */
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Close mobile menu
+            document.getElementById('mobileMenu').classList.remove('active');
+            document.getElementById('hamburger').classList.remove('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        /* =========================
+           ANIMATE CARDS
+           ========================= */
+        function animateCards() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.animation = `fadeIn 0.5s ease ${index * 0.05}s forwards`;
+                card.style.opacity = '0';
+            });
+        }
+
+        /* =========================
+           SCROLL TO TOP
+           ========================= */
+        function setupScrollToTop() {
+            const topBtn = document.getElementById('topBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    topBtn.classList.add('show');
+                } else {
+                    topBtn.classList.remove('show');
+                }
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        /* =========================
+           MOBILE MENU
+           ========================= */
+        function setupMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close menu when link is clicked
+            document.querySelectorAll('.mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+    </script>
+</body>
+</html>

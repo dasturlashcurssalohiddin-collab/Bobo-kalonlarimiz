@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mirzo Ulug‘bek - Astronomiya Sultoni</title>
+<style>
+    :root {
+        --galaxy: #0f172a;
+        --star: #fcd34d;
+        --nebula: #38bdf8;
+        --surface: #1e293b;
+        --text: #f1f5f9;
+    }
+    body {
+        font-family: 'Segoe UI', Roboto, sans-serif;
+        background: var(--galaxy);
+        color: var(--text);
+        margin: 0;
+        line-height: 1.8;
+    }
+    .hero {
+        background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com');
+        background-size: cover;
+        padding: 120px 20px;
+        text-align: center;
+        border-bottom: 5px solid var(--star);
+    }
+    h1 {
+        font-size: 3.8rem;
+        color: var(--star);
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        text-shadow: 0 0 20px rgba(252, 211, 77, 0.5);
+    }
+    .container {
+        max-width: 1000px;
+        margin: -60px auto 60px;
+        background: var(--surface);
+        padding: 60px;
+        border-radius: 30px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    .stats {
+        display: flex;
+        justify-content: space-around;
+        background: var(--nebula);
+        color: var(--galaxy);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 40px;
+        font-weight: bold;
+        flex-wrap: wrap;
+    }
+    h2 {
+        color: var(--star);
+        border-left: 5px solid var(--nebula);
+        padding-left: 20px;
+        margin-top: 40px;
+    }
+    p { font-size: 1.2rem; text-align: justify; }
+    .accent { color: var(--star); font-weight: bold; }
+    
+    .obs-box {
+        background: rgba(56, 189, 248, 0.1);
+        padding: 30px;
+        border-radius: 20px;
+        border: 1px dashed var(--nebula);
+        margin: 40px 0;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin: 30px 0;
+    }
+    .card {
+        background: rgba(255,255,255,0.03);
+        padding: 25px;
+        border-radius: 15px;
+        border-bottom: 4px solid var(--star);
+    }
+    .btn-footer { text-align: center; margin-top: 50px; }
+    .btn {
+        display: inline-block;
+        padding: 15px 45px;
+        background: var(--star);
+        color: var(--galaxy);
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: bold;
+        transition: 0.3s;
+        margin: 10px;
+    }
+    .btn:hover { background: #fff; transform: translateY(-5px); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+    <h1>Mirzo Ulug‘bek</h1>
+    <p style="font-size: 1.6rem; color: #cbd5e1;">Temuriylar sulolasining buyuk olimi va hukmdori</p>
+</header>
+
+<div class="container">
+    <div class="stats">
+        <span>Tavallud: 1394, Sultoniya</span>
+        <span>Hukmronlik: 1409 - 1449</span>
+        <span>Sohasi: Astronomiya, Matematika</span>
+    </div>
+
+    <p><b>Muhammad Tarag‘ay (Mirzo Ulug‘bek)</b> — buyuk sarkarda Amir Temurning nabirasi, jahon ilm-fani tarixidagi eng yirik astronomlardan biri. U 40 yil davomida <span class="accent">Samarqandda</span> hukmronlik qilib, shaharni dunyo ilm-fan markaziga aylantirgan.</p>
+
+    <div class="obs-box">
+        <h3>🔭 Samarqand Rasadxonasi</h3>
+        <p>1424-1428-yillarda Ulug‘bek tomonidan qurilgan rasadxona o‘z davrining <span class="accent">eng mukammal rasadxonasi</span> edi. Bu yerdagi ulkan sekstant yordamida osmon jismlari harakati mislsiz aniqlik bilan o‘rganilgan.</p>
+    </div>
+
+    <h2>O'lmas Asari: "Ziji Jadidi Ko‘ragoniy"</h2>
+    <div class="grid">
+        <div class="card">
+            <h3 class="accent">1018 Yulduz</h3>
+            <p>Ulug‘bek o‘zining mashhur jadvalida 1018 ta yulduzning holati va koordinatalarini aniq belgilab bergan.</p>
+        </div>
+        <div class="card">
+            <h3 class="accent">Yil hisobi</h3>
+            <p>Olim bir yil davomiyligini 365 kun 6 soat 10 daqiqa 8 soniya deb hisoblagan (xatolik bor-yo'g'i 58 soniya!).</p>
+        </div>
+    </div>
+
+    <h2>Ma'rifatparvar Hukmdor</h2>
+    <p>Ulug‘bek Samarqand, Buxoro va G‘ijduvonda muhtasham madrasalar barpo etgan. Buxorodagi madrasa peshtoqiga <span class="accent">"Ilm olish har bir musulmon va muslimalar uchun farzdir"</span> degan hadisni yozdirib, ilm-fan diniy qarashlardan ham yuqori ekanini ko‘rsatgan.</p>
+
+    <h2>Vafoti va Tarixdagi O'rni</h2>
+    <p>Mirzo Ulug‘bek 1449-yilda fojiali ravishda vafot etgan bo'lsa-da, uning ilmiy merosi butun dunyoda yashashda davom etmoqda. Oydagi kraterlardan biriga uning nomi berilgan. Germaniyalik olimlar uni <span class="accent">"XV asrning Ptolemeyi"</span> deb atashgan.</p>
+
+    <div class="btn-footer">
+        <a href="https://youtu.be/eFr3SUWeTbc?si=AlMTNxu6QAF4WreT" class="btn" target="_blank">🎬 Videoni Ko'rish</a>
+        <a href="index.html" class="btn" style="background:#475569; color:white;">⬅️ Orqaga Qaytish</a>
+    </div>
+</div>
+
+</body>
+</html>

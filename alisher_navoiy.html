@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alisher Navoiy - Buyuk Mutafakkir</title>
+<style>
+    :root {
+        --deep-slate: #0f172a;
+        --royal-gold: #d4af37;
+        --pure-white: #ffffff;
+        --accent-teal: #14b8a6;
+        --soft-gray: #94a3b8;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--deep-slate);
+        margin: 0;
+        line-height: 1.8;
+        color: #e2e8f0;
+    }
+    header {
+        background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com');
+        background-size: cover;
+        padding: 100px 20px;
+        text-align: center;
+        border-bottom: 5px solid var(--royal-gold);
+    }
+    h1 {
+        font-size: 3rem;
+        color: var(--royal-gold);
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    .main-container {
+        max-width: 950px;
+        margin: -60px auto 60px;
+        background: #1e293b;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    .badge-row {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+    }
+    .badge {
+        background: var(--accent-teal);
+        padding: 8px 22px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    h2 {
+        color: var(--royal-gold);
+        border-left: 5px solid var(--accent-teal);
+        padding-left: 15px;
+        margin-top: 45px;
+    }
+    p { font-size: 1.15rem; text-align: justify; }
+    .highlight { color: var(--royal-gold); font-weight: bold; }
+    
+    .quote-section {
+        background: rgba(20, 184, 166, 0.1);
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        margin: 40px 0;
+        border-right: 5px solid var(--royal-gold);
+        font-style: italic;
+        font-size: 1.4rem;
+        color: var(--royal-gold);
+    }
+    .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+    }
+    .achievement-card {
+        background: rgba(255,255,255,0.03);
+        padding: 20px;
+        border-radius: 15px;
+        border-top: 3px solid var(--royal-gold);
+    }
+    .action-btns { text-align: center; margin-top: 60px; }
+    .btn {
+        display: inline-block;
+        padding: 15px 40px;
+        background: var(--royal-gold);
+        color: #000;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: 0.3s;
+        margin: 10px;
+    }
+    .btn:hover { background: #fff; transform: translateY(-3px); }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Alisher Navoiy</h1>
+    <p style="font-size: 1.5rem; color: #94a3b8;">Buyuk Shoir va Turkiy Adabiyot Asoschisi</p>
+</header>
+
+<div class="main-container">
+    <div class="badge-row">
+        <span class="badge">1441 - 1501</span>
+        <span class="badge">Hirot</span>
+        <span class="badge">Shoir</span>
+        <span class="badge">Davlat arbobi</span>
+    </div>
+
+    <p><b>Alisher Navoiy</b> — turkiy adabiyotning eng buyuk namoyandasi, shoir, mutafakkir va davlat arbobi. U o‘z asarlari orqali turkiy tilning boyligini isbotlab, uni adabiy til darajasiga ko‘targan ulug‘ siymodir.</p>
+
+    <div class="quote-section">
+        "Tilga e'tibor — elga e'tibor."
+    </div>
+
+    <h2>Ijodiy faoliyati</h2>
+    <p>Alisher Navoiy juda sermahsul ijodkor bo‘lib, ko‘plab g‘azallar, dostonlar va ilmiy asarlar yaratgan. Uning asarlari sevgi, insoniylik, adolat va ma’rifat g‘oyalarini targ‘ib qiladi.</p>
+
+    <h2>Xamsa asari</h2>
+    <p>Navoiy <span class="highlight">“Xamsa”</span> asari orqali o‘zbek adabiyotida yangi bosqich yaratdi. Bu besh dostondan iborat bo‘lib, unda hayot, sevgi va insoniy qadriyatlar chuqur yoritilgan.</p>
+
+    <div class="achievements-grid">
+        <div class="achievement-card">
+            <h3 style="color:var(--accent-teal)">Shoir</h3>
+            <p>Turkiy tilni adabiy til darajasiga olib chiqdi.</p>
+        </div>
+        <div class="achievement-card">
+            <h3 style="color:var(--accent-teal)">Davlat arbobi</h3>
+            <p>Husayn Boyqaro saroyida yuqori lavozimlarda ishlagan.</p>
+        </div>
+        <div class="achievement-card">
+            <h3 style="color:var(--accent-teal)">Ma'rifatparvar</h3>
+            <p>Ko‘plab maktab va madrasalar qurdirgan.</p>
+        </div>
+    </div>
+
+    <h2>Ilmiy faoliyati</h2>
+    <p>U “Muhokamat ul-lug‘atayn” asarida turkiy tilning boyligini ilmiy asosda ko‘rsatib bergan. Bu asar tilshunoslik tarixida muhim o‘rin tutadi.</p>
+
+    <h2>Xotira</h2>
+    <p>Bugungi kunda Alisher Navoiy nomi bilan ko‘plab shaharlar, ko‘chalar va universitetlar atalgan. U o‘zbek xalqining eng buyuk siymolaridan biri sifatida e’zozlanadi.</p>
+
+    <div class="action-btns">
+        <a href="https://youtu.be/IZ9Ia11TZSQ?si=uLMlKdZD7zTk_p5S" class="btn">📖 Batafsil bilish uchun video</a>
+        <a href="index.html" class="btn" style="background:#475569; color:white;">⬅️ Orqaga</a>
+    </div>
+</div>
+
+</body>
+</html>
