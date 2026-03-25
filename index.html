@@ -3,23 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
-    <title>Bobo Kalonlarimiz - Login</title>
+    <title>Bobo Kalonlarimiz</title>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script>
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log("User ID: " + profile.getId());
-            console.log("Name: " + profile.getName());
-            // Logindan keyin asosiy sahifaga yo'naltirish
-            window.location.href = "home.html";
-        }
-    </script>
+    <style>
+        .card { width: 200px; height: 280px; background:#0a1428; margin: 20px; color:white; display:inline-block; text-align:center; cursor:pointer; padding:10px; border-radius:10px; }
+        #loginBtn { display:none; margin: 20px; }
+    </style>
 </head>
 <body>
-    <h2>Bobo Kalonlarimiz - Login</h2>
 
-    <!-- Google login tugmasi -->
-    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+<h1>Bobo Kalonlarimiz</h1>
+
+<!-- Google login tugmasi (faqat foydalanuvchi hali login qilmagan bo'lsa ko'rinadi) -->
+<div id="loginBtn" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+
+<!-- Misol bobolar -->
+<div id="bobolar">
+    <div class="card" data-page="alisher_navoiy.html">Alisher Navoiy</div>
+    <div class="card" data-page="imom_buxoriy.html">Imom Buxoriy</div>
+    <div class="card" data-page="amir_temur.html">Amir Temur</div>
+</div>
+
+<script>
+    let googleUserSignedIn = false; // foydalanuvchi hali login qilmagan
+
+    // Google login muvaffaqiyatli bo'lganda
+    function onSignIn(googleUser) {
+        googleUserSignedIn = true;
+        document.getElementById('loginBtn').style.display = 'none';
+        alert('Xush kelibsiz, ' + googleUser.getBasicProfile().getName());
+    }
+
+    // Har bir bobo kartasini bosish
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', () => {
+            if(!googleUserSignedIn){
+                // foydalanuvchi login qilmagan → login tugmasini ko'rsat
+                document.getElementById('loginBtn').style.display = 'block';
+                alert('Iltimos, davom etish uchun Google hisobingizga kiring.');
+            } else {
+                // foydalanuvchi login qilgan → boboning sahifasiga o't
+                const page = card.getAttribute('data-page');
+                window.location.href = page;
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
         /* ===================================
