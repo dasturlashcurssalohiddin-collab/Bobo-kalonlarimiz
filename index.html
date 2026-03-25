@@ -4,56 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bobo Kalonlarimiz</title>
-
-<!-- Google Platform Library -->
+<meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
 
 <style>
-body {font-family: Arial, sans-serif; background: #0f3a52; color: #fff; text-align:center; margin:0; padding:0;}
-.navbar {padding:10px; background:#0a1428;}
-.logo {font-size:24px; font-weight:bold;}
-#loginBtn {margin:20px auto;}
-#bobolar {display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin:20px;}
+body {font-family: Arial; background:#0f3a52; color:#fff; text-align:center;}
+#loginBtn {margin:20px;}
+#bobolar {display:flex; justify-content:center; gap:20px; margin-top:30px;}
 .card {width:180px; height:220px; background:#1e2a3c; border-radius:10px; display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer; transition:0.3s;}
 .card:hover {transform:scale(1.05);}
-.card h3 {margin-bottom:10px;}
 </style>
 </head>
 <body>
 
-<div class="navbar">
-<div class="logo">🏛️ Bobo Kalonlarimiz</div>
-</div>
+<h1>Bobo Kalonlarimiz</h1>
 
-<!-- Google Login Button -->
+<!-- Google login button -->
 <div id="loginBtn" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
-<!-- Bobolar Misol -->
 <div id="bobolar">
-<div class="card" data-page="alisher_navoiy.html"><h3>Alisher Navoiy</h3></div>
-<div class="card" data-page="imom_buxoriy.html"><h3>Imom Buxoriy</h3></div>
+<div class="card" data-page="alisher_navoiy.html">Alisher Navoiy</div>
+<div class="card" data-page="imom_buxoriy.html">Imom Buxoriy</div>
 </div>
 
 <script>
-let googleUserSignedIn = false;
+let loggedIn = false;
 
 // Google login callback
 function onSignIn(googleUser) {
-    googleUserSignedIn = true;
-    document.getElementById('loginBtn').style.display = 'none';
+    loggedIn = true;
+    document.getElementById('loginBtn').style.display='none';
     alert('Xush kelibsiz, ' + googleUser.getBasicProfile().getName());
 }
 
-// Bobolar klik tekshiruvi
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', () => {
-        if(!googleUserSignedIn){
-            document.getElementById('loginBtn').style.display='block';
+// Bobolar klik
+document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+        if(!loggedIn){
             alert('Iltimos, davom etish uchun Google hisobingizga kiring.');
+            document.getElementById('loginBtn').style.display='block';
         } else {
-            const page = card.getAttribute('data-page');
-            window.location.href = page;
+            window.location.href = card.getAttribute('data-page');
         }
     });
 });
@@ -61,7 +52,6 @@ document.querySelectorAll('.card').forEach(card => {
 
 </body>
 </html>
-
 <!-- ===================================
      VIDEO BACKGROUND
      =================================== -->
