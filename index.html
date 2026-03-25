@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="0TmdOwfuTq9gV3K36z6rckiLWkeg6aQl1Fffs9hYXUo" />
     <title>Bobo Kalonlarimiz - Tarixiy Shaxslar Ensiklopediyasi</title>
+
+    <!-- Google Sign-In -->
+    <meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log("User ID: " + profile.getId());
+            console.log("Name: " + profile.getName());
+
+            // Kirishdan keyin asosiy sahifaga yo‘naltirish
+            window.location.href = "home.html"; // Bobo Kalonlar sahifangiz
+        }
+    </script>
+
     <style>
         /* ====================================
            GLOBAL STYLES & RESET
