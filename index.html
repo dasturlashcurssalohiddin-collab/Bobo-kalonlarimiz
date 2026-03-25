@@ -1,36 +1,76 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
-    <title>Bobo Kalonlarimiz</title>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <style>
-        body { font-family: Arial, sans-serif; background:#0a1428; color:white; text-align:center; padding:20px; }
-        h1 { margin-bottom:30px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
+<title>Bobo Kalonlarimiz</title>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 
-        /* Bobo kartalari */
-        .card { 
-            width: 200px; 
-            height: 280px; 
-            background:#1a2438; 
-            margin: 20px; 
-            color:white; 
-            display:inline-block; 
-            text-align:center; 
-            cursor:pointer; 
-            padding:10px; 
-            border-radius:10px; 
-            transition: transform 0.3s;
-        }
-        .card:hover { transform: scale(1.05); }
+<style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0a1428;
+    color:white;
+    text-align:center;
+}
 
-        /* Google login tugmasi */
-        #loginBtn { 
-            display: block; 
-            margin: 20px auto; 
-        }
-    </style>
+h1 {
+    margin: 20px 0;
+}
+
+/* Google login tugmasi */
+#loginBtn {
+    display: block;
+    margin: 20px auto;
+}
+
+/* Bobo kartalari */
+.card {
+    display: inline-block;
+    width: 200px;
+    height: 280px;
+    background: linear-gradient(135deg, rgba(20,30,50,0.8), rgba(10,50,80,0.6));
+    border-radius: 20px;
+    margin: 15px;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    padding:10px;
+    border: 2px solid rgba(106,216,255,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.card:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 15px 40px rgba(106,216,255,0.4);
+}
+
+/* Card ichidagi matn */
+.card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 20px;
+    color:#f4e27a;
+}
+
+.card-category {
+    font-size:14px;
+    color:#6ad8ff;
+    margin-top:10px;
+}
+
+/* Responsive */
+@media (max-width: 768px){
+    .card { width: 45%; margin:10px; }
+}
+
+@media (max-width: 480px){
+    .card { width: 90%; margin:10px auto; }
+}
+</style>
 </head>
 <body>
 
@@ -39,41 +79,49 @@
 <!-- Google login tugmasi -->
 <div id="loginBtn" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
-<!-- Misol bobolar -->
+<!-- Bobolar kartalari -->
 <div id="bobolar">
-    <div class="card" data-page="alisher_navoiy.html">Alisher Navoiy</div>
-    <div class="card" data-page="imom_buxoriy.html">Imom Buxoriy</div>
-    <div class="card" data-page="amir_temur.html">Amir Temur</div>
+    <div class="card" data-page="alisher_navoiy.html">
+        <div class="card-title">Alisher Navoiy</div>
+        <div class="card-category">📜 Yozuvchi</div>
+    </div>
+    <div class="card" data-page="imom_buxoriy.html">
+        <div class="card-title">Imom Buxoriy</div>
+        <div class="card-category">🕌 Din Allomai</div>
+    </div>
+    <div class="card" data-page="amir_temur.html">
+        <div class="card-title">Amir Temur</div>
+        <div class="card-category">⚔️ Sarkarda</div>
+    </div>
 </div>
 
 <script>
-    let googleUserSignedIn = false; // foydalanuvchi hali login qilmagan
+let googleUserSignedIn = false;
 
-    // Google login muvaffaqiyatli bo'lganda
-    function onSignIn(googleUser) {
-        googleUserSignedIn = true;
-        document.getElementById('loginBtn').style.display = 'none';
-        alert('Xush kelibsiz, ' + googleUser.getBasicProfile().getName());
-    }
+// Google login muvaffaqiyatli bo'lganda
+function onSignIn(googleUser) {
+    googleUserSignedIn = true;
+    document.getElementById('loginBtn').style.display = 'none';
+    alert('Xush kelibsiz, ' + googleUser.getBasicProfile().getName());
+}
 
-    // Har bir bobo kartasini bosish
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', () => {
-            if(!googleUserSignedIn){
-                // foydalanuvchi login qilmagan → alert va login tugmasi ko'rsin
-                document.getElementById('loginBtn').style.display = 'block';
-                alert('Iltimos, davom etish uchun Google hisobingizga kiring.');
-            } else {
-                // foydalanuvchi login qilgan → boboning sahifasiga o't
-                const page = card.getAttribute('data-page');
-                window.location.href = page;
-            }
-        });
+// Har bir bobo kartasini bosish
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+        if(!googleUserSignedIn){
+            document.getElementById('loginBtn').style.display = 'block';
+            alert('Iltimos, davom etish uchun Google hisobingizga kiring.');
+        } else {
+            const page = card.getAttribute('data-page');
+            window.location.href = page;
+        }
     });
+});
 </script>
 
 </body>
 </html>
+
 <!-- ===================================
      VIDEO BACKGROUND
      =================================== -->
