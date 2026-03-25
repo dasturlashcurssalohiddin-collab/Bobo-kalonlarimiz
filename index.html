@@ -5,38 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bobo Kalonlarimiz - Google Login</title>
 
-<!-- Google Sign-In -->
-<meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
 body {font-family:sans-serif; text-align:center; padding:50px; background:#0a1428; color:white;}
-.customGPlusSignIn {
-    display: inline-block;
-    background: #4285f4;
-    color: white;
-    width: 240px;
-    height: 50px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 50px;
-    position: relative;
-    margin-top:20px;
-}
-.customGPlusSignIn .icon {
-    background: url('https://developers.google.com/identity/images/g-logo.png') transparent 5px 50% no-repeat;
-    display: inline-block;
-    vertical-align: middle;
-    width: 50px;
-    height: 50px;
-}
-.customGPlusSignIn .buttonText {
-    display: inline-block;
-    vertical-align: middle;
-    width: 180px;
-    text-align: center;
-}
+#g_id_signin {margin-top:20px;}
 #user-info {margin-top:30px; font-size:18px; color:#6ad8ff;}
 </style>
 </head>
@@ -45,47 +19,40 @@ body {font-family:sans-serif; text-align:center; padding:50px; background:#0a142
 <h1>🏛️ Bobo Kalonlarimiz</h1>
 <p>Google bilan kirish orqali sahifaga kirishingiz mumkin</p>
 
-<div id="gSignInWrapper">
-    <div id="customBtn" class="customGPlusSignIn">
-        <span class="icon"></span>
-        <span class="buttonText">Google bilan kirish</span>
-    </div>
+<!-- Google Sign-In tugmasi -->
+<div id="g_id_signin"
+     data-type="standard"
+     data-shape="rectangular"
+     data-theme="filled_blue"
+     data-text="signin_with"
+     data-size="large"
+     data-logo_alignment="left"
+     data-width="250"
+     data-callback="handleCredentialResponse">
 </div>
 
 <div id="user-info"></div>
 
 <script>
-function onSuccess(googleUser) {
-    const profile = googleUser.getBasicProfile();
-    const name = profile.getName();
-    const email = profile.getEmail();
-    document.getElementById('user-info').innerHTML = 
-        `Xush kelibsiz, <b>${name}</b>!<br>Email: ${email}`;
-    console.log('ID: ' + profile.getId());
-    console.log('Name: ' + name);
-    console.log('Email: ' + email);
-}
+// Google login callback
+function handleCredentialResponse(response) {
+    // Google JWT tokenni olamiz
+    const token = response.credential;
+    // Tokenni decode qilish uchun: https://jwt.io
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
 
-function onFailure(error) {
-    console.error(error);
-    alert('Kirishda xatolik yuz berdi');
+    const user = JSON.parse(jsonPayload);
+    document.getElementById('user-info').innerHTML = `
+        Xush kelibsiz, <b>${user.name}</b>!<br>
+        Email: ${user.email}<br>
+        <img src="${user.picture}" alt="Profile Image" style="border-radius:50%; margin-top:10px;">
+    `;
+    console.log(user);
 }
-
-function renderButton() {
-    gapi.signin2.render('customBtn', {
-        scope: 'profile email',
-        width: 240,
-        height: 50,
-        longtitle: true,
-        theme: 'dark',
-        onsuccess: onSuccess,
-        onfailure: onFailure
-    });
-}
-
-gapi.load('auth2', function() {
-    gapi.auth2.init().then(renderButton);
-});
 </script>
 
 </body>
