@@ -1,62 +1,53 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bobo Kalonlarimiz</title>
-
-<!-- Google Platform Library -->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
-
-<style>
-body {font-family: Arial, sans-serif; background: #0f3a52; color: #fff; text-align:center; margin:0; padding:0;}
-.navbar {padding:10px; background:#0a1428;}
-.logo {font-size:24px; font-weight:bold;}
-#loginBtn {margin:20px auto;}
-#bobolar {display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin:20px;}
-.card {width:180px; height:220px; background:#1e2a3c; border-radius:10px; display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer; transition:0.3s;}
-.card:hover {transform:scale(1.05);}
-.card h3 {margin-bottom:10px;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
+    <title>Bobo Kalonlarimiz</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <style>
+        .card { width: 200px; height: 280px; background:#0a1428; margin: 20px; color:white; display:inline-block; text-align:center; cursor:pointer; padding:10px; border-radius:10px; }
+        #loginBtn { display:none; margin: 20px; }
+    </style>
 </head>
 <body>
 
-<div class="navbar">
-<div class="logo">🏛️ Bobo Kalonlarimiz</div>
-</div>
+<h1>Bobo Kalonlarimiz</h1>
 
-<!-- Google Login Button -->
+<!-- Google login tugmasi (faqat foydalanuvchi hali login qilmagan bo'lsa ko'rinadi) -->
 <div id="loginBtn" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
-<!-- Bobolar Misol -->
+<!-- Misol bobolar -->
 <div id="bobolar">
-<div class="card" data-page="alisher_navoiy.html"><h3>Alisher Navoiy</h3></div>
-<div class="card" data-page="imom_buxoriy.html"><h3>Imom Buxoriy</h3></div>
+    <div class="card" data-page="alisher_navoiy.html">Alisher Navoiy</div>
+    <div class="card" data-page="imom_buxoriy.html">Imom Buxoriy</div>
+    <div class="card" data-page="amir_temur.html">Amir Temur</div>
 </div>
 
 <script>
-let googleUserSignedIn = false;
+    let googleUserSignedIn = false; // foydalanuvchi hali login qilmagan
 
-// Google login callback
-function onSignIn(googleUser) {
-    googleUserSignedIn = true;
-    document.getElementById('loginBtn').style.display = 'none';
-    alert('Xush kelibsiz, ' + googleUser.getBasicProfile().getName());
-}
+    // Google login muvaffaqiyatli bo'lganda
+    function onSignIn(googleUser) {
+        googleUserSignedIn = true;
+        document.getElementById('loginBtn').style.display = 'none';
+        alert('Xush kelibsiz, ' + googleUser.getBasicProfile().getName());
+    }
 
-// Bobolar klik tekshiruvi
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', () => {
-        if(!googleUserSignedIn){
-            document.getElementById('loginBtn').style.display='block';
-            alert('Iltimos, davom etish uchun Google hisobingizga kiring.');
-        } else {
-            const page = card.getAttribute('data-page');
-            window.location.href = page;
-        }
+    // Har bir bobo kartasini bosish
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', () => {
+            if(!googleUserSignedIn){
+                // foydalanuvchi login qilmagan → login tugmasini ko'rsat
+                document.getElementById('loginBtn').style.display = 'block';
+                alert('Iltimos, davom etish uchun Google hisobingizga kiring.');
+            } else {
+                // foydalanuvchi login qilgan → boboning sahifasiga o't
+                const page = card.getAttribute('data-page');
+                window.location.href = page;
+            }
+        });
     });
-});
 </script>
 
 </body>
