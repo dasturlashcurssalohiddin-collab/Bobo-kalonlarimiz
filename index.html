@@ -2,46 +2,26 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="google-site-verification" content="0TmdOwfuTq9gV3K36z6rckiLWkeg6aQl1Fffs9hYXUo" />
-    <title>Bobo Kalonlarimiz - Tarixiy Shaxslar Ensiklopediyasi</title>
-
-    <!-- Google Sign-In -->
     <meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
+    <title>Bobo Kalonlarimiz - Login</title>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-
     <script>
         function onSignIn(googleUser) {
             var profile = googleUser.getBasicProfile();
             console.log("User ID: " + profile.getId());
             console.log("Name: " + profile.getName());
-
-            // Kirishdan keyin asosiy sahifaga yo‘naltirish
-            window.location.href = "home.html"; // Bobo Kalonlar sahifangiz
+            // Logindan keyin asosiy sahifaga yo'naltirish
+            window.location.href = "home.html";
         }
     </script>
+</head>
+<body>
+    <h2>Bobo Kalonlarimiz - Login</h2>
 
-    <style>
-        /* ====================================
-           GLOBAL STYLES & RESET
-           =================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a1428 0%, #0d2438 50%, #0f3a52 100%);
-            color: #ffffff;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
+    <!-- Google login tugmasi -->
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+</body>
+</html>
         /* ===================================
            VIDEO BACKGROUND
            =================================== */
