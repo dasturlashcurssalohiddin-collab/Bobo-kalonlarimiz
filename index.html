@@ -1,85 +1,35 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
-<title>🏛️ Bobo Kalonlarimiz</title>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="0TmdOwfuTq9gV3K36z6rckiLWkeg6aQl1Fffs9hYXUo" />
+    <title>Bobo Kalonlarimiz - Tarixiy Shaxslar Ensiklopediyasi</title>
 
-<style>
-body {margin:0; font-family: Arial, sans-serif; background:#0a1428; color:white; text-align:center;}
-h1 {margin:20px 0;}
+    <!-- Google Sign-In -->
+    <meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-/* Google login tugmasi */
-#loginBtn {display: block; margin: 20px auto;}
-
-/* Card grid */
-.card-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap:30px; margin: 40px;}
-.card {background: linear-gradient(135deg, rgba(20,30,50,0.8), rgba(10,50,80,0.6)); border-radius:20px; overflow:hidden; cursor:pointer; transition: all 0.4s; backdrop-filter: blur(10px); border: 2px solid rgba(106,216,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;}
-.card:hover {transform: translateY(-15px) scale(1.05); border-color: rgba(106,216,255,0.6); box-shadow: 0 20px 50px rgba(106,216,255,0.3);}
-.card-title {font-size:20px; font-weight:700; color:#f4e27a; text-align:center; margin-top:20px;}
-.card-category {font-size:13px; color:#6ad8ff; text-align:center; margin-top:10px;}
-
-/* Responsive */
-@media(max-width:768px){.card-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:20px;}}
-@media(max-width:480px){.card-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:15px;}}
-</style>
+    <!-- STYLES (Sizning oldingi <style> kodi shu yerga keladi) -->
+    <style>
+        /* Shu yerga sizning CSS kodi keladi */
+    </style>
 </head>
 <body>
+    <!-- BODY KODI BU YERDA BOSHLANADI -->
+    <h1>Google account bilan kirish</h1>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-<h1>🏛️ Bobo Kalonlarimiz</h1>
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log("User ID: " + profile.getId());
+            console.log("Name: " + profile.getName());
 
-<!-- Google login tugmasi -->
-<div id="loginBtn" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-
-<!-- Bobolar kartalari -->
-<div class="card-grid">
-    <div class="card" data-page="alisher_navoiy.html">
-        <div class="card-title">Alisher Navoiy</div>
-        <div class="card-category">📜 Yozuvchi</div>
-    </div>
-    <div class="card" data-page="imom_buxoriy.html">
-        <div class="card-title">Imom Buxoriy</div>
-        <div class="card-category">🕌 Din Allomai</div>
-    </div>
-    <div class="card" data-page="amir_temur.html">
-        <div class="card-title">Amir Temur</div>
-        <div class="card-category">⚔️ Sarkarda</div>
-    </div>
-    <div class="card" data-page="mirzo_ulugbek.html">
-        <div class="card-title">Mirzo Ulug'bek</div>
-        <div class="card-category">🧠 Olim</div>
-    </div>
-    <div class="card" data-page="ibn_sino.html">
-        <div class="card-title">Ibn Sino</div>
-        <div class="card-category">🧠 Olim</div>
-    </div>
-    <!-- Shu usulda barcha bobolarni qo'shish mumkin -->
-</div>
-
-<script>
-let googleUserSignedIn = false;
-
-function onSignIn(googleUser){
-    googleUserSignedIn = true;
-    document.getElementById('loginBtn').style.display = 'none';
-    alert('Xush kelibsiz, '+ googleUser.getBasicProfile().getName());
-}
-
-// Bobolar kartalarini bosish
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', ()=>{
-        if(!googleUserSignedIn){
-            document.getElementById('loginBtn').style.display = 'block';
-            alert('Iltimos, davom etish uchun Google hisobingizga kiring.');
-        } else {
-            window.location.href = card.getAttribute('data-page');
+            // Kirishdan keyin birinchi bobo sahifasiga yo'naltirish
+            window.location.href = "bobo1.html";
         }
-    });
-});
-</script>
-
+    </script>
 </body>
 </html>
 
