@@ -6,15 +6,37 @@
     <title>Bobo Kalonlarimiz</title>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <style>
-        .card { width: 200px; height: 280px; background:#0a1428; margin: 20px; color:white; display:inline-block; text-align:center; cursor:pointer; padding:10px; border-radius:10px; }
-        #loginBtn { display:none; margin: 20px; }
+        body { font-family: Arial, sans-serif; background:#0a1428; color:white; text-align:center; padding:20px; }
+        h1 { margin-bottom:30px; }
+
+        /* Bobo kartalari */
+        .card { 
+            width: 200px; 
+            height: 280px; 
+            background:#1a2438; 
+            margin: 20px; 
+            color:white; 
+            display:inline-block; 
+            text-align:center; 
+            cursor:pointer; 
+            padding:10px; 
+            border-radius:10px; 
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: scale(1.05); }
+
+        /* Google login tugmasi */
+        #loginBtn { 
+            display: block; 
+            margin: 20px auto; 
+        }
     </style>
 </head>
 <body>
 
-<h1>Bobo Kalonlarimiz</h1>
+<h1>🏛️ Bobo Kalonlarimiz</h1>
 
-<!-- Google login tugmasi (faqat foydalanuvchi hali login qilmagan bo'lsa ko'rinadi) -->
+<!-- Google login tugmasi -->
 <div id="loginBtn" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
 <!-- Misol bobolar -->
@@ -38,7 +60,7 @@
     document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('click', () => {
             if(!googleUserSignedIn){
-                // foydalanuvchi login qilmagan → login tugmasini ko'rsat
+                // foydalanuvchi login qilmagan → alert va login tugmasi ko'rsin
                 document.getElementById('loginBtn').style.display = 'block';
                 alert('Iltimos, davom etish uchun Google hisobingizga kiring.');
             } else {
