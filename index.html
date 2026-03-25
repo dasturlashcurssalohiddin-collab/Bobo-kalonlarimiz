@@ -1,60 +1,99 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
-    <title>Bobo Kalonlarimiz</title>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <style>
-        .card { width: 200px; height: 280px; background:#0a1428; margin: 20px; color:white; display:inline-block; text-align:center; cursor:pointer; padding:10px; border-radius:10px; }
-        #loginBtn { display:none; margin: 20px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">
+<title>Bobo Kalonlarimiz - Tarixiy Shaxslar Ensiklopediyasi</title>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<style>
+/* ====================================
+   GLOBAL STYLES & RESET
+   =================================== */
+* {margin:0; padding:0; box-sizing:border-box;}
+html {scroll-behavior:smooth;}
+body {font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #0a1428 0%, #0d2438 50%, #0f3a52 100%); color:#fff; overflow-x:hidden; min-height:100vh;}
+
+/* ====================================
+   NAVBAR
+   =================================== */
+.navbar {position:sticky; top:0; background:rgba(10,20,40,0.95); padding:10px 30px; z-index:1000;}
+.logo {font-size:28px; font-weight:700; background: linear-gradient(135deg, #6ad8ff, #f4e27a); -webkit-background-clip:text; -webkit-text-fill-color:transparent; cursor:pointer; text-decoration:none;}
+
+/* ====================================
+   CARD STYLES
+   =================================== */
+#bobolar {display:flex; flex-wrap:wrap; justify-content:center; margin:20px;}
+.card {width:200px; height:280px; background:rgba(20,30,50,0.8); margin:15px; border-radius:15px; text-align:center; cursor:pointer; transition:all 0.3s ease; display:flex; flex-direction:column; justify-content:center; align-items:center;}
+.card:hover {transform:scale(1.05); box-shadow:0 10px 20px rgba(106,216,255,0.3);}
+.card h3 {color:#f4e27a; margin-bottom:10px;}
+.card p {color:#6ad8ff; font-weight:600;}
+
+/* ====================================
+   GOOGLE LOGIN BUTTON
+   =================================== */
+#loginBtn {display:none; margin:20px auto;}
+
+/* ====================================
+   RESPONSIVE
+   =================================== */
+@media (max-width:768px){.card{width:150px;height:220px;}}
+@media (max-width:480px){.card{width:120px;height:180px; font-size:12px;}}
+</style>
 </head>
 <body>
 
-<h1>Bobo Kalonlarimiz</h1>
+<!-- NAVBAR -->
+<nav class="navbar">
+<a href="#" class="logo">🏛️ Bobo Kalonlarimiz</a>
+</nav>
 
-<!-- Google login tugmasi (faqat foydalanuvchi hali login qilmagan bo'lsa ko'rinadi) -->
+<!-- GOOGLE LOGIN -->
 <div id="loginBtn" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
-<!-- Misol bobolar -->
+<!-- BOBOLAR MISOL -->
 <div id="bobolar">
-    <div class="card" data-page="alisher_navoiy.html">Alisher Navoiy</div>
-    <div class="card" data-page="imom_buxoriy.html">Imom Buxoriy</div>
-    <div class="card" data-page="amir_temur.html">Amir Temur</div>
+<div class="card" data-page="alisher_navoiy.html"><h3>Alisher Navoiy</h3><p>Yozuvchi</p></div>
+<div class="card" data-page="imom_buxoriy.html"><h3>Imom Buxoriy</h3><p>Din Allomai</p></div>
+<div class="card" data-page="amir_temur.html"><h3>Amir Temur</h3><p>Sarkarda</p></div>
+<div class="card" data-page="mirzo_ulugbek.html"><h3>Mirzo Ulug'bek</h3><p>Olim</p></div>
+<div class="card" data-page="ibn_sino.html"><h3>Ibn Sino</h3><p>Olim</p></div>
+<div class="card" data-page="zahiriddin_bobur.html"><h3>Zahiriddin Bobur</h3><p>Yozuvchi</p></div>
+<div class="card" data-page="al_beruniy.html"><h3>Al-Beruniy</h3><p>Olim</p></div>
+<div class="card" data-page="ahmad_yassaviy.html"><h3>Ahmad Yassaviy</h3><p>Din Allomai</p></div>
+<div class="card" data-page="bahouddin_naqshband.html"><h3>Bahouddin Naqshband</h3><p>Din Allomai</p></div>
+<div class="card" data-page="najmiddin_kubro.html"><h3>Najmiddin Kubro</h3><p>Din Allomai</p></div>
+<div class="card" data-page="mahmud_qoshgariy.html"><h3>Mahmud Qoshg'ariy</h3><p>Olim</p></div>
+<div class="card" data-page="abdulla_qodiriy.html"><h3>Abdulla Qodiriy</h3><p>Yozuvchi</p></div>
+
+<!-- 48 bobolarni shunday qo'shish mumkin -->
+
 </div>
 
+<!-- GOOGLE LOGIN SCRIPT -->
 <script>
-    let googleUserSignedIn = false; // foydalanuvchi hali login qilmagan
-
-    // Google login muvaffaqiyatli bo'lganda
-    function onSignIn(googleUser) {
-        googleUserSignedIn = true;
-        document.getElementById('loginBtn').style.display = 'none';
-        alert('Xush kelibsiz, ' + googleUser.getBasicProfile().getName());
-    }
-
-    // Har bir bobo kartasini bosish
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', () => {
-            if(!googleUserSignedIn){
-                // foydalanuvchi login qilmagan → login tugmasini ko'rsat
-                document.getElementById('loginBtn').style.display = 'block';
-                alert('Iltimos, davom etish uchun Google hisobingizga kiring.');
-            } else {
-                // foydalanuvchi login qilgan → boboning sahifasiga o't
-                const page = card.getAttribute('data-page');
-                window.location.href = page;
-            }
-        });
-    });
+let googleUserSignedIn=false;
+function onSignIn(googleUser){
+googleUserSignedIn=true;
+document.getElementById('loginBtn').style.display='none';
+alert('Xush kelibsiz, '+googleUser.getBasicProfile().getName());
+}
+document.querySelectorAll('.card').forEach(card=>{
+card.addEventListener('click', ()=>{
+if(!googleUserSignedIn){
+document.getElementById('loginBtn').style.display='block';
+alert('Iltimos, davom etish uchun Google hisobingizga kiring.');
+}else{
+const page=card.getAttribute('data-page');
+window.location.href=page;
+}
+});
+});
 </script>
 
-</body>
-</html>
-        /* ===================================
-           VIDEO BACKGROUND
-           =================================== */
+<!-- ===================================
+     VIDEO BACKGROUND
+     =================================== -->
         #bgVideo {
             position: fixed;
             top: 0;
