@@ -1,35 +1,103 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="0TmdOwfuTq9gV3K36z6rckiLWkeg6aQl1Fffs9hYXUo" />
-    <title>Bobo Kalonlarimiz - Tarixiy Shaxslar Ensiklopediyasi</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bobo Kalonlarimiz - Tarixiy Shaxslar Ensiklopediyasi</title>
 
-    <!-- Google Sign-In -->
-    <meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+<!-- Google Sign-In -->
+<meta name="google-signin-client_id" content="318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 
-    <!-- STYLES (Sizning oldingi <style> kodi shu yerga keladi) -->
-    <style>
-        /* Shu yerga sizning CSS kodi keladi */
-    </style>
+<style>
+/* --- STYLE KODLARINGIZ --- */
+body {margin:0;font-family:sans-serif;background:#0a1428;color:#fff;}
+#bgVideo {position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0.15;z-index:-1;}
+.navbar {position:sticky;top:0;background:rgba(10,20,40,0.95);padding:12px 30px;z-index:1000;}
+.navbar a.logo {font-size:28px;font-weight:700;background:linear-gradient(135deg,#6ad8ff,#f4e27a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.nav-menu {display:flex;gap:30px;list-style:none;}
+.nav-menu a {color:#fff;text-decoration:none;padding:8px 16px;border-radius:8px;transition:0.3s;}
+.nav-menu a:hover {color:#6ad8ff;background:rgba(106,216,255,0.1);}
+.page {display:none;}
+.page.active {display:block;}
+.card-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:30px;margin-top:40px;}
+.card {background:rgba(20,30,50,0.8);border-radius:15px;overflow:hidden;cursor:pointer;border:2px solid rgba(106,216,255,0.2);transition:0.4s;}
+.card:hover {transform:translateY(-10px);}
+.card img {width:100%;height:200px;object-fit:cover;}
+.card-info {padding:15px;}
+.card-title {font-size:18px;color:#f4e27a;margin-bottom:5px;}
+.card-category {color:#6ad8ff;font-size:14px;}
+.filter-btn {padding:8px 16px;border:2px solid #6ad8ff;border-radius:20px;background:rgba(106,216,255,0.15);color:#6ad8ff;cursor:pointer;}
+.filter-btn.active {background:#6ad8ff;color:#0a1428;}
+</style>
 </head>
 <body>
-    <!-- BODY KODI BU YERDA BOSHLANADI -->
-    <h1>Google account bilan kirish</h1>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-    <script>
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log("User ID: " + profile.getId());
-            console.log("Name: " + profile.getName());
+<video autoplay muted loop id="bgVideo">
+    <source src="bobokalonlar.mp4" type="video/mp4">
+</video>
 
-            // Kirishdan keyin birinchi bobo sahifasiga yo'naltirish
-            window.location.href = "bobo1.html";
-        }
-    </script>
+<nav class="navbar">
+    <a href="#" class="logo" onclick="showPage('home')">🏛️ Bobo Kalonlarimiz</a>
+    <ul class="nav-menu">
+        <li><a href="#" onclick="showPage('home')">Bosh Sahifa</a></li>
+        <li><a href="https://dasturlashcurssalohiddin-collab.github.io/men/" target="_blank">Yaratuvchi Haqida</a></li>
+        <li><a href="https://dasturlashcurssalohiddin-collab.github.io/quiz/" target="_blank">Quiz</a></li>
+    </ul>
+</nav>
+
+<div class="main-container">
+    <div id="home" class="page active">
+        <div class="search-section">
+            <input type="text" id="search" placeholder="Bobo kalon nomini yozing..." onkeyup="filterCards()">
+        </div>
+
+        <div class="filter-section">
+            <button class="filter-btn active" onclick="filterByCategory('all', event)">Hammasi</button>
+            <button class="filter-btn" onclick="filterByCategory('olim', event)">🧠 Olimlar</button>
+            <button class="filter-btn" onclick="filterByCategory('sarkarda', event)">⚔️ Sarkardalar</button>
+            <button class="filter-btn" onclick="filterByCategory('yozuvchi', event)">📜 Yozuvchilar</button>
+            <button class="filter-btn" onclick="filterByCategory('din', event)">🕌 Din Allomalari</button>
+        </div>
+
+        <div class="card-grid" id="cardGrid"></div>
+    </div>
+</div>
+
+<script>
+const bobolar = ["Alisher Navoiy","Amir Temur","Mirzo Ulug'bek","Zahiriddin Bobur"];
+const categories = {"Alisher Navoiy":"yozuvchi","Amir Temur":"sarkarda","Mirzo Ulug'bek":"olim","Zahiriddin Bobur":"yozuvchi"};
+const images = {"Alisher Navoiy":"download (1).jpeg","Amir Temur":"download (2).jpeg","Mirzo Ulug'bek":"download (3).jpeg","Zahiriddin Bobur":"download (4).jpeg"};
+let currentCategory = 'all';
+
+function renderCards(list){
+    const grid = document.getElementById('cardGrid');
+    grid.innerHTML='';
+    list.forEach(person=>{
+        const card=document.createElement('div'); card.className='card';
+        card.onclick=()=>{window.location.href=person.toLowerCase().replace(/ /g,'_')+'.html';};
+        card.innerHTML=`<img src="${images[person]||'placeholder.jpg'}" alt="${person}"><div class="card-info"><h3 class="card-title">${person}</h3><p class="card-category">${categories[person]}</p></div>`;
+        grid.appendChild(card);
+    });
+}
+
+function filterByCategory(cat,event){
+    currentCategory=cat;
+    document.querySelectorAll('.filter-btn').forEach(btn=>btn.classList.remove('active'));
+    event.target.classList.add('active');
+    let filtered=cat==='all'?bobolar:bobolar.filter(p=>categories[p]===cat);
+    renderCards(filtered);
+}
+
+function filterCards(){
+    const val=document.getElementById('search').value.toLowerCase();
+    let filtered=bobolar.filter(p=>p.toLowerCase().includes(val));
+    if(currentCategory!=='all') filtered=filtered.filter(p=>categories[p]===currentCategory);
+    renderCards(filtered);
+}
+
+renderCards(bobolar);
+</script>
 </body>
 </html>
 
