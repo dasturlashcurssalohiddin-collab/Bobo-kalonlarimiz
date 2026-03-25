@@ -1,62 +1,29 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bobo Kalonlarimiz - Google Login</title>
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="0TmdOwfuTq9gV3K36z6rckiLWkeg6aQl1Fffs9hYXUo" />
+    <title>Bobo Kalonlarimiz - Tarixiy Shaxslar Ensiklopediyasi</title>
+    <style>
+        /* ====================================
+           GLOBAL STYLES & RESET
+           =================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+        html {
+            scroll-behavior: smooth;
+        }
 
-<style>
-body {font-family:sans-serif; text-align:center; padding:50px; background:#0a1428; color:white;}
-#g_id_signin {margin-top:20px;}
-#user-info {margin-top:30px; font-size:18px; color:#6ad8ff;}
-</style>
-</head>
-<body>
-
-<h1>🏛️ Bobo Kalonlarimiz</h1>
-<p>Google bilan kirish orqali sahifaga kirishingiz mumkin</p>
-
-<!-- Google Sign-In tugmasi -->
-<div id="g_id_signin"
-     data-type="standard"
-     data-shape="rectangular"
-     data-theme="filled_blue"
-     data-text="signin_with"
-     data-size="large"
-     data-logo_alignment="left"
-     data-width="250"
-     data-callback="handleCredentialResponse">
-</div>
-
-<div id="user-info"></div>
-
-<script>
-// Google login callback
-function handleCredentialResponse(response) {
-    // Google JWT tokenni olamiz
-    const token = response.credential;
-    // Tokenni decode qilish uchun: https://jwt.io
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    const user = JSON.parse(jsonPayload);
-    document.getElementById('user-info').innerHTML = `
-        Xush kelibsiz, <b>${user.name}</b>!<br>
-        Email: ${user.email}<br>
-        <img src="${user.picture}" alt="Profile Image" style="border-radius:50%; margin-top:10px;">
-    `;
-    console.log(user);
-}
-</script>
-
-</body>
-</html>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a1428 0%, #0d2438 50%, #0f3a52 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
 
 <!-- ===================================
      VIDEO BACKGROUND
