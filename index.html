@@ -495,6 +495,9 @@
         /* ===================================
            FOOTER
            =================================== */
+
+
+           
         footer {
             margin-top: 100px;
             padding: 40px 30px;
@@ -790,6 +793,7 @@ Quiz
     </div>
 
     <!-- FOOTER -->
+    
     <footer>
         <p class="footer-title">© 2026 Bobo Kalonlarimiz</p>
         <p>Tarixiy shaxslar haqida ta'limiy loyiha</p>
@@ -1276,3 +1280,275 @@ Quiz
     </script>
 </body>
 </html>
+
+<!-- GOOGLE SIGN-IN BUTTON -->
+<div id="gSignInWrapper" style="text-align:center; margin:30px 0;">
+    <div id="gSignIn"></div>
+</div>
+
+<!-- USER INFO BUTTON -->
+<button id="userBtn" style="display:none; padding:10px 20px; border:none; border-radius:8px; background:#6ad8ff; color:white; cursor:pointer; font-weight:bold;">
+    Account Info
+</button>
+
+<!-- GOOGLE API SCRIPT -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<script>
+const client_id = "318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com";
+
+// CHECK IF USER ALREADY LOGGED IN
+window.onload = () => {
+    const storedUser = localStorage.getItem("gUser");
+    if(storedUser){
+        showUserButton(JSON.parse(storedUser));
+        document.getElementById("gSignInWrapper").style.display = "none";
+    } else {
+        initGoogleSignIn();
+    }
+};
+
+// INITIALIZE GOOGLE SIGN-IN
+function initGoogleSignIn(){
+    google.accounts.id.initialize({
+        client_id: client_id,
+        callback: handleCredentialResponse
+    });
+
+    google.accounts.id.renderButton(
+        document.getElementById("gSignIn"),
+        { theme: "outline", size: "large", width: "250" }
+    );
+
+    google.accounts.id.prompt(); // show One Tap prompt
+}
+
+// HANDLE GOOGLE RESPONSE
+function handleCredentialResponse(response){
+    // Decode JWT token to get user info
+    const base64Url = response.credential.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const user = JSON.parse(atob(base64));
+
+    // Save user to localStorage so next time not asked again
+    localStorage.setItem("gUser", JSON.stringify(user));
+
+    // Show account button
+    showUserButton(user);
+
+    // Hide sign-in button
+    document.getElementById("gSignInWrapper").style.display = "none";
+}
+
+// SHOW USER BUTTON
+function showUserButton(user){
+    const btn = document.getElementById("userBtn");
+    btn.style.display = "inline-block";
+    btn.textContent = user.name || "Account Info";
+
+    btn.onclick = () => {
+        alert(`Name: ${user.name}\nEmail: ${user.email}`);
+    };
+}
+</script>
+
+<style>
+/* ===============================
+   CARD BACKGROUND GLASS EFFECT
+   =============================== */
+.card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1); /* yarim shaffof */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(14px);  /* iOS Safari uchun */
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: cardFadeIn 0.8s ease forwards;
+}
+
+/* CONTENT ABOVE GLASS */
+.card .card-image,
+.card .card-info {
+    position: relative;
+    z-index: 2;
+}
+
+/* FADE-IN ANIMATION */
+@keyframes cardFadeIn {
+    0% {opacity: 0; transform: translateY(20px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+
+/* OPTIONAL: subtle shimmer effect behind the card */
+.card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%);
+    animation: shimmer 2.5s infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% {transform: rotate(25deg) translateX(-100%);}
+    100% {transform: rotate(25deg) translateX(100%);}
+}
+</style>
+
+<script>
+// ===============================
+// OPTIONAL: AUTOMATIC BACKGROUND MUSIC
+// ===============================
+window.addEventListener('DOMContentLoaded', () => {
+    const audio = new Audio('karnay.mp3'); // joyiga o'zingning fayl
+    audio.loop = true;
+    audio.volume = 0.4;
+    audio.play().catch(() => {
+        console.log("Autoplay ishlamadi, foydalanuvchi interaktsiyasi kerak.");
+    });
+
+    // Fade-in kartalarni ketma-ket chiqarish
+    document.querySelectorAll('.card').forEach((card, i) => {
+        card.style.animationDelay = `${i * 0.1}s`;
+    });
+});
+</script>
+
+<style>
+/* ===================================
+   GLASS CARD STYLES
+   =================================== */
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* ===================================
+   GLASS ICON (🔊) ON CARD BACK
+   =================================== */
+.card::after {
+    content: "🔊";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    color: rgba(255,255,255,0.4);
+    pointer-events: none;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%,100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.7; }
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+@media (max-width: 768px) {
+    .card {
+        border-radius: 15px;
+        backdrop-filter: blur(8px);
+    }
+
+    .card::after {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        border-radius: 12px;
+        backdrop-filter: blur(6px);
+    }
+
+    .card::after {
+        font-size: 28px;
+    }
+}
+</style>
+
+<script>
+// ============================
+// CHECK DEVICE TYPE & APPLY CLASS
+// ============================
+function isMobile() {
+    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        if(isMobile()){
+            card.style.backdropFilter = 'blur(6px)';
+            card.style.borderRadius = '12px';
+        } else {
+            card.style.backdropFilter = 'blur(12px)';
+            card.style.borderRadius = '20px';
+        }
+    });
+});
+</script>
+
+<style>
+/* MOBILE IMPROVEMENTS */
+@media(max-width:768px){
+    body{padding:0 10px;}
+    .main-container{padding:40px 10px;}
+    .logo{font-size:24px;}
+    .nav-container{padding:12px 15px;}
+}
+@media(max-width:480px){
+    body{padding:0 5px;}
+    .main-container{padding:30px 5px;}
+    .logo{font-size:20px;}
+    .card-title{font-size:18px;}
+    .card-category{font-size:12px;}
+    .card-info{padding:15px;}
+}
+</style>
+
+<script>
+// AUTO-RESIZE CARDS FOR MOBILE
+function resizeCards(){
+  const width = window.innerWidth;
+  const cards = document.querySelectorAll(".card");
+  cards.forEach(card=>{
+    if(width <= 480){
+      card.style.fontSize = "14px";
+    } else if(width <= 768){
+      card.style.fontSize = "15px";
+    } else {
+      card.style.fontSize = "";
+    }
+  });
+}
+window.addEventListener("resize",resizeCards);
+resizeCards();
+
+// SMOOTH SCROLL IF NEEDED
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+  anchor.addEventListener('click',function(e){
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
