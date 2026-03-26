@@ -801,79 +801,69 @@ a {
 </div>
 
 <!-- GOOGLE SIGN-IN SCRIPT -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-function initGoogleSignIn(){
-    // Bu yerga yangi Client ID yozamiz
-    google.accounts.id.initialize({
-    client_id: "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com",
-    callback: handleCredentialResponse
-});
+  const CLIENT_ID = "318653553640-ovg0umvusab8hcnv4oqo2rb9ecp2aokj.apps.googleusercontent.com";
 
-    // Sign-in tugmasini render qilamiz
+  // Google Sign-In ishga tushirish
+  function initGoogleSignIn() {
+    google.accounts.id.initialize({
+      client_id: CLIENT_ID,
+      callback: handleCredentialResponse
+    });
+
+    // Sign-in tugmasini render qilish
     google.accounts.id.renderButton(
-        document.getElementById("gSignIn"),
-        { theme: "outline", size: "large", width: "180" }
+      document.getElementById("gSignIn"),
+      { theme: "outline", size: "large", width: "180", shape: "pill" }
     );
 
     // Avtomatik prompt (foydalanuvchi ko‘rishi mumkin)
     google.accounts.id.prompt();
-}
+  }
 
-document.querySelector(`.filter-btn[onclick="filterByCategory('${cat}')"]`).classList.add("active");
-
-
-// SEARCH FUNCTION
-function filterCards() {
-    const query = document.getElementById("search").value.toLowerCase();
-    const cards = document.querySelectorAll(".card");
-    cards.forEach(card => {
-        const name = card.querySelector(".card-title").textContent.toLowerCase();
-        card.style.display = name.includes(query) ? "block" : "none";
-    });
-}
-
-// SCROLL TO TOP
-const topBtn = document.getElementById("topBtn");
-window.addEventListener("scroll", () => {
-    if(window.scrollY > 300) topBtn.classList.add("show");
-    else topBtn.classList.remove("show");
-});
-function scrollToTop() {
-    window.scrollTo({ top:0, behavior:"smooth" });
-}
-
-// VOICE SEARCH
-const voiceBtn = document.getElementById("voiceBtn");
-if('webkitSpeechRecognition' in window){
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang = 'uz-UZ';
-    recognition.continuous = false;
-    recognition.interimResults = false;
-
-    voiceBtn.addEventListener("click", () => {
-        recognition.start();
-    });
-
-    recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById("search").value = transcript;
-        filterCards();
-    };
-} else {
-    voiceBtn.style.display = "none"; // agar brauzer qo'llab-quvvatlamasa
-}
-
-function handleCredentialResponse(response){
+  // Foydalanuvchi kirganda ishga tushadigan callback
+  function handleCredentialResponse(response) {
+    // Tokenni decode qilish
     const base64Url = response.credential.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const base64 = base64Url.replace(/-/g,'+').replace(/_/g,'/');
     const user = JSON.parse(atob(base64));
 
+    // Foydalanuvchi ma'lumotini localStorage-ga saqlash
     localStorage.setItem("gUser", JSON.stringify(user));
-    document.getElementById("gSignIn").style.display = "none";
-}
 
-// Sayt yuklanganda ishga tushadi
-initGoogleSignIn();
+    // Sign-In tugmasini yashirish
+    document.getElementById("gSignIn").style.display = "none";
+
+    console.log("Foydalanuvchi kirgan:", user);
+  }
+
+  // Sahifa yuklanganda Google Sign-Inni ishga tushirish
+  window.onload = () => {
+    const storedUser = localStorage.getItem("gUser");
+    if(storedUser){
+      document.getElementById("gSignIn").style.display = "none";
+      console.log("Foydalanuvchi avval kirgan:", JSON.parse(storedUser));
+    } else {
+      initGoogleSignIn();
+    }
+  };
+
+  // ===============================
+  // Filter tugmalari uchun active class
+  // ===============================
+  function filterByCategory(cat) {
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+      card.style.display = (cat==="all" || card.classList.contains(cat)) ? "block" : "none";
+    });
+
+    // Active classni yangilash
+    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+    const activeBtn = Array.from(document.querySelectorAll(".filter-btn"))
+                           .find(btn => btn.getAttribute("onclick") === `filterByCategory('${cat}')`);
+    if(activeBtn) activeBtn.classList.add("active");
+  }
 </script>
 
 <!-- GOOGLE TRANSLATE SCRIPT -->
