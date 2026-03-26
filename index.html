@@ -700,34 +700,65 @@ a {
     </style>
 </head>
 <body>
-    <!-- VIDEO BACKGROUND -->
-<video autoplay muted loop id="bgVideo" style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1;">
+ <!-- VIDEO BACKGROUND -->
+<video autoplay muted loop id="bgVideo" style="
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-1;
+">
     <source src="bobokalonlar.mp4" type="video/mp4">
 </video>
 
 <!-- HEADER / CONTROL BAR -->
 <div style="
     display:flex;
-    justify-content:space-between; /* translate chap, google o'ng */
+    justify-content:space-between;
     align-items:center;
-    padding:20px;
+    padding:20px 40px;
     position:relative;
     z-index:2;
+    background:rgba(0,0,0,0.3); /* opsional: fon rangini biroz shaffof qilamiz */
 ">
 
-    <!-- Translate select chap tomonda -->
-    <select id="translateSelect"
-        style="
-            padding:8px 14px;
-            border-radius:8px;
-            border:2px solid #6ad8ff;
-            background:rgba(10,20,40,0.9);
-            color:#6ad8ff;
-            font-weight:600;
-            cursor:pointer;
-            outline:none;
-            transition:0.3s;
-        ">
+    <!-- Logo / Chap -->
+    <a href="#" class="logo" onclick="showPage('home')" style="
+        font-size:20px;
+        font-weight:bold;
+        color:#6ad8ff;
+        text-decoration:none;
+    ">
+        🏛️ Bobo Kalonlarimiz
+    </a>
+
+    <!-- Navigation -->
+    <ul class="nav-menu" style="
+        display:flex;
+        list-style:none;
+        gap:20px;
+        margin:0;
+        padding:0;
+    ">
+        <li><a href="#" onclick="showPage('home')" class="nav-link" style="color:#fff; text-decoration:none;">Bosh Sahifa</a></li>
+        <li><a href="https://dasturlashcurssalohiddin-collab.github.io/men/" target="_blank" class="nav-link" style="color:#fff; text-decoration:none;">Yaratuvchi Haqida</a></li>
+        <li><a href="https://dasturlashcurssalohiddin-collab.github.io/quiz/" target="_blank" class="nav-link" style="color:#fff; text-decoration:none;">Quiz</a></li>
+    </ul>
+
+    <!-- Translate select -->
+    <select id="translateSelect" style="
+        padding:8px 14px;
+        border-radius:8px;
+        border:2px solid #6ad8ff;
+        background:rgba(10,20,40,0.9);
+        color:#6ad8ff;
+        font-weight:600;
+        cursor:pointer;
+        outline:none;
+        transition:0.3s;
+    ">
         <option value="uz">🇺🇿 Uzbek</option>
         <option value="en">🇬🇧 English</option>
         <option value="ru">🇷🇺 Русский</option>
@@ -736,17 +767,16 @@ a {
         <option value="ar">🇸🇦 العربية</option>
     </select>
 
-    <!-- Google Sign-In o'ng tomonda -->
+    <!-- Google Sign-In -->
     <div id="gSignIn" style="display:inline-block;"></div>
 
 </div>
 
+<!-- GOOGLE SIGN-IN SCRIPT -->
 <script>
-
-// INITIALIZE GOOGLE SIGN-IN
 function initGoogleSignIn(){
     google.accounts.id.initialize({
-        client_id: client_id,
+        client_id: client_id, // bu yerga sizning Google Client ID ni qo'ying
         callback: handleCredentialResponse
     });
 
@@ -767,10 +797,11 @@ function handleCredentialResponse(response){
     document.getElementById("gSignIn").style.display = "none";
 }
 
-// ishga tushirish
 initGoogleSignIn();
 </script>
 
+<!-- GOOGLE TRANSLATE SCRIPT -->
+<div id="google_translate_element" style="display:none;"></div>
 <script>
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
@@ -784,36 +815,14 @@ document.addEventListener("DOMContentLoaded", function () {
     select.addEventListener("change", function () {
         const lang = this.value;
         const combo = document.querySelector(".goog-te-combo");
-
-        if (combo) {
+        if(combo){
             combo.value = lang;
             combo.dispatchEvent(new Event("change"));
         }
     });
 });
 </script>
-
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-        <!-- MOBILE MENU -->
-        <div class="mobile-menu" id="mobileMenu">
-
-<a href="#" onclick="showPage('home')">
-Bosh Sahifa
-</a>
-
-<a href="https://dasturlashcurssalohiddin-collab.github.io/men/" target="_blank">
-Yaratuvchi Haqida
-</a>
-
-<a href="https://dasturlashcurssalohiddin-collab.github.io/quiz/" target="_blank">
-Quiz
-</a>
-
-</div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
     <div class="main-container">
         <!-- HOME PAGE -->
         <div id="home" class="page active">
