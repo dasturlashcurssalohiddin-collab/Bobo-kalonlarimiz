@@ -5,26 +5,64 @@
     <meta name="google-site-verification" content="0TmdOwfuTq9gV3K36z6rckiLWkeg6aQl1Fffs9hYXUo" />
     <title>Bobo Kalonlarimiz - Tarixiy Shaxslar Ensiklopediyasi</title>
     <style>
-        /* ====================================
-           GLOBAL STYLES & RESET
-           =================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ================================
+   GLOBAL STYLES & RESET
+   ================================ */
 
-        html {
-            scroll-behavior: smooth;
-        }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a1428 0%, #0d2438 50%, #0f3a52 100%);
-            color: #ffffff;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
+   
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+    
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0a1428 0%, #0d2438 50%, #0f3a52 100%);
+    color: #ffffff;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ================================
+   HEADINGS
+   ================================ */
+h1, h2, h3 {
+    color: #6ad8ff;
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* ================================
+   BUTTONS
+   ================================ */
+button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #6ad8ff, #00d4ff);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(106,216,255,0.4);
+}
+
+/* ================================
+   LINKS
+   ================================ */
+a {
+    text-decoration: none;
+}
 
         /* ===================================
            VIDEO BACKGROUND
@@ -663,54 +701,99 @@
 </head>
 <body>
     <!-- VIDEO BACKGROUND -->
-    <video autoplay muted loop id="bgVideo">
-        <source src="bobokalonlar.mp4" type="video/mp4">
-    </video>
+<video autoplay muted loop id="bgVideo" style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1;">
+    <source src="bobokalonlar.mp4" type="video/mp4">
+</video>
 
-    <!-- NAVIGATION BAR -->
-<nav class="navbar">
-    <div class="nav-container">
-        <a href="#" class="logo" onclick="showPage('home')">
-            🏛️ Bobo Kalonlarimiz
-        </a>
+<!-- HEADER / CONTROL BAR -->
+<div style="
+    display:flex;
+    justify-content:space-between; /* translate chap, google o'ng */
+    align-items:center;
+    padding:20px;
+    position:relative;
+    z-index:2;
+">
 
-        <ul class="nav-menu" id="navMenu">
-            <li>
-                <a href="#" onclick="showPage('home')" class="nav-link">
-                    Bosh Sahifa
-                </a>
-            </li>
+    <!-- Translate select chap tomonda -->
+    <select id="translateSelect"
+        style="
+            padding:8px 14px;
+            border-radius:8px;
+            border:2px solid #6ad8ff;
+            background:rgba(10,20,40,0.9);
+            color:#6ad8ff;
+            font-weight:600;
+            cursor:pointer;
+            outline:none;
+            transition:0.3s;
+        ">
+        <option value="uz">🇺🇿 Uzbek</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="zh-CN">🇨🇳 中文</option>
+        <option value="ar">🇸🇦 العربية</option>
+    </select>
 
-            <li>
-                <a href="https://dasturlashcurssalohiddin-collab.github.io/men/" target="_blank" class="nav-link">
-                    Yaratuvchi Haqida
-                </a>
-            </li>
+    <!-- Google Sign-In o'ng tomonda -->
+    <div id="gSignIn" style="display:inline-block;"></div>
 
-            <li>
-                <a href="https://dasturlashcurssalohiddin-collab.github.io/quiz/" target="_blank" class="nav-link">
-                    Quiz
-                </a>
-            </li>
-        </ul>
+</div>
 
-    </div>
-</nav>
+<script>
 
-            <!-- LANGUAGE SWITCHER -->
-            <div class="lang-switcher">
-                <button class="lang-btn active" onclick="changeLang('uz')">O'z</button>
-                <button class="lang-btn" onclick="changeLang('en')">EN</button>
-                <button class="lang-btn" onclick="changeLang('ru')">РУ</button>
-            </div>
+// INITIALIZE GOOGLE SIGN-IN
+function initGoogleSignIn(){
+    google.accounts.id.initialize({
+        client_id: client_id,
+        callback: handleCredentialResponse
+    });
 
-            <!-- HAMBURGER MENU -->
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
+    google.accounts.id.renderButton(
+        document.getElementById("gSignIn"),
+        { theme: "outline", size: "large", width: "180" }
+    );
+
+    google.accounts.id.prompt();
+}
+
+function handleCredentialResponse(response){
+    const base64Url = response.credential.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const user = JSON.parse(atob(base64));
+
+    localStorage.setItem("gUser", JSON.stringify(user));
+    document.getElementById("gSignIn").style.display = "none";
+}
+
+// ishga tushirish
+initGoogleSignIn();
+</script>
+
+<script>
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'uz'
+    }, 'google_translate_element');
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const select = document.getElementById("translateSelect");
+
+    select.addEventListener("change", function () {
+        const lang = this.value;
+        const combo = document.querySelector(".goog-te-combo");
+
+        if (combo) {
+            combo.value = lang;
+            combo.dispatchEvent(new Event("change"));
+        }
+    });
+});
+</script>
+
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
         <!-- MOBILE MENU -->
         <div class="mobile-menu" id="mobileMenu">
@@ -771,34 +854,65 @@ Quiz
                 </button>
             </div>
 
-            <!-- CARD GRID -->
-            <div class="card-grid" id="cardGrid">
-                <!-- Cards will be generated here -->
+           <!-- CARD GRID -->
+<div class="card-grid" id="cardGrid">
+    <!-- Cards will be generated here -->
+</div>
+
+<!-- ================================
+     CARDS GENERATOR SCRIPT
+     ================================ -->
+<script>
+    const cardGrid = document.getElementById("cardGrid");
+
+    function createCard(name) {
+        const category = categories[name] || "all";
+        const card = document.createElement("div");
+        card.className = `card ${category}`;
+        card.innerHTML = `
+            <div class="card-image">
+                <img src="images/${name.replace(/ /g, "_")}.jpg" alt="${name}">
             </div>
-        </div>
-
-        <!-- ABOUT PAGE -->
-
-                    <div class="btn-group" style="margin-top: 50px;">
-                        <a href="https://dasturlashcurssalohiddin-collab.github.io/quiz/" target="_blank" class="btn">
-                            📝 Quiz'ni Boshlash
-                        </a>
-                        <button class="btn btn-secondary" onclick="showPage('home')">
-                            🏛️ Asosiy Sahifaga
-                        </button>
-                    </div>
-                </div>
+            <div class="card-info">
+                <h3 class="card-title">${name}</h3>
+                <p class="card-category">${category}</p>
             </div>
-        </div>
-    </div>
+        `;
+        cardGrid.appendChild(card);
+    }
 
-    <!-- FOOTER -->
-    
-    <footer>
-        <p class="footer-title">© 2026 Bobo Kalonlarimiz</p>
-        <p>Tarixiy shaxslar haqida ta'limiy loyiha</p>
-        <p>Muallif: Teshaboyev Salohiddin</p>
-    </footer>
+    bobolar.forEach(name => createCard(name));
+
+    function filterByCategory(cat) {
+        const cards = document.querySelectorAll(".card");
+        cards.forEach(card => {
+            if(cat === "all" || card.classList.contains(cat)){
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+        document.querySelector(`.filter-btn[onclick="filterByCategory('${cat}')"]`).classList.add("active");
+    }
+
+    function filterCards() {
+        const query = document.getElementById("search").value.toLowerCase();
+        const cards = document.querySelectorAll(".card");
+        cards.forEach(card => {
+            const name = card.querySelector(".card-title").textContent.toLowerCase();
+            card.style.display = name.includes(query) ? "block" : "none";
+        });
+    }
+</script>
+
+<!-- FOOTER -->
+<footer>
+    <p class="footer-title">© 2026 Bobo Kalonlarimiz</p>
+    <p>Tarixiy shaxslar haqida ta'limiy loyiha</p>
+    <p>Muallif: Teshaboyev Salohiddin</p>
+</footer>
 
     <!-- SCROLL TO TOP BUTTON -->
     <button id="topBtn" onclick="scrollToTop()">⬆️</button>
@@ -1390,20 +1504,6 @@ window.onload = () => {
     }
 };
 
-// INITIALIZE GOOGLE SIGN-IN
-function initGoogleSignIn(){
-    google.accounts.id.initialize({
-        client_id: client_id,
-        callback: handleCredentialResponse
-    });
-
-    google.accounts.id.renderButton(
-        document.getElementById("gSignIn"),
-        { theme: "outline", size: "large", width: "250" }
-    );
-
-    google.accounts.id.prompt(); // show One Tap prompt
-}
 
 // HANDLE GOOGLE RESPONSE
 function handleCredentialResponse(response){
@@ -1626,11 +1726,3 @@ function resizeCards(){
 window.addEventListener("resize",resizeCards);
 resizeCards();
 
-// SMOOTH SCROLL IF NEEDED
-document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
-  anchor.addEventListener('click',function(e){
-    e.preventDefault();
-    document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});
-  });
-});
-</script>
