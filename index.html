@@ -1,13 +1,41 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
+  <meta charset="UTF-8">
+  <title>Asosiy Sahifa</title>
+</head>
+<body>
+  <h1>Bobo kalonlraimiz</h1>|
+
+  
+
+  <!-- Supabase auth tekshiruv kodi -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://vpeqpjzgapyoskbealtr.supabase.co';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        window.location.href = 'sign-in.html';
+      } else {
+        console.log('Foydalanuvchi kirgan:', session.user.email);
+      }
+    });
+  </script>
+</body>
+</html>
     <meta charset="UTF-8">
-    <meta name="google-site-verification" content="lASYQHHm2_wwWPaT6WMa2SOq9Bg6u8MH_KdtLSX7aSc" />
+    <meta name="google-site-verification" content="0TmdOwfuTq9gV3K36z6rckiLWkeg6aQl1Fffs9hYXUo" />
     <title>Bobo Kalonlarimiz - Tarixiy Shaxslar Ensiklopediyasi</title>
+
     <style>
+
+        
         /* ================================
    GLOBAL STYLES & RESET
-   =============================== */
+   ================================ */
 
 
    
@@ -775,17 +803,64 @@ a {
 <!-- GOOGLE SIGN-IN SCRIPT -->
 <script>
 function initGoogleSignIn(){
+    // Bu yerga yangi Client ID yozamiz
     google.accounts.id.initialize({
-        client_id: client_id, // bu yerga sizning Google Client ID ni qo'ying
-        callback: handleCredentialResponse
-    });
+    client_id: "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com",
+    callback: handleCredentialResponse
+});
 
+    // Sign-in tugmasini render qilamiz
     google.accounts.id.renderButton(
         document.getElementById("gSignIn"),
         { theme: "outline", size: "large", width: "180" }
     );
 
+    // Avtomatik prompt (foydalanuvchi ko‘rishi mumkin)
     google.accounts.id.prompt();
+}
+
+document.querySelector(`.filter-btn[onclick="filterByCategory('${cat}')"]`).classList.add("active");
+
+
+// SEARCH FUNCTION
+function filterCards() {
+    const query = document.getElementById("search").value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+        const name = card.querySelector(".card-title").textContent.toLowerCase();
+        card.style.display = name.includes(query) ? "block" : "none";
+    });
+}
+
+// SCROLL TO TOP
+const topBtn = document.getElementById("topBtn");
+window.addEventListener("scroll", () => {
+    if(window.scrollY > 300) topBtn.classList.add("show");
+    else topBtn.classList.remove("show");
+});
+function scrollToTop() {
+    window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+// VOICE SEARCH
+const voiceBtn = document.getElementById("voiceBtn");
+if('webkitSpeechRecognition' in window){
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'uz-UZ';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    voiceBtn.addEventListener("click", () => {
+        recognition.start();
+    });
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("search").value = transcript;
+        filterCards();
+    };
+} else {
+    voiceBtn.style.display = "none"; // agar brauzer qo'llab-quvvatlamasa
 }
 
 function handleCredentialResponse(response){
@@ -797,6 +872,7 @@ function handleCredentialResponse(response){
     document.getElementById("gSignIn").style.display = "none";
 }
 
+// Sayt yuklanganda ishga tushadi
 initGoogleSignIn();
 </script>
 
