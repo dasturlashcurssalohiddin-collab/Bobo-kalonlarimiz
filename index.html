@@ -96,7 +96,7 @@ window.onload = () => {
     const emailSaved = localStorage.getItem("userEmail");
     const redirected = localStorage.getItem("redirectedToBobo");
 
-    // agar foydalanuvchi login qilgan va bobo sahifaga yo'naltirilmagan bo'lsa
+    // Faqat birinchi kirishda yo'naltirish
     if(nameSaved && !redirected && window.location.pathname.endsWith("index.html")){
         localStorage.setItem("redirectedToBobo","true");
         window.location.href = "bobo-kalonlar.html";
@@ -108,6 +108,21 @@ window.onload = () => {
         userBtn.innerText = nameSaved;
         form.style.display="block";
         document.getElementById("email").value = emailSaved;
+
+        // Oldingi ma'lumotlarni localStorage dan yuklash
+        document.getElementById("name").value = localStorage.getItem("formName") || "";
+        document.getElementById("day").value = localStorage.getItem("formDay") || "";
+        document.getElementById("month").value = localStorage.getItem("formMonth") || "";
+        document.getElementById("year").value = localStorage.getItem("formYear") || "";
+        document.getElementById("city").value = localStorage.getItem("formCity") || "";
+        document.getElementById("phone").value = localStorage.getItem("formPhone") || "";
+        document.getElementById("extra").value = localStorage.getItem("formExtra") || "";
+
+        const savedHobbies = JSON.parse(localStorage.getItem("formHobbies") || "[]");
+        savedHobbies.forEach(hobby => {
+            const checkbox = document.querySelector(`input[name="hobby"][value="${hobby}"]`);
+            if(checkbox) checkbox.checked = true;
+        });
     }
 };
 
@@ -143,6 +158,16 @@ form.addEventListener("submit", async function(e){
         return;
     }
 
+    // Ma'lumotlarni localStorage ga saqlash
+    localStorage.setItem("formName", data.name);
+    localStorage.setItem("formDay", data.day);
+    localStorage.setItem("formMonth", data.month);
+    localStorage.setItem("formYear", data.year);
+    localStorage.setItem("formCity", data.city);
+    localStorage.setItem("formPhone", data.phone);
+    localStorage.setItem("formExtra", data.extra);
+    localStorage.setItem("formHobbies", JSON.stringify(data.hobbies));
+
     const text=`📥 Yangi Ariza:
 👤 F.I.SH: ${data.name}
 🎂 Tug‘ilgan sana: ${data.day}/${data.month}/${data.year}
@@ -172,6 +197,5 @@ function clearData(){
     location.reload();
 }
 </script>
-
 </body>
 </html>
