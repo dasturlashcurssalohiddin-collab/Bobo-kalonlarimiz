@@ -2,237 +2,185 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Bobo Kalonlarimiz - Ariza</title>
-<!-- Google Sign-In va JWT Decode -->
+<title>Ariza Formasi</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 <style>
-/* BODY & BACKGROUND */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(120deg, #667eea, #764ba2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    margin:0;
 }
-/* CONTAINER */
 .container {
-    background: #fdfdfd;
-    border-radius: 20px;
-    padding: 40px 30px;
-    width: 500px;
-    max-width: 95%;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-    position: relative;
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    width:400px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
-/* TITLE */
-h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-    font-size: 24px;
-}
-/* GOOGLE SIGN-IN BUTTON */
-#gSignIn {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 25px;
-}
-/* USER BUTTON */
-#userBtn {
-    display: none;
-    margin-bottom: 20px;
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #667eea;
-    background-color: #fff;
-    color: #333;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-}
-#userBtn:hover { background-color: #f0f0f0; }
-/* INPUTS */
+h2 { text-align:center; margin-bottom:20px; color:#333; }
 input, select, textarea, button {
-    width: 100%;
-    padding: 12px;
-    margin: 5px 0 15px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    box-sizing: border-box;
+    width:100%;
+    padding:10px;
+    margin:5px 0 15px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:14px;
 }
-input:focus, select:focus, textarea:focus {
-    border-color: #667eea;
-    outline: none;
-    box-shadow: 0 0 8px rgba(102,126,234,0.5);
-}
-/* BUTTONS */
+input:focus, select:focus, textarea:focus { border-color:#667eea; outline:none; }
 button {
-    background: #667eea;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
+    background:linear-gradient(135deg,#667eea,#5a67d8);
+    color:white;
+    border:none;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
 }
-button:hover {
-    background: #5a67d8;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-/* ERROR & SUCCESS MESSAGES */
-.error { color: red; font-size: 13px; }
-.success { color: green; text-align: center; margin-top: 10px; font-weight: bold; }
+button:hover { background:linear-gradient(135deg,#5a67d8,#4c51bf); }
+.error { color:red; font-size:13px; }
+.success { color:green; text-align:center; font-weight:bold; margin-top:10px; }
 </style>
 </head>
 <body>
 
 <div class="container">
-<h2>Bobo Kalonlarimiz - Ariza Formasi</h2>
+<h2>Ariza Formasi</h2>
 
-<!-- Google Sign-In -->
 <div id="gSignIn"></div>
+<button id="userBtn" style="display:none;margin-bottom:15px;"></button>
 
-<!-- Foydalanuvchi nomi tugmasi -->
-<button id="userBtn"></button>
-
-<!-- FORM -->
 <form id="form" style="display:none;">
-<label>Ism (I.F.Sh):</label>
-<input type="text" id="name"><div id="nameError" class="error"></div>
+<label>F.I.SH:</label>
+<input type="text" id="name" placeholder="Ism Familiya"><div id="nameError" class="error"></div>
 
-<label>Yosh:</label>
-<input type="number" id="age"><div id="ageError" class="error"></div>
+<label>Tug‘ilgan sana:</label>
+<div style="display:flex; gap:10px;">
+<input type="number" id="day" placeholder="Kun" min="1" max="31">
+<input type="number" id="month" placeholder="Oy" min="1" max="12">
+<input type="number" id="year" placeholder="Yil" min="1900" max="2026">
+</div>
+<div id="birthError" class="error"></div>
+
+<label>Yashash joyi:</label>
+<input type="text" id="city" placeholder="Shahar, Viloyat"><div id="cityError" class="error"></div>
+
+<label>Hobbi (tanlang bir yoki bir nechta):</label>
+<label><input type="checkbox" name="hobby" value="Kitob o‘qish"> Kitob o‘qish</label>
+<label><input type="checkbox" name="hobby" value="Sport"> Sport</label>
+<label><input type="checkbox" name="hobby" value="Musiqa"> Musiqa</label>
+<div id="hobbyError" class="error"></div>
 
 <label>Email:</label>
 <input type="text" id="email" readonly><div id="emailError" class="error"></div>
 
-<label>Telefon (9 raqam):</label>
-<input type="text" id="phone"><div id="phoneError" class="error"></div>
+<label>Telefon:</label>
+<input type="text" id="phone" placeholder="901234567"><div id="phoneError" class="error"></div>
 
-<label>Bobo nomi tanlang:</label>
-<select id="boboName">
-    <option value="">Bobo nomini tanlang</option>
-    <option value="Alpomish">Alpomish</option>
-    <option value="Rustam">Rustam</option>
-    <option value="Temur">Temur</option>
-    <option value="Amirxon">Amirxon</option>
-</select>
-<div id="boboNameError" class="error"></div>
+<label>Qo‘shimcha ma’lumot:</label>
+<textarea id="extra" placeholder="Istalgan qo‘shimcha ma’lumot"></textarea>
 
-<div class="buttons">
-    <button type="submit">Yuborish</button>
-    <button type="button" id="resetBtn">Yangilash</button>
-</div>
-
+<button type="submit">Yuborish</button>
 <div id="success" class="success"></div>
 </form>
 </div>
 
 <script>
 const CLIENT_ID = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
+const BOT_TOKEN = "TOKENINGNI_YOZ";
+const CHAT_ID = "CHAT_IDINGNI_YOZ";
 
-// Agar foydalanuvchi allaqachon kirgan bo'lsa
-const storedEmail = localStorage.getItem("userEmail");
-const storedName = localStorage.getItem("userName");
-
-const userBtn = document.getElementById("userBtn");
 const form = document.getElementById("form");
+const userBtn = document.getElementById("userBtn");
 
-if(storedEmail && storedName){
-    // Foydalanuvchi tugmasini ko'rsatish
+function handleCredentialResponse(res){
+    const data = jwt_decode(res.credential);
+    localStorage.setItem("userName", data.name);
+    localStorage.setItem("userEmail", data.email);
+
     userBtn.style.display = "block";
-    userBtn.innerText = storedName;
-    userBtn.addEventListener("click", ()=> {
-        // Indexda qoladi, foydalanuvchi ma'lumotlarini ko'radi
-        alert(`Salom ${storedName}, siz formani to'ldirishingiz mumkin.`);
-    });
-    // Formani ham ko'rsatish
+    userBtn.innerText = data.name;
     form.style.display = "block";
+    email.value = data.email;
 }
 
-// Google Sign-In callback
-function handleCredentialResponse(response){
-    google.accounts.id.disableAutoSelect();
-    const data = jwt_decode(response.credential);
-    const email = data.email;
-    const name = data.name;
+window.onload = () => {
+    const nameSaved = localStorage.getItem("userName");
+    const emailSaved = localStorage.getItem("userEmail");
 
-    // Test foydalanuvchilar
-    const testUsers = ["dasturlashcurssalohiddin@gmail.com"];
-    if(!testUsers.includes(email)){
-        alert("Sizga ruxsat yo'q");
-        return;
+    if(nameSaved){
+        userBtn.style.display = "block";
+        userBtn.innerText = nameSaved;
+        form.style.display = "block";
+        email.value = emailSaved;
     }
 
-    // Formani ko'rsatish
-    form.style.display = "block";
-    document.getElementById("email").value = email;
-
-    // Foydalanuvchi tugmasini yaratish
-    userBtn.style.display = "block";
-    userBtn.innerText = name;
-    userBtn.addEventListener("click", ()=> {
-        alert(`Salom ${name}, siz formani to'ldirishingiz mumkin.`);
-    });
-
-    // LocalStorage ga saqlash
-    localStorage.setItem("userEmail", email);
-    localStorage.setItem("userName", name);
-}
-
-// Google Sign-In tugmasini yaratish
-window.onload = () => {
     google.accounts.id.initialize({
         client_id: CLIENT_ID,
         callback: handleCredentialResponse
     });
     google.accounts.id.renderButton(
         document.getElementById("gSignIn"),
-        { theme: "outline", size: "large", width: 300 }
+        { size: "large" }
     );
-    google.accounts.id.prompt();
-}
+};
 
-// Form submit
-const resetBtn = document.getElementById("resetBtn");
-
-form.addEventListener("submit", function(e){
-    e.preventDefault();
+// VALIDATSIYA
+function validate(data){
     let ok = true;
     document.querySelectorAll(".error").forEach(el=>el.innerText="");
-    document.getElementById("success").innerText="";
+    if(!/^[A-Za-z\s]{3,}$/.test(data.name)){document.getElementById("nameError").innerText="Ism noto‘g‘ri!"; ok=false;}
+    if(data.day<1 || data.day>31 || data.month<1 || data.month>12 || data.year<1900){document.getElementById("birthError").innerText="Sana noto‘g‘ri!"; ok=false;}
+    if(!data.city){document.getElementById("cityError").innerText="Yashash joyi kiritilmagan!"; ok=false;}
+    if(data.hobbies.length===0){document.getElementById("hobbyError").innerText="Hobbi tanlanmagan!"; ok=false;}
+    if(!/^[0-9]{9}$/.test(data.phone)){document.getElementById("phoneError").innerText="Telefon noto‘g‘ri!"; ok=false;}
+    return ok;
+}
 
-    const name = document.getElementById("name").value.trim();
-    const age = parseInt(document.getElementById("age").value);
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const boboName = document.getElementById("boboName").value;
-
-    // Validatsiya
-    if(!/^[A-Za-z\s]{3,}$/.test(name)){document.getElementById("nameError").innerText="Ism faqat harf va kamida 3 ta!"; ok=false;}
-    if(isNaN(age) || age<10 || age>120){document.getElementById("ageError").innerText="Yosh 10-120 oralig‘ida!"; ok=false;}
-    if(!/^[0-9]{9}$/.test(phone)){document.getElementById("phoneError").innerText="Telefon 9 ta raqam bo‘lsin!"; ok=false;}
-    if(!boboName){document.getElementById("boboNameError").innerText="Bobo nomini tanlang!"; ok=false;}
-
-    if(ok){
-        const userData = { name, age, email, phone, boboName };
-        localStorage.setItem("boboForm", JSON.stringify(userData));
-        // Foydalanuvchi formani to'ldirdi, keyin bobo-kalonlar.html ga yo'naltirish
-        window.location.href = "bobo-kalonlar.html";
+// FORM SUBMIT
+form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    const hobbies = Array.from(document.querySelectorAll("input[name='hobby']:checked")).map(i=>i.value);
+    const data = {
+        name:name.value.trim(),
+        day:parseInt(day.value),
+        month:parseInt(month.value),
+        year:parseInt(year.value),
+        city:city.value.trim(),
+        hobbies:hobbies,
+        email:email.value.trim(),
+        phone:phone.value.trim(),
+        extra:extra.value.trim()
+    };
+    if(!validate(data)){
+        alert("Formada xatolik bor, to‘liq va to‘g‘ri to‘ldiring.");
+        return;
     }
-});
 
-// Reset
-resetBtn.addEventListener("click", function(){
-    form.reset();
-    document.querySelectorAll(".error").forEach(el=>el.innerText="");
-    document.getElementById("success").innerText="";
+    const text = `
+📥 Yangi Ariza:
+👤 F.I.SH: ${data.name}
+🎂 Tug‘ilgan sana: ${data.day}/${data.month}/${data.year}
+🏠 Yashash joyi: ${data.city}
+🎨 Hobbi: ${data.hobbies.join(", ")}
+📧 Email: ${data.email}
+📱 Telefon: ${data.phone}
+📝 Qo‘shimcha: ${data.extra}
+`;
+
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({chat_id:CHAT_ID,text:text})
+    });
+
+    document.getElementById("success").innerText="Ariza muvaffaqiyatli yuborildi!";
+    setTimeout(()=>{window.location.href="bobo-kalonlar.html";},1500);
 });
 </script>
+
 </body>
 </html>
