@@ -6,50 +6,21 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 <style>
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg,#667eea,#764ba2);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    margin:0;
-}
-.container {
-    background:#fff;
-    padding:30px;
-    border-radius:15px;
-    width:400px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.2);
-}
-h2 { text-align:center; margin-bottom:20px; color:#333; }
-input, select, textarea, button {
-    width:100%;
-    padding:10px;
-    margin:5px 0 15px;
-    border-radius:8px;
-    border:1px solid #ccc;
-    font-size:14px;
-}
-input:focus, select:focus, textarea:focus { border-color:#667eea; outline:none; }
-button {
-    background:linear-gradient(135deg,#667eea,#5a67d8);
-    color:white;
-    border:none;
-    cursor:pointer;
-    font-weight:bold;
-    transition:0.3s;
-}
-button:hover { background:linear-gradient(135deg,#5a67d8,#4c51bf); }
-.error { color:red; font-size:13px; }
-.success { color:green; text-align:center; font-weight:bold; margin-top:10px; }
+body {font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;}
+.container {background:#fff;padding:30px;border-radius:15px;width:400px;box-shadow:0 10px 30px rgba(0,0,0,0.2);}
+h2 {text-align:center;margin-bottom:20px;color:#333;}
+input, select, textarea, button {width:100%;padding:10px;margin:5px 0 15px;border-radius:8px;border:1px solid #ccc;font-size:14px;}
+input:focus, select:focus, textarea:focus {border-color:#667eea;outline:none;}
+button {background:linear-gradient(135deg,#667eea,#5a67d8);color:white;border:none;cursor:pointer;font-weight:bold;transition:0.3s;}
+button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);}
+.error {color:red;font-size:13px;}
+.success {color:green;text-align:center;font-weight:bold;margin-top:10px;}
 </style>
 </head>
 <body>
 
 <div class="container">
 <h2>Ariza Formasi</h2>
-
 <div id="gSignIn"></div>
 <button id="userBtn" style="display:none;margin-bottom:15px;"></button>
 
@@ -96,15 +67,15 @@ const CHAT_ID = "6283517295";
 const form = document.getElementById("form");
 const userBtn = document.getElementById("userBtn");
 
+// Google Sign-In
 function handleCredentialResponse(res){
     const data = jwt_decode(res.credential);
     localStorage.setItem("userName", data.name);
     localStorage.setItem("userEmail", data.email);
-
     userBtn.style.display = "block";
     userBtn.innerText = data.name;
     form.style.display = "block";
-    email.value = data.email;
+    document.getElementById("email").value = data.email;
 }
 
 window.onload = () => {
@@ -115,25 +86,19 @@ window.onload = () => {
         userBtn.style.display = "block";
         userBtn.innerText = nameSaved;
         form.style.display = "block";
-        email.value = emailSaved;
+        document.getElementById("email").value = emailSaved;
     }
 
-    google.accounts.id.initialize({
-        client_id: CLIENT_ID,
-        callback: handleCredentialResponse
-    });
-    google.accounts.id.renderButton(
-        document.getElementById("gSignIn"),
-        { size: "large" }
-    );
+    google.accounts.id.initialize({client_id:CLIENT_ID,callback:handleCredentialResponse});
+    google.accounts.id.renderButton(document.getElementById("gSignIn"),{ size:"large" });
 };
 
 // VALIDATSIYA
 function validate(data){
-    let ok = true;
+    let ok=true;
     document.querySelectorAll(".error").forEach(el=>el.innerText="");
     if(!/^[A-Za-z\s]{3,}$/.test(data.name)){document.getElementById("nameError").innerText="Ism noto‘g‘ri!"; ok=false;}
-    if(data.day<1 || data.day>31 || data.month<1 || data.month>12 || data.year<1900){document.getElementById("birthError").innerText="Sana noto‘g‘ri!"; ok=false;}
+    if(data.day<1||data.day>31||data.month<1||data.month>12||data.year<1900){document.getElementById("birthError").innerText="Sana noto‘g‘ri!"; ok=false;}
     if(!data.city){document.getElementById("cityError").innerText="Yashash joyi kiritilmagan!"; ok=false;}
     if(data.hobbies.length===0){document.getElementById("hobbyError").innerText="Hobbi tanlanmagan!"; ok=false;}
     if(!/^[0-9]{9}$/.test(data.phone)){document.getElementById("phoneError").innerText="Telefon noto‘g‘ri!"; ok=false;}
@@ -143,42 +108,53 @@ function validate(data){
 // FORM SUBMIT
 form.addEventListener("submit", async function(e){
     e.preventDefault();
+    const nameEl=document.getElementById("name");
+    const dayEl=document.getElementById("day");
+    const monthEl=document.getElementById("month");
+    const yearEl=document.getElementById("year");
+    const cityEl=document.getElementById("city");
+    const emailEl=document.getElementById("email");
+    const phoneEl=document.getElementById("phone");
+    const extraEl=document.getElementById("extra");
     const hobbies = Array.from(document.querySelectorAll("input[name='hobby']:checked")).map(i=>i.value);
-    const data = {
-        name:name.value.trim(),
-        day:parseInt(day.value),
-        month:parseInt(month.value),
-        year:parseInt(year.value),
-        city:city.value.trim(),
+
+    const data={
+        name:nameEl.value.trim(),
+        day:parseInt(dayEl.value),
+        month:parseInt(monthEl.value),
+        year:parseInt(yearEl.value),
+        city:cityEl.value.trim(),
         hobbies:hobbies,
-        email:email.value.trim(),
-        phone:phone.value.trim(),
-        extra:extra.value.trim()
+        email:emailEl.value.trim(),
+        phone:phoneEl.value.trim(),
+        extra:extraEl.value.trim()
     };
+
     if(!validate(data)){
         alert("Formada xatolik bor, to‘liq va to‘g‘ri to‘ldiring.");
         return;
     }
 
-    const text = `
-📥 Yangi Ariza:
+    const text=`📥 Yangi Ariza:
 👤 F.I.SH: ${data.name}
 🎂 Tug‘ilgan sana: ${data.day}/${data.month}/${data.year}
 🏠 Yashash joyi: ${data.city}
 🎨 Hobbi: ${data.hobbies.join(", ")}
 📧 Email: ${data.email}
 📱 Telefon: ${data.phone}
-📝 Qo‘shimcha: ${data.extra}
-`;
+📝 Qo‘shimcha: ${data.extra}`;
 
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({chat_id:CHAT_ID,text:text})
-    });
-
-    document.getElementById("success").innerText="Ariza muvaffaqiyatli yuborildi!";
-    setTimeout(()=>{window.location.href="bobo-kalonlar.html";},1500);
+    try{
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({chat_id:CHAT_ID,text:text})
+        });
+        document.getElementById("success").innerText="Ariza muvaffaqiyatli yuborildi!";
+        setTimeout(()=>{window.location.href="bobo-kalonlar.html";},1500);
+    } catch(err){
+        alert("Telegramga yuborishda xatolik yuz berdi.");
+    }
 });
 </script>
 
