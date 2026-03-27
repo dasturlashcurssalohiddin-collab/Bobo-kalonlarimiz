@@ -265,3 +265,36 @@ setTimeout(()=>{
 console.log("Bobo Kalonlarimiz sayt yuklandi");
 
 },1000);
+
+// server.js
+const express = require('express');
+const session = require('express-session');
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client('SIZNING_GOOGLE_CLIENT_ID');
+
+const app = express();
+app.use(express.json());
+app.use(session({secret: 'supersecret', resave: false, saveUninitialized: true}));
+
+// Foydalanuvchi tokenni yuboradi
+app.post('/login', async (req, res) => {
+    const {token} = req.body;
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: 'SIZNING_GOOGLE_CLIENT_ID'
+    });
+    const payload = ticket.getPayload();
+    req.session.user = payload.email; // sessiyada saqlaymiz
+    res.json({status: 'ok', email: payload.email});
+});
+
+// Agar sessiya mavjud bo‘lsa, foydalanuvchi avtomatik kiradi
+app.get('/dashboard', (req, res) => {
+    if(req.session.user){
+        res.send(`Xush kelibsiz, ${req.session.user}`);
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.listen(3000, () => console.log('Server 3000 portda ishlayapti'));
