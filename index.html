@@ -6,15 +6,20 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 <style>
-body {font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;}
-.container {background:#fff;padding:30px;border-radius:15px;width:400px;box-shadow:0 10px 30px rgba(0,0,0,0.2);}
-h2 {text-align:center;margin-bottom:20px;color:#333;}
-input, select, textarea, button {width:100%;padding:10px;margin:5px 0 15px;border-radius:8px;border:1px solid #ccc;font-size:14px;}
-input:focus, select:focus, textarea:focus {border-color:#667eea;outline:none;}
-button {background:linear-gradient(135deg,#667eea,#5a67d8);color:white;border:none;cursor:pointer;font-weight:bold;transition:0.3s;}
-button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);}
-.error {color:red;font-size:13px;}
-.success {color:green;text-align:center;font-weight:bold;margin-top:10px;}
+/* GLOBAL */
+body {font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
+.container {background:#fff;padding:40px 30px;border-radius:20px;width:100%;max-width:500px;box-shadow:0 15px 40px rgba(0,0,0,0.25);transition:0.3s;}
+.container:hover {transform:translateY(-5px);}
+h2 {text-align:center;margin-bottom:25px;color:#333;font-size:26px;}
+input, select, textarea, button {width:100%;padding:12px;margin:8px 0 15px;border-radius:10px;border:1px solid #ccc;font-size:15px;box-sizing:border-box;transition:0.3s;}
+input:focus, select:focus, textarea:focus {border-color:#667eea;box-shadow:0 0 8px rgba(102,126,234,0.4);outline:none;}
+textarea {resize:none;}
+button {background:linear-gradient(135deg,#667eea,#5a67d8);color:white;border:none;font-weight:bold;cursor:pointer;transition:0.3s;}
+button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);box-shadow:0 5px 15px rgba(0,0,0,0.2);}
+.error {color:red;font-size:13px;margin-top:-10px;margin-bottom:5px;}
+.success {color:green;text-align:center;font-weight:bold;margin-top:10px;font-size:15px;}
+.checkbox-group label {display:block;margin:5px 0;font-size:14px;}
+@media(max-width:600px){.container{padding:25px 20px;}} 
 </style>
 </head>
 <body>
@@ -22,8 +27,7 @@ button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);}
 <div class="container">
 <h2>Ariza Formasi</h2>
 <div id="gSignIn"></div>
-<button id="userBtn" style="display:none;margin-bottom:15px;"></button>
-
+<button id="userBtn" style="display:none;margin-bottom:20px;"></button>
 <form id="form" style="display:none;">
 <label>F.I.SH:</label>
 <input type="text" id="name" placeholder="Ism Familiya"><div id="nameError" class="error"></div>
@@ -39,10 +43,13 @@ button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);}
 <label>Yashash joyi:</label>
 <input type="text" id="city" placeholder="Shahar, Viloyat"><div id="cityError" class="error"></div>
 
-<label>Hobbi (tanlang bir yoki bir nechta):</label>
+<label>Hobbi (bir yoki bir nechta tanlang):</label>
+<div class="checkbox-group">
 <label><input type="checkbox" name="hobby" value="Kitob o‘qish"> Kitob o‘qish</label>
 <label><input type="checkbox" name="hobby" value="Sport"> Sport</label>
 <label><input type="checkbox" name="hobby" value="Musiqa"> Musiqa</label>
+<label><input type="checkbox" name="hobby" value="Sayohat"> Sayohat</label>
+</div>
 <div id="hobbyError" class="error"></div>
 
 <label>Email:</label>
@@ -67,7 +74,6 @@ const CHAT_ID = "6283517295";
 const form = document.getElementById("form");
 const userBtn = document.getElementById("userBtn");
 
-// Google Sign-In
 function handleCredentialResponse(res){
     const data = jwt_decode(res.credential);
     localStorage.setItem("userName", data.name);
@@ -81,19 +87,16 @@ function handleCredentialResponse(res){
 window.onload = () => {
     const nameSaved = localStorage.getItem("userName");
     const emailSaved = localStorage.getItem("userEmail");
-
     if(nameSaved){
         userBtn.style.display = "block";
         userBtn.innerText = nameSaved;
         form.style.display = "block";
         document.getElementById("email").value = emailSaved;
     }
-
     google.accounts.id.initialize({client_id:CLIENT_ID,callback:handleCredentialResponse});
     google.accounts.id.renderButton(document.getElementById("gSignIn"),{ size:"large" });
 };
 
-// VALIDATSIYA
 function validate(data){
     let ok=true;
     document.querySelectorAll(".error").forEach(el=>el.innerText="");
@@ -105,7 +108,6 @@ function validate(data){
     return ok;
 }
 
-// FORM SUBMIT
 form.addEventListener("submit", async function(e){
     e.preventDefault();
     const nameEl=document.getElementById("name");
@@ -157,6 +159,5 @@ form.addEventListener("submit", async function(e){
     }
 });
 </script>
-
 </body>
 </html>
