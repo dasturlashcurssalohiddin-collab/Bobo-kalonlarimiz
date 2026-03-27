@@ -2,20 +2,24 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Ariza Formasi | Index</title>
+<title>Ariza Formasi</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 <style>
 body {font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
-.container {background:#fff;padding:40px 30px;border-radius:20px;width:100%;max-width:500px;box-shadow:0 15px 40px rgba(0,0,0,0.25);}
+.container {background:#fff;padding:40px 30px;border-radius:20px;width:100%;max-width:500px;box-shadow:0 15px 40px rgba(0,0,0,0.25);transition:0.3s;}
+.container:hover {transform:translateY(-5px);}
 h2 {text-align:center;margin-bottom:25px;color:#333;font-size:26px;}
-input, select, textarea, button {width:100%;padding:12px;margin:8px 0 15px;border-radius:10px;border:1px solid #ccc;font-size:15px;box-sizing:border-box;}
+input, select, textarea, button {width:100%;padding:12px;margin:8px 0 15px;border-radius:10px;border:1px solid #ccc;font-size:15px;box-sizing:border-box;transition:0.3s;}
+input:focus, select:focus, textarea:focus {border-color:#667eea;box-shadow:0 0 8px rgba(102,126,234,0.4);outline:none;}
 textarea {resize:none;}
-button {background:linear-gradient(135deg,#667eea,#5a67d8);color:white;border:none;font-weight:bold;cursor:pointer;}
-button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);}
+button {background:linear-gradient(135deg,#667eea,#5a67d8);color:white;border:none;font-weight:bold;cursor:pointer;transition:0.3s;}
+button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);box-shadow:0 5px 15px rgba(0,0,0,0.2);}
 .error {color:red;font-size:13px;margin-top:-10px;margin-bottom:5px;}
 .success {color:green;text-align:center;font-weight:bold;margin-top:10px;font-size:15px;}
 .checkbox-group label {display:block;margin:5px 0;font-size:14px;}
+.delete-btn {background:red;}
+@media(max-width:600px){.container{padding:25px 20px;}} 
 </style>
 </head>
 <body>
@@ -58,10 +62,10 @@ button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);}
 <textarea id="extra" placeholder="Istalgan qo‘shimcha ma’lumot"></textarea>
 
 <button type="submit">Yuborish</button>
+<button type="button" id="deleteBtn" class="delete-btn">Delete All</button>
+
 <div id="success" class="success"></div>
 </form>
-
-<button onclick="clearData()" style="background:red;color:white;padding:10px 20px;margin-top:10px;border:none;border-radius:8px;">Delete</button>
 </div>
 
 <script>
@@ -71,17 +75,17 @@ const CHAT_ID = "6283517295";
 
 const form = document.getElementById("form");
 const userBtn = document.getElementById("userBtn");
+const deleteBtn = document.getElementById("deleteBtn");
 
-// Google login callback
 function handleCredentialResponse(res){
     const data = jwt_decode(res.credential);
     localStorage.setItem("userName", data.name);
     localStorage.setItem("userEmail", data.email);
 
-    // Birinchi marta login bo'lsa redirect
-    if(!localStorage.getItem("redirectedToBobo")){
-        localStorage.setItem("redirectedToBobo", "true");
-        window.location.href = "bobo-kalonlar.html";
+    const redirected = localStorage.getItem("redirectedToBobo");
+    if(!redirected){
+        localStorage.setItem("redirectedToBobo","true");
+        window.location.href="bobo-kalonlar.html";
         return;
     }
 
@@ -91,7 +95,6 @@ function handleCredentialResponse(res){
     document.getElementById("email").value = data.email;
 }
 
-// sahifa yuklanganda tekshirish
 window.onload = () => {
     google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
     google.accounts.id.renderButton(document.getElementById("gSignIn"), { size: "large" });
@@ -100,14 +103,12 @@ window.onload = () => {
     const emailSaved = localStorage.getItem("userEmail");
     const redirected = localStorage.getItem("redirectedToBobo");
 
-    // Agar foydalanuvchi ma'lumot saqlagan va redirect qilinmagan bo'lsa
     if(nameSaved && !redirected){
-        localStorage.setItem("redirectedToBobo", "true");
+        localStorage.setItem("redirectedToBobo","true");
         window.location.href="bobo-kalonlar.html";
         return;
     }
 
-    // Formani ko'rsatish va saqlangan ma'lumotlarni yuklash
     if(nameSaved){
         userBtn.style.display="block";
         userBtn.innerText = nameSaved;
@@ -121,6 +122,7 @@ window.onload = () => {
         const savedPhone = localStorage.getItem("phone");
         const savedExtra = localStorage.getItem("extra");
         const savedHobbies = JSON.parse(localStorage.getItem("hobbies") || "[]");
+        const savedName = localStorage.getItem("formName");
 
         if(savedDay) document.getElementById("day").value = savedDay;
         if(savedMonth) document.getElementById("month").value = savedMonth;
@@ -128,13 +130,15 @@ window.onload = () => {
         if(savedCity) document.getElementById("city").value = savedCity;
         if(savedPhone) document.getElementById("phone").value = savedPhone;
         if(savedExtra) document.getElementById("extra").value = savedExtra;
+        if(savedName) document.getElementById("name").value = savedName;
+
         document.querySelectorAll("input[name='hobby']").forEach(i=>{
             i.checked = savedHobbies.includes(i.value);
         });
     }
 };
 
-// form validate
+// Form validate
 function validate(data){
     let ok=true;
     document.querySelectorAll(".error").forEach(el=>el.innerText="");
@@ -146,7 +150,7 @@ function validate(data){
     return ok;
 }
 
-// form submit
+// Form submit
 form.addEventListener("submit", async function(e){
     e.preventDefault();
     const data={
@@ -155,7 +159,7 @@ form.addEventListener("submit", async function(e){
         month: parseInt(document.getElementById("month").value),
         year: parseInt(document.getElementById("year").value),
         city: document.getElementById("city").value.trim(),
-        hobbies: Array.from(document.querySelectorAll("input[name='hobby']:checked")).map(i=>i.value),
+        hobbies: Array.from(document.querySelectorAll("input[name='hobby']:checked')).map(i=>i.value),
         email: document.getElementById("email").value.trim(),
         phone: document.getElementById("phone").value.trim(),
         extra: document.getElementById("extra").value.trim()
@@ -166,7 +170,8 @@ form.addEventListener("submit", async function(e){
         return;
     }
 
-    // Ma'lumotlarni localStorage ga saqlash
+    // Save all form data
+    localStorage.setItem("formName", data.name);
     localStorage.setItem("day", data.day);
     localStorage.setItem("month", data.month);
     localStorage.setItem("year", data.year);
@@ -191,18 +196,22 @@ form.addEventListener("submit", async function(e){
             body:JSON.stringify({chat_id:CHAT_ID,text:text})
         });
         document.getElementById("success").innerText="Ariza muvaffaqiyatli yuborildi!";
-        setTimeout(()=>{window.location.href="bobo-kalonlar.html";},1500);
+        setTimeout(()=>{
+            localStorage.setItem("redirectedToBobo","true");
+            window.location.href="bobo-kalonlar.html";
+        },1500);
     } catch(err){
         alert("Telegramga yuborishda xatolik yuz berdi.");
     }
 });
 
-// delete
-function clearData(){
-    localStorage.clear();
-    alert("Barcha saqlangan ma'lumotlar o'chirildi!");
-    location.reload();
-}
+// Delete all
+deleteBtn.addEventListener("click", ()=>{
+    if(confirm("Hamma saqlangan ma'lumotlar o'chirilsinmi?")){
+        localStorage.clear();
+        location.reload();
+    }
+});
 </script>
 
 </body>
