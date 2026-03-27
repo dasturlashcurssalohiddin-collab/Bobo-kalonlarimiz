@@ -2,159 +2,163 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Abdulla Avloniy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdulla Avloniy - Ma'rifatparvar</title>
 <style>
-body {
-    font-family: Arial;
-    background: #0f172a;
-    color: white;
-    text-align: center;
-    padding: 50px;
-}
-h1 {
-    font-size: 40px;
-}
-a {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #2563eb;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-}
+    :root {
+        --deep-slate: #0f172a;
+        --royal-gold: #d4af37;
+        --pure-white: #ffffff;
+        --accent-teal: #14b8a6;
+        --soft-gray: #94a3b8;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--deep-slate);
+        margin: 0;
+        line-height: 1.8;
+        color: #e2e8f0;
+    }
+    header {
+        background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1508780709619-79562169bc64');
+        background-size: cover;
+        padding: 100px 20px;
+        text-align: center;
+        border-bottom: 5px solid var(--royal-gold);
+    }
+    h1 {
+        font-size: 3rem;
+        color: var(--royal-gold);
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    .main-container {
+        max-width: 950px;
+        margin: -60px auto 60px;
+        background: #1e293b;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    .badge-row {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+    }
+    .badge {
+        background: var(--accent-teal);
+        padding: 8px 22px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    h2 {
+        color: var(--royal-gold);
+        border-left: 5px solid var(--accent-teal);
+        padding-left: 15px;
+        margin-top: 45px;
+    }
+    p { font-size: 1.15rem; text-align: justify; }
+    .highlight { color: var(--royal-gold); font-weight: bold; }
+    
+    .quote-section {
+        background: rgba(20, 184, 166, 0.1);
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        margin: 40px 0;
+        border-right: 5px solid var(--royal-gold);
+        font-style: italic;
+        font-size: 1.4rem;
+        color: var(--royal-gold);
+    }
+    .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+    }
+    .achievement-card {
+        background: rgba(255,255,255,0.03);
+        padding: 20px;
+        border-radius: 15px;
+        border-top: 3px solid var(--royal-gold);
+    }
+    .action-btns { text-align: center; margin-top: 60px; }
+    .btn {
+        display: inline-block;
+        padding: 15px 40px;
+        background: var(--royal-gold);
+        color: #000;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: 0.3s;
+        margin: 10px;
+    }
+    .btn:hover { background: #fff; transform: translateY(-3px); }
 </style>
 </head>
 <body>
 
-<h1>Abdulla Avloniy</h1>
-<p>Abdulla Avloniy (1878–1934) — o‘zbek ma’rifatparvari, pedagog, yozuvchi, shoir va jamoat arbobi. U o‘zbek xalqining savodli, bilimli va zamonaviy bo‘lishi uchun katta xizmat qilgan. Avloniy jadidchilik harakatining eng muhim vakillaridan biri bo‘lib, yangi usul maktablarini rivojlantirishda faol qatnashgan.
-</p>
-⸻
+<header>
+    <h1>Abdulla Avloniy</h1>
+    <p style="font-size: 1.5rem; color: #94a3b8;">O‘zbekiston ma'rifatparvari, pedagog va jamiyat arbobi</p>
+</header>
 
-Tug‘ilishi va bolaligi
+<div class="main-container">
+    <div class="badge-row">
+        <span class="badge">1878 - 1914</span>
+        <span class="badge">Xiva</span>
+        <span class="badge">Pedagog</span>
+        <span class="badge">Ma'rifatparvar</span>
+    </div>
 
-Abdulla Avloniy 1878-yilda Tashkent shahrida tug‘ilgan. U oddiy hunarmand oilasida voyaga yetgan.
+    <p><b>Abdulla Avloniy</b> — o‘z davrining eng faol ma'rifatparvarlaridan biri bo‘lib, pedagog, jurnalist va davlat arbobi sifatida tanilgan. U o‘z faoliyati orqali milliy ma'rifat, ta'lim tizimi va o‘zbek madaniyatini rivojlantirishga katta hissa qo‘shgan.</p>
 
-Bolaligidan ilmga qiziqqan Avloniy dastlab eski maktabda ta’lim oladi. Keyinchalik u o‘z ustida mustaqil ishlab, zamonaviy bilimlarni ham o‘rganadi.
+    <div class="quote-section">
+        "Ilm — millatning tomiri."
+    </div>
 
-U yoshligidan she’r yozishga va kitob o‘qishga qiziqqan.
-</p>
-⸻
+    <h2>Hayoti</h2>
+    <p>Abdulla Avloniy 1878-yilda Xiva shahrida tavallud topgan. Yoshligidan ilm-fanga qiziqqan, turli maktablarda tahsil olgan va ma'rifatparvarlar bilan yaqindan tanishgan. Uning hayoti qisqa bo‘lsa-da, milliy ma'rifatni rivojlantirish yo‘lida katta faoliyat yuritgan.</p>
 
-Ta’lim va shakllanish
+    <h2>Ta'lim va pedagogik faoliyati</h2>
+    <p>Abdulla Avloniy maktablar ochib, yoshlarni ta'limga jalb qilgan. U o‘zbek tilining rivoji va milliy madaniyatni saqlashga alohida e'tibor bergan. U yozgan darsliklar va pedagogik materiallar keyingi avlod uchun asos bo‘lib xizmat qilgan.</p>
 
-Avloniy o‘z davrining ilg‘or fikrli insonlaridan biri edi. U faqat diniy bilimlar bilan cheklanib qolmay, dunyoviy fanlarni ham o‘rganishga harakat qilgan.
+    <h2>Matbuotdagi ishlari</h2>
+    <p>U matbuot orqali jamiyatni ma'rifatga chaqirgan, maqolalar yozgan va turli nashrlarni targ‘ib qilgan. Uning maqolalari milliy o‘zlikni saqlash, ta'lim va ilm-fan rivoji haqida bo‘lgan.</p>
 
-U jadidchilik g‘oyalarini qo‘llab-quvvatlagan. Jadidchilik — xalqni savodli qilish, zamonaviy ta’limni rivojlantirish va jamiyatni yangilashga qaratilgan harakat edi.
-</p>
-⸻
+    <h2>Asarlari</h2>
+    <p>Abdulla Avloniy ko‘plab maqolalar, darsliklar va pedagogik asarlar yaratgan. U yosh avlodni tarbiyalash va milliy qadriyatlarni o‘rgatish bo‘yicha ishlagan. Asarlari orasida ta'lim metodikalari, tarixiy maqolalar va milliy madaniyatni targ‘ib qiluvchi materiallar mavjud.</p>
 
-Pedagogik faoliyati
+    <h2>Merosi</h2>
+    <p>Uning merosi bugungi kunda ham ta'lim va madaniyat sohasida qadrlanadi. Ko‘plab maktablar, kutubxonalar va jamoat muassasalari Abdulla Avloniy nomi bilan atalgan. Uning pedagogik ishlari zamonaviy o‘zbek ta'lim tizimiga asos bo‘lgan.</p>
 
-Abdulla Avloniy yangi usul maktablarini tashkil etgan. Bu maktablarda bolalar:
-	•	tezroq o‘qish va yozishni o‘rganishgan
-	•	matematika, geografiya, tarix kabi fanlarni o‘rganishgan
-	•	zamonaviy bilimlarga ega bo‘lishgan
+    <div class="achievements-grid">
+        <div class="achievement-card">
+            <h3 style="color:var(--accent-teal)">Maktablar ochish</h3>
+            <p>O‘zbek yoshlarini ta'lim bilan tanishtirgan va ilm-fanga yo‘naltirgan.</p>
+        </div>
+        <div class="achievement-card">
+            <h3 style="color:var(--accent-teal)">Pedagogik materiallar</h3>
+            <p>Darsliklar, maqolalar va pedagogik qo‘llanmalar yaratgan.</p>
+        </div>
+        <div class="achievement-card">
+            <h3 style="color:var(--accent-teal)">Jamiyatda ma'rifatparvarlik</h3>
+            <p>Matbuot va jamoat faoliyati orqali milliy ma'rifatni targ‘ib qilgan.</p>
+        </div>
+    </div>
 
-Avloniy o‘qituvchilikni juda muhim kasb deb bilgan. U yoshlarni bilimli va tarbiyali qilib yetishtirishni o‘zining asosiy maqsadi deb hisoblagan.
-</p>
-⸻
-
-Asarlari
-
-Abdulla Avloniy ko‘plab asarlar yozgan. U o‘z asarlarida ilm, tarbiya, axloq va jamiyat masalalarini yoritgan.
-
-“Turkiy Guliston yoxud axloq”
-
-Uning eng mashhur asarlaridan biri —
-Turkiy Guliston yoxud axloq hisoblanadi.
-
-Bu asarda Avloniy yoshlarni yaxshi xulqli, halol, odobli va bilimli bo‘lishga chaqiradi. U inson uchun eng muhim narsa — yaxshi tarbiya ekanini ta’kidlaydi.
-
-Asarda quyidagi g‘oyalar ilgari suriladi:
-	•	ilm olishning ahamiyati
-	•	yaxshi xulq va odob
-	•	vatanparvarlik
-	•	halollik va mehnatsevarlik
-</p>
-⸻
-
-Adabiy faoliyati
-
-Avloniy nafaqat pedagog, balki shoir va yozuvchi ham bo‘lgan. U she’rlar, hikoyalar va dramalar yozgan.
-
-Uning asarlarida:
-	•	xalqning og‘ir ahvoli
-	•	jaholatning zararli tomonlari
-	•	ilmning foydasi
-
-kabi mavzular yoritilgan.
-
-Avloniy o‘z asarlari orqali xalqni uyg‘otishga, o‘ylashga va o‘rganishga chaqirgan.
-</p>
-⸻
-
-Jadidchilikdagi o‘rni
-
-Abdulla Avloniy jadidchilik harakatining yetakchi vakillaridan biri edi. U xalqni savodli qilish orqali jamiyatni rivojlantirish mumkin deb hisoblagan.
-
-U boshqa jadidlar bilan birga maktablar ochgan, darsliklar yozgan va teatr faoliyatini rivojlantirgan.
-
-Avloniy xalqni jaholatdan chiqarish uchun butun umrini bag‘ishlagan.
-</p>
-⸻
-
-Teatr faoliyati
-
-Avloniy o‘zbek teatrining rivojlanishiga ham katta hissa qo‘shgan. U sahna asarlarini yozgan va teatr tashkil etishda ishtirok etgan.
-
-Teatr orqali u odamlarni o‘ylashga, to‘g‘ri yo‘l tanlashga undagan.
-</p>
-⸻
-
-Jamiyatdagi o‘rni
-
-Avloniy faqat yozuvchi yoki o‘qituvchi bo‘lib qolmagan, balki jamiyat hayotida ham faol qatnashgan.
-
-U xalq manfaatini himoya qilgan, ta’limni rivojlantirish uchun kurashgan.
-
-Uning asosiy maqsadi — o‘zbek xalqini rivojlangan, bilimli va madaniyatli qilish edi.
-</p>
-⸻
-
-So‘nggi yillari
-
-Hayotining so‘nggi yillarida Avloniy ta’lim va ijod bilan shug‘ullanishda davom etgan.
-
-U 1934-yilda vafot etgan.
-</p>
-⸻
-
-Avloniy merosi
-
-Abdulla Avloniyning merosi bugungi kunda ham juda muhim hisoblanadi. Uning asarlari maktablarda o‘rganiladi.
-
-O‘zbekistonda uning nomi bilan:
-	•	maktablar
-	•	ko‘chalar
-	•	kutubxonalar
-
-nomlangan.
-
-Uning g‘oyalari hozirgi ta’lim tizimida ham o‘z ahamiyatini yo‘qotmagan.
-</p>
-⸻
-
-Xulosa
-
-Abdulla Avloniy — o‘zbek xalqining buyuk ma’rifatparvari. U xalqni ilmga, tarbiyaga va taraqqiyotga chaqirgan.
-
-Uning asarlari va faoliyati bugungi kunda ham yoshlar uchun katta ahamiyatga ega. Avloniy insonning eng katta boyligi — bilim va tarbiya ekanini o‘z hayoti bilan isbotlagan.</p>
-
-<a href="https://youtu.be/uzBIgXHXX7A?si=FY8mkL3DaA-1AQsF">Abdulla Avloniy haqida video</a>
-
-<a href="index.html">⬅️ Orqaga qaytish</a>
+    <div class="action-btns">
+        <a href="https://youtu.be/uzBIgXHXX7A?si=iAaD-tNRi9DgVvve" class="btn">📖 Batafsil bilish uchun video</a>
+        <a href="index.html" class="btn" style="background:#475569; color:white;">⬅️ Orqaga</a>
+    </div>
+</div>
 
 </body>
 </html>
