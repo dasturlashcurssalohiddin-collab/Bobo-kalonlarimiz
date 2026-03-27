@@ -78,7 +78,7 @@ function handleCredentialResponse(res){
     localStorage.setItem("userName", data.name);
     localStorage.setItem("userEmail", data.email);
 
-    // Agar birinchi login bo'lsa redirect flag yo'q bo'lsa
+    // Birinchi marta login bo'lsa redirect
     if(!localStorage.getItem("redirectedToBobo")){
         localStorage.setItem("redirectedToBobo", "true");
         window.location.href = "bobo-kalonlar.html";
@@ -98,19 +98,22 @@ window.onload = () => {
 
     const nameSaved = localStorage.getItem("userName");
     const emailSaved = localStorage.getItem("userEmail");
+    const redirected = localStorage.getItem("redirectedToBobo");
 
+    // Agar foydalanuvchi ma'lumot saqlagan va redirect qilinmagan bo'lsa
+    if(nameSaved && !redirected){
+        localStorage.setItem("redirectedToBobo", "true");
+        window.location.href="bobo-kalonlar.html";
+        return;
+    }
+
+    // Formani ko'rsatish va saqlangan ma'lumotlarni yuklash
     if(nameSaved){
         userBtn.style.display="block";
         userBtn.innerText = nameSaved;
         form.style.display="block";
         document.getElementById("email").value = emailSaved;
-    }
 
-    // Agar foydalanuvchi oldin login qilgan va index.html dan kirsa
-    const redirected = localStorage.getItem("redirectedToBobo");
-    if(nameSaved && redirected && window.location.pathname.endsWith("index.html")){
-        // Indexdan kirsa, yo'naltirish qilinmasin
-        // formdagi ma'lumotlar saqlangan holatda qoladi
         const savedDay = localStorage.getItem("day");
         const savedMonth = localStorage.getItem("month");
         const savedYear = localStorage.getItem("year");
