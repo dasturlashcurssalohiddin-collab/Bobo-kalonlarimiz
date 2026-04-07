@@ -37,24 +37,20 @@ button:hover { background-color:#357ae8; }
 </div>
 
 <script>
-// Google Client ID va backend URL
 const CLIENT_ID = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
-const API_URL = "https://bobo-kalonlarimiz-haqida.onrender.com/send"; // /send endpoint to'g'ri yozilgan
+const API_URL = "https://bobo-kalonlarimiz-haqida.onrender.com/send"; // /send endpoint
 
-// Google Login Callback
 function handleCredentialResponse(res){
    const data = jwt_decode(res.credential);
    document.getElementById("form").style.display = "block";
    document.getElementById("email").value = data.email;
 }
 
-// Google button render
 window.onload = () => {
    google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
    google.accounts.id.renderButton(document.getElementById("gSignIn"), { size: "large" });
 };
 
-// Form submit
 document.getElementById("form").addEventListener("submit", async (e)=>{
    e.preventDefault();
 
@@ -85,10 +81,10 @@ document.getElementById("form").addEventListener("submit", async (e)=>{
            alert("Yuborildi!");
            window.location.href = "bobo-kalonlar.html";
        } else {
-           alert("Xatolik!");
+           alert("Xatolik: " + (result.error || ""));
        }
 
-   } catch(err) {
+   } catch(err){
        alert("Serverga ulanishda xatolik: " + err);
    }
 });
