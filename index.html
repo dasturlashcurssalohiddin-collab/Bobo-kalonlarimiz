@@ -2,230 +2,89 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Ariza Formasi | Index</title>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
-<style>
-/* BODY & CONTAINER */
-body {font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
-.container {background:#fff;padding:40px 30px;border-radius:20px;width:100%;max-width:500px;box-shadow:0 15px 40px rgba(0,0,0,0.25);transition:0.3s;z-index:1;position:relative;}
-.container:hover {transform:translateY(-5px);}
-h2 {text-align:center;margin-bottom:25px;color:#333;font-size:26px;}
-
-/* FORM ELEMENTS */
-input, select, textarea, button {width:100%;padding:12px;margin:8px 0 15px;border-radius:10px;border:1px solid #ccc;font-size:15px;box-sizing:border-box;transition:0.3s;}
-input:focus, select:focus, textarea:focus {border-color:#667eea;box-shadow:0 0 8px rgba(102,126,234,0.4);outline:none;}
-textarea {resize:none;}
-button {background:linear-gradient(135deg,#667eea,#5a67d8);color:white;border:none;font-weight:bold;cursor:pointer;transition:0.3s;}
-button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);box-shadow:0 5px 15px rgba(0,0,0,0.2);}
-.error {color:red;font-size:13px;margin-top:-10px;margin-bottom:5px;}
-.success {color:green;text-align:center;font-weight:bold;margin-top:10px;font-size:15px;}
-.checkbox-group label {display:block;margin:5px 0;font-size:14px;}
-
-/* DELETE BUTTON */
-.delete-btn {background:red;color:white;padding:10px 20px;margin-top:10px;border:none;border-radius:8px;cursor:pointer;}
-
-/* INTRO FULLSCREEN */
-#intro {
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:black;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-}
-#intro video {
-    max-width:100%;
-    max-height:100%;
-}
-</style>
+<title>Ariza Formasi</title>
+<script src="https://accounts.google.com/gsi/client
+" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js
+"></script>
 </head>
 <body>
 
 
-<div class="container">
-<h2>Ariza Formasi</h2>
+<h2>Google orqali kirish</h2>
 <div id="gSignIn"></div>
-<button id="userBtn" style="display:none;margin-bottom:20px;"></button>
+
+
 <form id="form" style="display:none;">
-<label>F.I.SH:</label>
-<input type="text" id="name" placeholder="Ism Familiya"><div id="nameError" class="error"></div>
-
-<label>Tug‘ilgan sana:</label>
-<div style="display:flex; gap:10px;">
-<input type="number" id="day" placeholder="Kun" min="1" max="31">
-<input type="number" id="month" placeholder="Oy" min="1" max="12">
-<input type="number" id="year" placeholder="Yil" min="1900" max="2026">
-</div>
-<div id="birthError" class="error"></div>
-
-<label>Yashash joyi:</label>
-<input type="text" id="city" placeholder="Shahar, Viloyat"><div id="cityError" class="error"></div>
-
-<label>Hobbi (bir yoki bir nechta tanlang):</label>
-<div class="checkbox-group">
-<label><input type="checkbox" name="hobby" value="Kitob o‘qish"> Kitob o‘qish</label>
-<label><input type="checkbox" name="hobby" value="Sport"> Sport</label>
-<label><input type="checkbox" name="hobby" value="Musiqa"> Musiqa</label>
-<label><input type="checkbox" name="hobby" value="Sayohat"> Sayohat</label>
-</div>
-<div id="hobbyError" class="error"></div>
-
-<label>Email:</label>
-<input type="text" id="email" readonly><div id="emailError" class="error"></div>
-
-<label>Telefon:</label>
-<input type="text" id="phone" placeholder="901234567"><div id="phoneError" class="error"></div>
-
-<label>Qo‘shimcha ma’lumot:</label>
-<textarea id="extra" placeholder="Istalgan qo‘shimcha ma’lumot"></textarea>
-
+<input type="text" id="name" placeholder="Ism">
+<input type="text" id="city" placeholder="Shahar">
+<input type="text" id="phone" placeholder="Telefon">
+<input type="text" id="email" readonly>
 <button type="submit">Yuborish</button>
-<div id="success" class="success"></div>
 </form>
 
-<button class="delete-btn" onclick="clearData()">Delete</button>
-</div>
 
 <script>
-const CLIENT_ID = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
-const BOT_TOKEN = "8656295440:AAEUBRVs4umfJkh-YPm3XMJh52R3e9l56bw";
-const CHAT_ID = "6283517295";
+const CLIENT_ID = "SENING_GOOGLE_CLIENT_ID";
+const API_URL = "http://localhost:3000/send"; // backend
 
-const form = document.getElementById("form");
-const userBtn = document.getElementById("userBtn");
 
-// Google login callback
 function handleCredentialResponse(res){
-    const data = jwt_decode(res.credential);
-    localStorage.setItem("userName", data.name);
-    localStorage.setItem("userEmail", data.email);
-    localStorage.setItem("redirectedToBobo","true"); 
-    userBtn.style.display="block";
-    userBtn.innerText = data.name;
-    form.style.display="block";
-    document.getElementById("email").value = data.email;
-    window.location.href = "bobo-kalonlar.html"; 
+   const data = jwt_decode(res.credential);
+
+
+   document.getElementById("form").style.display = "block";
+   document.getElementById("email").value = data.email;
 }
 
-// sahifa yuklanganda tekshirish
+
 window.onload = () => {
-    google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
-    google.accounts.id.renderButton(document.getElementById("gSignIn"), { size: "large" });
+   google.accounts.id.initialize({
+       client_id: CLIENT_ID,
+       callback: handleCredentialResponse
+   });
 
-    const nameSaved = localStorage.getItem("userName");
-    const emailSaved = localStorage.getItem("userEmail");
-    const redirected = localStorage.getItem("redirectedToBobo");
 
-    if(nameSaved && !redirected && window.location.pathname.endsWith("index.html")){
-        localStorage.setItem("redirectedToBobo","true");
-        window.location.href = "bobo-kalonlar.html";
-        return;
-    }
-
-    if(nameSaved){
-        userBtn.style.display="block";
-        userBtn.innerText = nameSaved;
-        form.style.display="block";
-        document.getElementById("email").value = emailSaved;
-
-        document.getElementById("name").value = localStorage.getItem("formName") || "";
-        document.getElementById("day").value = localStorage.getItem("formDay") || "";
-        document.getElementById("month").value = localStorage.getItem("formMonth") || "";
-        document.getElementById("year").value = localStorage.getItem("formYear") || "";
-        document.getElementById("city").value = localStorage.getItem("formCity") || "";
-        document.getElementById("phone").value = localStorage.getItem("formPhone") || "";
-        document.getElementById("extra").value = localStorage.getItem("formExtra") || "";
-
-        const savedHobbies = JSON.parse(localStorage.getItem("formHobbies") || "[]");
-        savedHobbies.forEach(hobby => {
-            const checkbox = document.querySelector(`input[name="hobby"][value="${hobby}"]`);
-            if(checkbox) checkbox.checked = true;
-        });
-    }
+   google.accounts.id.renderButton(
+       document.getElementById("gSignIn"),
+       { size: "large" }
+   );
 };
 
-// form validate
-function validate(data){
-    let ok=true;
-    document.querySelectorAll(".error").forEach(el=>el.innerText="");
-    if(!/^[A-Za-z\s]{3,}$/.test(data.name)){document.getElementById("nameError").innerText="Ism noto‘g‘ri!"; ok=false;}
-    if(data.day<1||data.day>31||data.month<1||data.month>12||data.year<1900){document.getElementById("birthError").innerText="Sana noto‘g‘ri!"; ok=false;}
-    if(!data.city){document.getElementById("cityError").innerText="Yashash joyi kiritilmagan!"; ok=false;}
-    if(data.hobbies.length===0){document.getElementById("hobbyError").innerText="Hobbi tanlanmagan!"; ok=false;}
-    if(!/^[0-9]{9}$/.test(data.phone)){document.getElementById("phoneError").innerText="Telefon noto‘g‘ri!"; ok=false;}
-    return ok;
-}
 
-// form submit
-form.addEventListener("submit", async function(e){
-    e.preventDefault();
-    const data={
-        name: document.getElementById("name").value.trim(),
-        day: parseInt(document.getElementById("day").value),
-        month: parseInt(document.getElementById("month").value),
-        year: parseInt(document.getElementById("year").value),
-        city: document.getElementById("city").value.trim(),
-        hobbies: Array.from(document.querySelectorAll("input[name='hobby']:checked")).map(i=>i.value),
-        email: document.getElementById("email").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        extra: document.getElementById("extra").value.trim()
-    };
+// FORM SUBMIT
+document.getElementById("form").addEventListener("submit", async (e)=>{
+   e.preventDefault();
 
-    if(!validate(data)){
-        alert("Formada xatolik bor, to‘liq va to‘g‘ri to‘ldiring.");
-        return;
-    }
 
-    localStorage.setItem("formName", data.name);
-    localStorage.setItem("formDay", data.day);
-    localStorage.setItem("formMonth", data.month);
-    localStorage.setItem("formYear", data.year);
-    localStorage.setItem("formCity", data.city);
-    localStorage.setItem("formPhone", data.phone);
-    localStorage.setItem("formExtra", data.extra);
-    localStorage.setItem("formHobbies", JSON.stringify(data.hobbies));
+   const data = {
+       name: document.getElementById("name").value,
+       city: document.getElementById("city").value,
+       phone: document.getElementById("phone").value,
+       email: document.getElementById("email").value
+   };
 
-    const text=`📥 Yangi Ariza:
-👤 F.I.SH: ${data.name}
-🎂 Tug‘ilgan sana: ${data.day}/${data.month}/${data.year}
-🏠 Yashash joyi: ${data.city}
-🎨 Hobbi: ${data.hobbies.join(", ")}
-📧 Email: ${data.email}
-📱 Telefon: ${data.phone}
-📝 Qo‘shimcha: ${data.extra}`;
 
-    try{
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({chat_id:CHAT_ID,text:text})
-        });
-        document.getElementById("success").innerText="Ariza muvaffaqiyatli yuborildi!";
-        setTimeout(()=>{window.location.href="bobo-kalonlar.html";},1500);
-    } catch(err){
-        alert("Telegramga yuborishda xatolik yuz berdi.");
-    }
+   const res = await fetch(API_URL,{
+       method:"POST",
+       headers:{"Content-Type":"application/json"},
+       body:JSON.stringify(data)
+   });
+
+
+   const result = await res.json();
+
+
+   if(result.success){
+       alert("Yuborildi!");
+       window.location.href = "bobo-kalonlar.html";
+   }else{
+       alert("Xatolik!");
+   }
 });
-
-// delete
-function clearData(){
-    localStorage.clear();
-    alert("Barcha saqlangan ma'lumotlar o'chirildi!");
-    location.reload();
-}
-
-// INTRO VIDEO CLOSE
-setTimeout(() => {
-    const intro = document.getElementById("intro");
-    intro.style.opacity = "0";
-    intro.style.transition = "0.8s";
-    setTimeout(() => { intro.style.display = "none"; }, 800);
-}, 5000);
 </script>
+
+
 </body>
 </html>
+
