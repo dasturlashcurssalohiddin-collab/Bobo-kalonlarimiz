@@ -37,8 +37,10 @@ button:hover { background-color:#357ae8; }
 </div>
 
 <script>
+// 👇 Render.com endpoint bilan
+const API_URL = "https://bobo-kalonlarimiz-haqida.onrender.com/send";
+
 const CLIENT_ID = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
-const API_URL = "http://localhost:3000/send"; // yoki Render.com: https://bobo-kalonlarimiz-haqida.onrender.com/send
 
 function handleCredentialResponse(res){
    const data = jwt_decode(res.credential);
