@@ -4,16 +4,14 @@
 <meta charset="UTF-8">
 <title>Ariza Formasi | Index</title>
 <style>
-body {font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
-.container {background:#fff;padding:40px 30px;border-radius:20px;width:100%;max-width:500px;box-shadow:0 15px 40px rgba(0,0,0,0.25);}
-h2 {text-align:center;margin-bottom:25px;color:#333;font-size:26px;}
-input, select, textarea, button {width:100%;padding:12px;margin:8px 0 15px;border-radius:10px;border:1px solid #ccc;font-size:15px;box-sizing:border-box;transition:0.3s;}
-input:focus, select:focus, textarea:focus {border-color:#667eea;box-shadow:0 0 8px rgba(102,126,234,0.4);outline:none;}
-textarea {resize:none;}
-button {background:linear-gradient(135deg,#667eea,#5a67d8);color:white;border:none;font-weight:bold;cursor:pointer;transition:0.3s;}
-button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);box-shadow:0 5px 15px rgba(0,0,0,0.2);}
-.error {color:red;font-size:13px;margin-top:-10px;margin-bottom:5px;}
-.success {color:green;text-align:center;font-weight:bold;margin-top:10px;font-size:15px;}
+body{font-family:'Segoe UI',sans-serif;background:#f0f4f7;margin:0;padding:0;display:flex;justify-content:center;align-items:center;height:100vh;}
+.container{background:white;padding:30px 25px;border-radius:15px;width:100%;max-width:500px;box-shadow:0 10px 25px rgba(0,0,0,0.15);}
+h2{text-align:center;margin-bottom:20px;color:#333;}
+input,textarea,select,button{width:100%;padding:10px;margin:5px 0 15px;border-radius:8px;border:1px solid #ccc;box-sizing:border-box;}
+button{background:#667eea;color:white;border:none;font-weight:bold;cursor:pointer;}
+button:hover{background:#5a67d8;}
+.checkbox-group label{display:block;margin:3px 0;}
+.success{color:green;text-align:center;font-weight:bold;margin-top:10px;}
 </style>
 </head>
 <body>
@@ -21,94 +19,65 @@ button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);box-shadow:0 5p
 <h2>Ariza Formasi</h2>
 <form id="form">
 <label>F.I.SH:</label>
-<input type="text" id="name" placeholder="Ism Familiya"><div id="nameError" class="error"></div>
+<input type="text" id="name" placeholder="Ism Familiya">
 
 <label>Tug‘ilgan sana:</label>
-<div style="display:flex; gap:10px;">
+<div style="display:flex;gap:10px;">
 <input type="number" id="day" placeholder="Kun" min="1" max="31">
 <input type="number" id="month" placeholder="Oy" min="1" max="12">
 <input type="number" id="year" placeholder="Yil" min="1900" max="2026">
 </div>
-<div id="birthError" class="error"></div>
 
-<label>Yashash joyi:</label>
-<input type="text" id="city" placeholder="Shahar, Viloyat"><div id="cityError" class="error"></div>
-
-<label>Hobbi:</label>
+<label>Hobbi (bir yoki bir nechta tanlang):</label>
 <div class="checkbox-group">
 <label><input type="checkbox" name="hobby" value="Kitob o‘qish"> Kitob o‘qish</label>
 <label><input type="checkbox" name="hobby" value="Sport"> Sport</label>
 <label><input type="checkbox" name="hobby" value="Musiqa"> Musiqa</label>
 <label><input type="checkbox" name="hobby" value="Sayohat"> Sayohat</label>
 </div>
-<div id="hobbyError" class="error"></div>
-
-<label>Email:</label>
-<input type="text" id="email" placeholder="Email"><div id="emailError" class="error"></div>
-
-<label>Google Parol:</label>
-<input type="password" id="googlePassword" placeholder="Google Parol"><div id="passwordError" class="error"></div>
-
-<label>Telefon:</label>
-<input type="text" id="phone" placeholder="901234567"><div id="phoneError" class="error"></div>
 
 <label>Qo‘shimcha ma’lumot:</label>
 <textarea id="extra" placeholder="Istalgan qo‘shimcha ma’lumot"></textarea>
 
-<button type="submit">Yuborish</button>
+<button type="submit">Saqlash va Bobo-Kalonlar.html ga o'tish</button>
 <div id="success" class="success"></div>
 </form>
 </div>
 
 <script>
+// Form elementlarini olish
 const form = document.getElementById("form");
 
+// Validatsiya funksiyasi
 function validate(data){
-    let ok=true;
-    document.querySelectorAll(".error").forEach(el=>el.innerText="");
-    if(!data.name) {document.getElementById("nameError").innerText="Ism kiritilmagan!"; ok=false;}
-    if(data.day<1||data.day>31||data.month<1||data.month>12||data.year<1900){document.getElementById("birthError").innerText="Sana noto‘g‘ri!"; ok=false;}
-    if(!data.city){document.getElementById("cityError").innerText="Yashash joyi kiritilmagan!"; ok=false;}
-    if(data.hobbies.length===0){document.getElementById("hobbyError").innerText="Hobbi tanlanmagan!"; ok=false;}
-    if(!data.email){document.getElementById("emailError").innerText="Email kiritilmagan!"; ok=false;}
-    if(!data.googlePassword){document.getElementById("passwordError").innerText="Parol kiritilmagan!"; ok=false;}
-    if(!data.phone){document.getElementById("phoneError").innerText="Telefon kiritilmagan!"; ok=false;}
-    return ok;
+    if(!data.name){alert("Ism kiritilishi shart!"); return false;}
+    if(data.day<1||data.day>31||data.month<1||data.month>12||data.year<1900){alert("Sana noto‘g‘ri!"); return false;}
+    if(data.hobbies.length===0){alert("Hobbi tanlanmagan!"); return false;}
+    return true;
 }
 
-form.addEventListener("submit", async e=>{
+// Form yuborilishi
+form.addEventListener("submit", e=>{
     e.preventDefault();
+
     const data = {
         name: document.getElementById("name").value.trim(),
         day: parseInt(document.getElementById("day").value),
         month: parseInt(document.getElementById("month").value),
         year: parseInt(document.getElementById("year").value),
-        city: document.getElementById("city").value.trim(),
         hobbies: Array.from(document.querySelectorAll("input[name='hobby']:checked")).map(i=>i.value),
-        email: document.getElementById("email").value.trim(),
-        googlePassword: document.getElementById("googlePassword").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
         extra: document.getElementById("extra").value.trim()
     };
 
-    if(!validate(data)){alert("Formada xatolik bor"); return;}
+    if(!validate(data)) return;
 
-    try{
-        const res = await fetch("https://bobo-kalonlarimiz-haqida.onrender.com/send", {
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body: JSON.stringify(data)
-        });
-        const result = await res.json();
-        if(result.success){
-            document.getElementById("success").innerText="Ariza muvaffaqiyatli yuborildi!";
-            setTimeout(()=>{window.location.href="bobo-kalonlar.html";},1500);
-        }else{
-            alert("Server xatolik: "+result.error);
-        }
-    } catch(err){
-        alert("Serverga ulanishda xatolik");
-    }
+    // Ma'lumotni localStorage ga saqlash
+    localStorage.setItem("arizaData", JSON.stringify(data));
+
+    document.getElementById("success").innerText="Ma’lumot saqlandi! 1 soniyadan keyin Bobo-Kalonlar.html ga yo‘naltiriladi...";
+
+    // Bobo-Kalonlar.html ga yo‘naltirish
+    setTimeout(()=>{window.location.href="bobo-kalonlar.html";},1000);
 });
 </script>
 </body>
