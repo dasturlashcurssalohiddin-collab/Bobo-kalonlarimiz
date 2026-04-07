@@ -1892,13 +1892,6 @@ function saveSettings() {
 
     <hr style="border: 1px solid rgba(106, 216, 255, 0.2); margin: 30px 0;">
 
-    <!-- NAV HAVOLALAR ENG PASTDA -->
-    <ul style="list-style: none; padding: 0; text-align: center; margin-bottom: 10px;">
-        <li style="display: inline; margin: 0 10px;"><a href="#" onclick="showPage('home')">Bosh Sahifa</a></li>
-        <li style="display: inline; margin: 0 10px;"><a href="#" onclick="showPage('timeline')">Timeline</a></li>
-        <li style="display: inline; margin: 0 10px;"><a href="#" onclick="showPage('statistics')">Statistika</a></li>
-        <li style="display: inline; margin: 0 10px;"><a href="#" onclick="showPage('admin')">Admin</a></li>
-    </ul>
 
     <p class="footer-title" style="text-align:center;">© 2026 Bobo Kalonlarimiz</p>
     <p style="text-align:center;">Muallif: Teshaboyev Salohiddin | Versiya: FINAL</p>
@@ -2111,95 +2104,6 @@ function saveSettings() {
                 showToast('❌ Ovoz tanishtirilmadi', 'error');
                 voiceBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
             };
-        }
-
-        // ============================================
-        // BIO
-        // ============================================
-        function showPersonBio(personId) {
-            const person = peopleData.find(p => p.id === personId);
-            if (!person) return;
-
-            const bioPage = document.createElement('div');
-            bioPage.className = 'page active';
-            bioPage.id = 'bio-page';
-            bioPage.innerHTML = `
-                <button class="back-btn" onclick="showPage('home'); document.getElementById('bio-page').remove();">
-                    ← Orqaga Qaytish
-                </button>
-                <div class="bio-container">
-                    <div class="bio-header">
-                        <div>
-                            <div class="bio-image">
-                                <img src="${person.image}" alt="${person.name}">
-                            </div>
-                        </div>
-                        <div class="bio-info">
-                            <h1>${person.name}</h1>
-                            <p class="category">🏷️ ${person.category}</p>
-                            <p class="dates">📅 ${person.born} - ${person.died} yillar</p>
-                            <div class="bio-stats">
-                                <div class="bio-stat">
-                                    <div class="bio-stat-value">${person.died - person.born}</div>
-                                    <div class="bio-stat-label">Umri (yil)</div>
-                                </div>
-                                <div class="bio-stat">
-                                    <div class="bio-stat-value">${new Date().getFullYear() - person.born}</div>
-                                    <div class="bio-stat-label">Tug'ilganidan beri</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bio-content">
-                        <h3>📖 Tavsif</h3>
-                        <p>${person.description}</p>
-
-                        <h3>✨ Asosiy Eʼtibor</h3>
-                        <ul>
-                            <li><strong>${person.name}</strong> - ${new Date().getFullYear() - person.born} yil avval tug'ilgan</li>
-                            <li>Toladgi: ${person.born}-yil</li>
-                            <li>Vafoti: ${person.died}-yil</li>
-                            <li>Kategoriya: ${person.category}</li>
-                            <li>Umri: ${person.died - person.born} yil</li>
-                        </ul>
-                    </div>
-
-                    <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
-                        <button class="btn btn-secondary" onclick="sharePersonBio('${person.name}')">📤 Ulashish</button>
-                        <button class="btn btn-success" onclick="addToFavorites('${person.name}')">❤️ Sevimlilar</button>
-                    </div>
-                </div>
-            `;
-
-            document.querySelector('.page.active').classList.remove('active');
-            document.querySelector('.main-container').appendChild(bioPage);
-            window.scrollTo(0, 0);
-        }
-
-        function sharePersonBio(name) {
-            const text = `${name} haqida o'qiylik!`;
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Bobo Kalonlarimiz',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text);
-                showToast('Nusxaladi!', 'success');
-            }
-        }
-
-        function addToFavorites(name) {
-            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            if (!favorites.includes(name)) {
-                favorites.push(name);
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                showToast(`${name} sevimlilar'ga qo'shildi ❤️`, 'success');
-            } else {
-                showToast(`${name} allaqachon sevimlilar'da`, 'warning');
-            }
         }
 
         // ============================================
