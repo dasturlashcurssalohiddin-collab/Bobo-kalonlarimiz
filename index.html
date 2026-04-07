@@ -2,25 +2,21 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Ariza Formasi | Index</title>
+<title>Ariza Formasi</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 <style>
-/* BODY & CONTAINER */
 body {font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
-.container {background:#fff;padding:40px 30px;border-radius:20px;width:100%;max-width:500px;box-shadow:0 15px 40px rgba(0,0,0,0.25);transition:0.3s;z-index:1;position:relative;}
-.container:hover {transform:translateY(-5px);}
+.container {background:#fff;padding:40px 30px;border-radius:20px;width:100%;max-width:500px;box-shadow:0 15px 40px rgba(0,0,0,0.25);}
 h2 {text-align:center;margin-bottom:25px;color:#333;font-size:26px;}
-
-/* FORM ELEMENTS */
-input, select, textarea, button {width:100%;padding:12px;margin:8px 0 15px;border-radius:10px;border:1px solid #ccc;font-size:15px;box-sizing:border-box;transition:0.3s;}
-input:focus, select:focus, textarea:focus {border-color:#667eea;box-shadow:0 0 8px rgba(102,126,234,0.4);outline:none;}
+input, textarea, button {width:100%;padding:12px;margin:8px 0 15px;border-radius:10px;border:1px solid #ccc;font-size:15px;box-sizing:border-box;}
+input:focus, textarea:focus {border-color:#667eea;box-shadow:0 0 8px rgba(102,126,234,0.4);outline:none;}
 textarea {resize:none;height:80px;}
-button {background:linear-gradient(135deg,#667eea,#5a67d8);color:white;border:none;font-weight:bold;cursor:pointer;transition:0.3s;}
-button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);box-shadow:0 5px 15px rgba(0,0,0,0.2);}
-.error {color:red;font-size:13px;margin-top:-10px;margin-bottom:5px;}
-.success {color:green;text-align:center;font-weight:bold;margin-top:10px;font-size:15px;}
-.delete-btn {background:#ff6b6b;color:white;padding:10px 20px;margin-top:10px;border:none;border-radius:8px;cursor:pointer;}
+button {background:linear-gradient(135deg,#667eea,#5a67d8);color:white;border:none;font-weight:bold;cursor:pointer;}
+button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);}
+.error {color:red;font-size:13px;margin-top:-10px;}
+.success {color:green;text-align:center;font-weight:bold;margin-top:10px;}
+.loading {color:blue;text-align:center;font-weight:bold;}
 </style>
 </head>
 <body>
@@ -29,36 +25,37 @@ button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);box-shadow:0 5p
 <h2>Ariza Formasi</h2>
 <div id="gSignIn"></div>
 <button id="userBtn" style="display:none;margin-bottom:20px;"></button>
+
 <form id="form" style="display:none;">
 <label>F.I.SH:</label>
-<input type="text" id="name" placeholder="Ism Familiya"><div id="nameError" class="error"></div>
+<input type="text" id="name" placeholder="Ism Familiya">
+<div id="nameError" class="error"></div>
 
 <label>Email:</label>
-<input type="text" id="email" readonly><div id="emailError" class="error"></div>
+<input type="text" id="email" readonly>
 
 <label>Telefon:</label>
-<input type="text" id="phone" placeholder="901234567"><div id="phoneError" class="error"></div>
+<input type="text" id="phone" placeholder="901234567">
+<div id="phoneError" class="error"></div>
 
 <label>Qo'shimcha ma'lumot:</label>
 <textarea id="extra" placeholder="Istalgan qo'shimcha ma'lumot"></textarea>
 
 <button type="submit">Yuborish</button>
+<div id="loading" class="loading" style="display:none;">⏳ Jo'natilmoqda...</div>
 <div id="success" class="success"></div>
 </form>
 
-<button class="delete-btn" onclick="clearData()" style="display:none;" id="deleteBtn">O'chirish</button>
+<button id="deleteBtn" style="display:none;margin-top:10px;background:#ff6b6b;cursor:pointer;" onclick="clearData()">O'chirish</button>
 </div>
 
 <script>
 const CLIENT_ID = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
-const BOT_TOKEN = "8656295440:AAEUBRVs4umfJkh-YPm3XMJh52R3e9l56bw";
-const CHAT_ID = "6283517295";
 
 const form = document.getElementById("form");
 const userBtn = document.getElementById("userBtn");
 const deleteBtn = document.getElementById("deleteBtn");
 
-// Google login callback
 function handleCredentialResponse(res){
     const data = jwt_decode(res.credential);
     localStorage.setItem("userName", data.name);
@@ -71,7 +68,6 @@ function handleCredentialResponse(res){
     document.getElementById("email").value = data.email;
 }
 
-// sahifa yuklanganda
 window.onload = () => {
     google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
     google.accounts.id.renderButton(document.getElementById("gSignIn"), { size: "large" });
@@ -85,15 +81,12 @@ window.onload = () => {
         deleteBtn.style.display = "block";
         form.style.display = "block";
         document.getElementById("email").value = emailSaved;
-        
-        // Oldingi ma'lumotlarni qayta ko'rsatish
         document.getElementById("name").value = localStorage.getItem("formName") || "";
         document.getElementById("phone").value = localStorage.getItem("formPhone") || "";
         document.getElementById("extra").value = localStorage.getItem("formExtra") || "";
     }
 };
 
-// form validate
 function validate(data){
     let ok = true;
     document.querySelectorAll(".error").forEach(el => el.innerText = "");
@@ -109,7 +102,6 @@ function validate(data){
     return ok;
 }
 
-// form submit
 form.addEventListener("submit", async function(e){
     e.preventDefault();
     
@@ -125,24 +117,20 @@ form.addEventListener("submit", async function(e){
         return;
     }
 
-    // Saqlash
     localStorage.setItem("formName", data.name);
     localStorage.setItem("formPhone", data.phone);
     localStorage.setItem("formExtra", data.extra);
 
-    // Telegram xabar
-    const text = `📥 Yangi Ariza:
-👤 F.I.SH: ${data.name}
-📧 Email: ${data.email}
-📱 Telefon: ${data.phone}
-📝 Qo'shimcha: ${data.extra}`;
+    document.getElementById("loading").style.display = "block";
 
     try{
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        const response = await fetch("/api/send-form", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({chat_id: CHAT_ID, text: text})
+            body: JSON.stringify(data)
         });
+        
+        const result = await response.json();
         
         if(response.ok){
             document.getElementById("success").innerText = "✅ Ariza muvaffaqiyatli yuborildi!";
@@ -150,14 +138,15 @@ form.addEventListener("submit", async function(e){
                 window.location.href = "bobo-kalonlar.html";
             }, 1500);
         } else {
-            alert("Telegramga yuborishda xatolik yuz berdi.");
+            alert("Xatolik: " + result.error);
+            document.getElementById("loading").style.display = "none";
         }
     } catch(err){
         alert("Xatolik: " + err.message);
+        document.getElementById("loading").style.display = "none";
     }
 });
 
-// delete
 function clearData(){
     if(confirm("Barcha ma'lumotlar o'chirilsinmi?")){
         localStorage.clear();
