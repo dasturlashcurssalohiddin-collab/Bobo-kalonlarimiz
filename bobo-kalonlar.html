@@ -1692,7 +1692,7 @@ window.onload = renderUsers;
                         </form>
                     </div>
 
-                <!-- SETTINGS TAB -->
+              <!-- SETTINGS TAB -->
 <div id="settings-tab" class="admin-tab-content">
   <div class="admin-form">
     <h3>⚙️ Umumiy Sozlamalar</h3>
@@ -1760,12 +1760,13 @@ window.onload = renderUsers;
 </style>
 
 <script>
+// ELEMENTLAR
 const translateToggle = document.getElementById("translateToggle");
 const translatePanel = document.getElementById("translatePanel");
 const translateSearch = document.getElementById("translateSearch");
 const translateButtons = document.getElementById("translateButtons");
 
-// Asosiy 15 til (5 asosiy + 10 qo‘shimcha)
+// 15 TA TIL
 const languages = [
   { code: 'uz', name: 'Uzbek', flag: '🇺🇿' },
   { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -1784,12 +1785,26 @@ const languages = [
   { code: 'nl', name: 'Dutch', flag: '🇳🇱' }
 ];
 
-// Panel toggle
+// PANEL TOGGLE
 translateToggle.addEventListener("click", () => {
   translatePanel.style.display = translatePanel.style.display === "block" ? "none" : "block";
 });
 
-// Render til tugmalari
+// Google Translate SCRIPT — faqat bir marta yuklanadi
+const gtScript = document.createElement('script');
+gtScript.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
+document.body.appendChild(gtScript);
+
+window.googleTranslateElementInit = function() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'uz',
+    includedLanguages: languages.map(x => x.code).join(','),
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'translatePanel');
+};
+
+// TIL TUGMALARINI RENDER
 function renderTranslateButtons(filter = "") {
   translateButtons.innerHTML = "";
   languages.filter(l => l.name.toLowerCase().includes(filter.toLowerCase()))
@@ -1798,64 +1813,65 @@ function renderTranslateButtons(filter = "") {
     btn.className = "lang-btn";
     btn.innerHTML = `${lang.flag} ${lang.name}`;
     btn.onclick = () => {
-      const gtScript = document.createElement('script');
-      gtScript.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
-      document.body.appendChild(gtScript);
-      window.googleTranslateElementInit = function() {
-        new google.translate.TranslateElement({
-          pageLanguage: 'uz',
-          includedLanguages: languages.map(x => x.code).join(','),
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false
-        }, 'translatePanel');
-        // Translate tilini o'zgartirish
-        const select = document.querySelector('#translatePanel select');
-        if(select) select.value = lang.code;
-        select.dispatchEvent(new Event('change'));
-      };
+      alert(`${lang.name} tilini Google Translate panelidan tanlang`);
     };
     translateButtons.appendChild(btn);
   });
 }
 
-// Qidiruv
+// QIDIRUV
 translateSearch.addEventListener("input", e => {
   renderTranslateButtons(e.target.value);
 });
 
-// Boshlang'ich render
+// BOSHLANG'ICH RENDER
 renderTranslateButtons();
+
+// SAQLASH FUNKSIYASI
+function saveSettings() {
+    const name = document.getElementById('siteName').value;
+    const desc = document.getElementById('siteDesc').value;
+    const keywords = document.getElementById('siteKeywords').value;
+    const email = document.getElementById('siteEmail').value;
+
+    localStorage.setItem('siteName', name);
+    localStorage.setItem('siteDesc', desc);
+    localStorage.setItem('siteKeywords', keywords);
+    localStorage.setItem('siteEmail', email);
+
+    alert("✅ Sozlamalar saqlandi!");
+}
 </script>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-section">
-                <h3>🏛️ Bobo Kalonlarimiz</h3>
-                <p>Tarixiy shaxslar haqida ta'limiy ensiklopediya</p>
-            </div>
-            <div class="footer-section">
-                <h3>🔗 Havolalar</h3>
-                <ul>
-                    <li><a href="#" onclick="showPage('home')">Bosh Sahifa</a></li>
-                    <li><a href="#" onclick="showPage('timeline')">Timeline</a></li>
-                    <li><a href="#" onclick="showPage('statistics')">Statistika</a></li>
-                    <li><a href="#" onclick="showPage('admin')">Admin</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>📧 Aloqa</h3>
-                <ul>
-                    <li><a href="mailto:admin@bobokalonlar.uz">📧 Email</a></li>
-                    <li><a href="#">🐦 Twitter</a></li>
-                    <li><a href="#">📱 Telegram</a></li>
-                </ul>
-            </div>
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-section">
+            <h3>🏛️ Bobo Kalonlarimiz</h3>
+            <p>Tarixiy shaxslar haqida ta'limiy ensiklopediya</p>
         </div>
-        <hr style="border: 1px solid rgba(106, 216, 255, 0.2); margin: 30px 0;">
-        <p class="footer-title">© 2026 Bobo Kalonlarimiz</p>
-        <p>Muallif: Teshaboyev Salohiddin | Versiya: FINAL</p>
-    </footer>
+        <div class="footer-section">
+            <h3>🔗 Havolalar</h3>
+            <ul>
+                <li><a href="#" onclick="showPage('home')">Bosh Sahifa</a></li>
+                <li><a href="#" onclick="showPage('timeline')">Timeline</a></li>
+                <li><a href="#" onclick="showPage('statistics')">Statistika</a></li>
+                <li><a href="#" onclick="showPage('admin')">Admin</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>📧 Aloqa</h3>
+            <ul>
+                <li><a href="mailto:admin@bobokalonlar.uz">📧 Email</a></li>
+                <li><a href="#">🐦 Twitter</a></li>
+                <li><a href="#">📱 Telegram</a></li>
+            </ul>
+        </div>
+    </div>
+    <hr style="border: 1px solid rgba(106, 216, 255, 0.2); margin: 30px 0;">
+    <p class="footer-title">© 2026 Bobo Kalonlarimiz</p>
+    <p>Muallif: Teshaboyev Salohiddin | Versiya: FINAL</p>
+</footer>
 
     <!-- TOP BUTTON -->
     <button id="topBtn" onclick="scrollToTop()">⬆️</button>
