@@ -1,50 +1,52 @@
-// server.js
-const express = require("express");
-const bodyParser = require("body-parser");
-const fs = require("fs");
-const fetch = require("node-fetch");
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Telegram ma'lumotlari
-const BOT_TOKEN = "TOKENINGIZNI_BU_YERGA";
-const CHAT_ID = "CHAT_ID_BU_YERGA";
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static('public')); // static fayllar uchun
 
-app.use(bodyParser.json());
-app.use(express.static("public")); // index.html shu yerda bo'ladi
+// Telegram config
+const BOT_TOKEN = process.env.BOT_TOKEN || "8656295440:AAEUBRVs4umfJkh-YPm3XMJh52R3e9l56bw";
+const CHAT_ID = process.env.CHAT_ID || "6283517295";
 
-// Route formni qabul qilish uchun
-app.post("/api/send-form", async (req, res) => {
-    const data = req.body;
-
-    // Telegramga yuborish
-    const text = `📥 Yangi Ariza:\n👤 F.I.SH: ${data.name}\n📧 Email: ${data.email}\n📱 Telefon: ${data.phone}\n📝 Qo'shimcha: ${data.extra}`;
-
+// API endpoint - formani qabul qilish
+app.post('/api/send-form', async (req, res) => {
     try {
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ chat_id: CHAT_ID, text })
+        const { name, email, phone, extra } = req.body;
+
+        // Validation
+        if(!name || !email || !phone){
+            return res.status(400).json({ error: "Barcha maydonlar to'ldirilishi kerak!" });
+        }
+
+        // Telegram xabar
+        const message = `📥 <b>Yangi Ariza</b>
+👤 <b>F.I.SH:</b> ${name}
+📧 <b>Email:</b> ${email}
+📱 <b>Telefon:</b> ${phone}
+📝 <b>Qo'shimcha:</b> ${extra || "yo'q"}`;
+
+        // Telegram API ga yuborish
+        await axios.post(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'HTML'
         });
 
-        // JSON faylga saqlash
-        const filePath = "./submissions.json";
-        let submissions = [];
-        if (fs.existsSync(filePath)) {
-            const oldData = fs.readFileSync(filePath);
-            submissions = JSON.parse(oldData);
-        }
-        submissions.push(data);
-        fs.writeFileSync(filePath, JSON.stringify(submissions, null, 2));
+        return res.json({ success: true, message: "Ariza muvaffaqiyatli yuborildi!" });
 
-        // Frontendga javob
-        res.json({ success: true });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, error: err.message });
+    } catch (error) {
+        console.error('Xatolik:', error.message);
+        return res.status(500).json({ error: "Server xatoligi yuz berdi" });
     }
 });
 
-app.listen(PORT, () => console.log(`Server ${PORT} portda ishlayapti...`));
+app.listen(PORT, () => {
+    console.log(`🚀 Server ${PORT} portda ishlamoqda`);
+});
