@@ -37,11 +37,10 @@ button:hover { background-color:#357ae8; }
 </div>
 
 <script>
-// Backend URL (Render.com)
 const API_URL = "https://bobo-kalonlarimiz-haqida.onrender.com/send";
-
 const CLIENT_ID = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
 
+// Google login callback
 function handleCredentialResponse(res){
    const data = jwt_decode(res.credential);
    document.getElementById("form").style.display = "block";
@@ -53,6 +52,7 @@ window.onload = () => {
    google.accounts.id.renderButton(document.getElementById("gSignIn"), { size: "large" });
 };
 
+// Form submit
 document.getElementById("form").addEventListener("submit", async (e)=>{
    e.preventDefault();
 
