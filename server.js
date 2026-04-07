@@ -9,14 +9,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Environment variables (Render.com yoki lokal .env)
+// Render.com Environment Variables: BOT_TOKEN va CHAT_ID
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
-// JSON faylga saqlash uchun yo‘l
+// JSON faylga saqlash yo'li
 const DATA_FILE = path.join(__dirname, "arizalar.json");
 
-// POST /send endpoint
+// POST /send
 app.post("/send", async (req, res) => {
     const { name, city, phone, email } = req.body;
 
