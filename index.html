@@ -2,117 +2,73 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Ariza Formasi | Index</title>
+<title>Ariza Formasi</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 <style>
-body {font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
-.container {background:#fff;padding:40px 30px;border-radius:20px;width:100%;max-width:500px;box-shadow:0 15px 40px rgba(0,0,0,0.25);}
-h2 {text-align:center;margin-bottom:25px;color:#333;font-size:26px;}
-input, textarea, button {width:100%;padding:12px;margin:8px 0 15px;border-radius:10px;border:1px solid #ccc;font-size:15px;box-sizing:border-box;transition:0.3s;}
-input:focus, textarea:focus {border-color:#667eea;box-shadow:0 0 8px rgba(102,126,234,0.4);outline:none;}
-textarea {resize:none;}
-button {background:linear-gradient(135deg,#667eea,#5a67d8);color:white;border:none;font-weight:bold;cursor:pointer;transition:0.3s;}
-button:hover {background:linear-gradient(135deg,#5a67d8,#4c51bf);}
-.error {color:red;font-size:13px;margin-top:-10px;margin-bottom:5px;}
-.success {color:green;text-align:center;font-weight:bold;margin-top:10px;font-size:15px;}
+body {font-family:sans-serif; background:#f0f0f0; display:flex; justify-content:center; align-items:center; height:100vh;}
+.container {background:#fff; padding:30px; border-radius:15px; width:400px; box-shadow:0 5px 20px rgba(0,0,0,0.2);}
+input, textarea, button {width:100%; padding:10px; margin:10px 0; border-radius:8px; border:1px solid #ccc; box-sizing:border-box;}
+button {background:#667eea; color:white; border:none; cursor:pointer;}
+button:hover {background:#5a67d8;}
 </style>
 </head>
 <body>
 <div class="container">
 <h2>Ariza Formasi</h2>
+
 <div id="gSignIn"></div>
-<button id="userBtn" style="display:none;margin-bottom:20px;"></button>
 
-<form id="form" style="display:none;">
-<label>F.I.SH:</label>
-<input type="text" id="name" placeholder="Ism Familiya"><div id="nameError" class="error"></div>
-
-<label>Email:</label>
-<input type="text" id="email" readonly><div id="emailError" class="error"></div>
-
-<label>Telefon:</label>
-<input type="text" id="phone" placeholder="901234567"><div id="phoneError" class="error"></div>
-
-<label>Qo‘shimcha ma’lumot:</label>
-<textarea id="extra" placeholder="Istalgan qo‘shimcha ma’lumot"></textarea>
-
-<button type="submit">Yuborish</button>
-<div id="success" class="success"></div>
+<form id="form" style="display:none;" onsubmit="submitForm(event)">
+  <input type="text" id="name" placeholder="F.I.SH" required>
+  <input type="text" id="email" placeholder="Email" readonly required>
+  <input type="text" id="phone" placeholder="Telefon">
+  <textarea id="extra" placeholder="Qo‘shimcha ma’lumot"></textarea>
+  <button type="submit">Yuborish</button>
 </form>
+
+<div id="success" style="color:green;"></div>
 </div>
 
 <script>
-const CLIENT_ID = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
+const CLIENT_ID = "SIZNING_GOOGLE_CLIENT_ID";
 
-const form = document.getElementById("form");
-const userBtn = document.getElementById("userBtn");
-
-// Google login callback
 function handleCredentialResponse(res){
     const data = jwt_decode(res.credential);
-    localStorage.setItem("userName", data.name);
-    localStorage.setItem("userEmail", data.email);
-
-    userBtn.style.display="block";
-    userBtn.innerText = data.name;
-    form.style.display="block";
+    document.getElementById("form").style.display="block";
     document.getElementById("email").value = data.email;
+    document.getElementById("name").value = data.name;
 }
 
-// sahifa yuklanganda tekshirish
 window.onload = () => {
     google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
     google.accounts.id.renderButton(document.getElementById("gSignIn"), { size: "large" });
-
-    const nameSaved = localStorage.getItem("userName");
-    const emailSaved = localStorage.getItem("userEmail");
-
-    if(nameSaved){
-        userBtn.style.display="block";
-        userBtn.innerText = nameSaved;
-        form.style.display="block";
-        document.getElementById("email").value = emailSaved;
-
-        document.getElementById("name").value = localStorage.getItem("formName") || "";
-        document.getElementById("phone").value = localStorage.getItem("formPhone") || "";
-        document.getElementById("extra").value = localStorage.getItem("formExtra") || "";
-    }
 };
 
-// validate
-function validate(data){
-    let ok=true;
-    document.querySelectorAll(".error").forEach(el=>el.innerText="");
-    if(!data.name){document.getElementById("nameError").innerText="Ism kiritilmagan!"; ok=false;}
-    if(!data.phone){document.getElementById("phoneError").innerText="Telefon kiritilmagan!"; ok=false;}
-    return ok;
-}
-
-// submit
-form.addEventListener("submit", function(e){
+async function submitForm(e){
     e.preventDefault();
-    const data={
-        name: document.getElementById("name").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        extra: document.getElementById("extra").value.trim()
+    const payload = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        extra: document.getElementById("extra").value
     };
 
-    if(!validate(data)){
-        alert("Formani to‘liq to‘ldiring.");
-        return;
+    try {
+        const res = await fetch("http://localhost:3000/submit", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if(data.success){
+            document.getElementById("success").innerText="Ariza muvaffaqiyatli yuborildi!";
+            setTimeout(()=>{ window.location.href="bobo-kalonlar.html"; },1500);
+        }
+    } catch(err){
+        alert("Xatolik yuz berdi!");
     }
-
-    // localStorage ga saqlash
-    localStorage.setItem("formName", data.name);
-    localStorage.setItem("formPhone", data.phone);
-    localStorage.setItem("formExtra", data.extra);
-    localStorage.setItem("submittedData", JSON.stringify(data));
-
-    // bobo-kalonlar.html ga yo‘naltirish
-    window.location.href="bobo-kalonlar.html";
-});
+}
 </script>
 </body>
 </html>
