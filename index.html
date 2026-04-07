@@ -6,66 +6,277 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 <style>
-body{font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;background:#f0f0f0;}
-.container{background:#fff;padding:30px;border-radius:15px;width:400px;box-shadow:0 5px 20px rgba(0,0,0,0.2);}
-input,textarea,button{width:100%;padding:10px;margin:10px 0;border-radius:8px;border:1px solid #ccc;box-sizing:border-box;}
-button{background:#667eea;color:white;border:none;cursor:pointer;}
-button:hover{background:#5a67d8;}
-.success{color:green;text-align:center;margin-top:10px;}
+* { box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.container {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 26px;
+}
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    transition: 0.3s;
+}
+input:focus, textarea:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+    outline: none;
+}
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.submit-btn {
+    background: linear-gradient(135deg, #667eea, #5a67d8);
+    color: white;
+}
+.submit-btn:hover {
+    background: linear-gradient(135deg, #5a67d8, #4c51bf);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+.delete-btn {
+    background: #ff6b6b;
+    color: white;
+    margin-top: 10px;
+}
+.delete-btn:hover {
+    background: #ff5252;
+}
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: -3px;
+    margin-bottom: 8px;
+}
+.success {
+    color: green;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 15px;
+    font-size: 15px;
+}
+.loading {
+    color: blue;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+    display: none;
+}
+.user-info {
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+}
 </style>
 </head>
 <body>
-<div class="container">
-<h2>Ariza Formasi</h2>
-<div id="gSignIn"></div>
 
-<form id="form" style="display:none;">
-<input type="text" id="name" placeholder="F.I.SH" required>
-<input type="text" id="email" readonly required>
-<input type="text" id="phone" placeholder="Telefon" required>
-<textarea id="extra" placeholder="Qo‘shimcha ma’lumot"></textarea>
-<button type="submit">Yuborish</button>
-<div id="success" class="success"></div>
-</form>
+<div class="container">
+    <h2>Ariza Formasi</h2>
+    
+    <div id="gSignIn"></div>
+    
+    <div id="userInfo" class="user-info" style="display:none;">
+        <strong>Salom, <span id="userName"></span>!</strong>
+    </div>
+
+    <form id="form" style="display:none;">
+        <label>F.I.SH:</label>
+        <input type="text" id="name" placeholder="Ism Familiya">
+        <div id="nameError" class="error"></div>
+
+        <label>Email:</label>
+        <input type="email" id="email" readonly>
+
+        <label>Telefon:</label>
+        <input type="text" id="phone" placeholder="901234567">
+        <div id="phoneError" class="error"></div>
+
+        <label>Qo'shimcha ma'lumot:</label>
+        <textarea id="extra" placeholder="Istalgan qo'shimcha ma'lumot"></textarea>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Yuborish</button>
+        <div id="loading" class="loading">⏳ Jo'natilmoqda...</div>
+        <div id="success" class="success"></div>
+    </form>
+
+    <button id="deleteBtn" class="delete-btn" style="display:none;" onclick="clearData()">O'chirish</button>
 </div>
 
 <script>
 const CLIENT_ID = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
-function handleCredentialResponse(res){
+
+const form = document.getElementById("form");
+const userInfo = document.getElementById("userInfo");
+const userName = document.getElementById("userName");
+const deleteBtn = document.getElementById("deleteBtn");
+const submitBtn = document.getElementById("submitBtn");
+
+function handleCredentialResponse(res) {
     const data = jwt_decode(res.credential);
-    document.getElementById("form").style.display="block";
-    document.getElementById("name").value = data.name;
-    document.getElementById("email").value = data.email;
+    localStorage.setItem("userName", data.name);
+    localStorage.setItem("userEmail", data.email);
+    
+    showForm(data.name, data.email);
+}
+
+function showForm(name, email) {
+    userInfo.style.display = "block";
+    userName.innerText = name;
+    deleteBtn.style.display = "block";
+    form.style.display = "block";
+    document.getElementById("email").value = email;
+    
+    // Oldingi ma'lumotlarni qayta ko'rsatish
+    document.getElementById("name").value = localStorage.getItem("formName") || "";
+    document.getElementById("phone").value = localStorage.getItem("formPhone") || "";
+    document.getElementById("extra").value = localStorage.getItem("formExtra") || "";
 }
 
 window.onload = () => {
-    google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
-    google.accounts.id.renderButton(document.getElementById("gSignIn"), { size: "large" });
+    google.accounts.id.initialize({ 
+        client_id: CLIENT_ID, 
+        callback: handleCredentialResponse 
+    });
+    google.accounts.id.renderButton(
+        document.getElementById("gSignIn"), 
+        { size: "large" }
+    );
+
+    const nameSaved = localStorage.getItem("userName");
+    const emailSaved = localStorage.getItem("userEmail");
+
+    if (nameSaved && emailSaved) {
+        showForm(nameSaved, emailSaved);
+    }
 };
 
-document.getElementById("form").addEventListener("submit", async function(e){
+function validate(data) {
+    let ok = true;
+    document.querySelectorAll(".error").forEach(el => el.innerText = "");
+    
+    if (!/^[A-Za-z\s]{3,}$/.test(data.name)) {
+        document.getElementById("nameError").innerText = "✗ Ism noto'g'ri (minimum 3 ta harf)";
+        ok = false;
+    }
+    if (!/^[0-9]{9}$/.test(data.phone)) {
+        document.getElementById("phoneError").innerText = "✗ Telefon noto'g'ri (9 raqam)";
+        ok = false;
+    }
+    return ok;
+}
+
+form.addEventListener("submit", async function(e) {
     e.preventDefault();
-    const payload = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
-        extra: document.getElementById("extra").value
+    
+    const data = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        extra: document.getElementById("extra").value.trim()
     };
-    try{
-        const res = await fetch("/api/send-form", {
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body: JSON.stringify(payload)
+
+    if (!validate(data)) {
+        alert("❌ Formada xatolik bor!");
+        return;
+    }
+
+    // UI o'zgartirish
+    document.getElementById("loading").style.display = "block";
+    submitBtn.disabled = true;
+    document.getElementById("success").innerText = "";
+
+    try {
+        console.log('📨 Yuborish boshlandi...', data);
+        
+        const response = await fetch("/api/send-form", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
         });
-        const data = await res.json();
-        if(data.success){
-            document.getElementById("success").innerText = "✅ Ariza yuborildi!";
-            setTimeout(()=>{ window.location.href="bobo-kalonlar.html"; },1500);
+
+        console.log('📥 Server javob:', response.status);
+        
+        const result = await response.json();
+        console.log('📦 JSON:', result);
+
+        if (response.ok && result.success) {
+            // Saqlash
+            localStorage.setItem("formName", data.name);
+            localStorage.setItem("formPhone", data.phone);
+            localStorage.setItem("formExtra", data.extra);
+
+            document.getElementById("success").innerText = "✅ Ariza muvaffaqiyatli yuborildi!";
+            
+            setTimeout(() => {
+                window.location.href = "bobo-kalonlar.html";
+            }, 1500);
+        } else {
+            alert("❌ Xatolik: " + (result.error || "Noma'lum xatolik"));
+            document.getElementById("loading").style.display = "none";
+            submitBtn.disabled = false;
         }
-    } catch(err){
-        alert("Xatolik: " + err.message);
+    } catch (err) {
+        console.error('❌ Catch xatolik:', err);
+        alert("❌ Xatolik: " + err.message);
+        document.getElementById("loading").style.display = "none";
+        submitBtn.disabled = false;
     }
 });
+
+function clearData() {
+    if (confirm("Barcha ma'lumotlar o'chirilsinmi?")) {
+        localStorage.clear();
+        location.reload();
+    }
+}
 </script>
 </body>
 </html>
