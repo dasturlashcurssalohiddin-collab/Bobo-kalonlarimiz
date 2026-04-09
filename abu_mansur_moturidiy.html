@@ -3,59 +3,154 @@
 <head>
 <meta charset="UTF-8">
 <title>Abu Mansur Moturidiy</title>
+
 <style>
 body {
-    font-family: Arial;
-    background: #0f172a;
-    color: white;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: radial-gradient(circle at top, #1e293b, #0f172a);
+    color: #e2e8f0;
     text-align: center;
     padding: 50px;
+    margin: 0;
 }
+
+/* Sarlavha */
 h1 {
-    font-size: 40px;
+    font-size: 44px;
+    color: #38bdf8;
+    text-shadow: 0 0 15px rgba(56,189,248,0.8);
+    margin-bottom: 25px;
+    letter-spacing: 1px;
 }
+
+/* Section title */
+h2 {
+    margin-top: 45px;
+    color: #7dd3fc;
+    text-align: left;
+    border-left: 5px solid #38bdf8;
+    padding-left: 14px;
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+/* Chiziq animatsiya */
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0%;
+    height: 2px;
+    background: #38bdf8;
+    transition: 0.4s;
+}
+
+h2:hover::after {
+    width: 100%;
+}
+
+/* Matn blok */
+p {
+    max-width: 820px;
+    margin: 12px auto;
+    line-height: 1.8;
+    font-size: 17px;
+    color: #cbd5f5;
+    text-align: left;
+
+    background: rgba(255,255,255,0.04);
+    padding: 18px;
+    border-radius: 12px;
+
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    transition: 0.3s;
+}
+
+/* Hover effekt */
+p:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+/* Tugmalar */
 a {
     display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #2563eb;
+    margin-top: 25px;
+    margin-right: 10px;
+    padding: 12px 26px;
+    background: linear-gradient(135deg, #38bdf8, #2563eb);
     color: white;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 12px;
+    transition: 0.3s;
+    box-shadow: 0 6px 20px rgba(56,189,248,0.5);
+    font-weight: 500;
+}
+
+/* Hover tugma */
+a:hover {
+    transform: translateY(-4px) scale(1.05);
+    background: linear-gradient(135deg, #60a5fa, #3b82f6);
+    box-shadow: 0 10px 30px rgba(56,189,248,0.8);
+}
+
+/* Tugmalarni markazlash */
+a:last-child {
+    margin-bottom: 20px;
+}
+
+/* Mobil */
+@media (max-width: 600px) {
+    body {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    p {
+        font-size: 15px;
+    }
 }
 </style>
+
 </head>
 <body>
 
 <h1>Abu Mansur Moturidiy</h1>
-<p>Abu Mansur Moturidiy (853–944) — mashhur islom mutafakkiri va fiqhshunos. U turkiy va markaziy osiyo hududlarida yuzaga kelgan ilohiyot (aqida) maktablaridan biri — Moturidiya maktabining asoschisi hisoblanadi. Moturidiy aqidasi keyinchalik sunniy islom fiqhida muhim o‘rin egallagan.</p>
+
+<p>Abu Mansur Moturidiy (853–944) — mashhur islom mutafakkiri va fiqhshunos. U turkiy va markaziy osiyo hududlarida yuzaga kelgan ilohiyot (aqida) maktablaridan biri — Moturidiya maktabining asoschisi hisoblanadi.</p>
 
 <h2>Tug‘ilishi va hayoti</h2>
-<p>Abu Mansur Moturidiy 853-yilda hozirgi O‘zbekiston hududida joylashgan Samarqand yaqinida tug‘ilgan. U oilasida diniy bilimlar qadrlangan va erta yoshidan ilmga intilgan. Bolaligida u Qur’on va hadislarni o‘rganishga kirishgan.</p>
+<p>853-yilda Samarqand yaqinida tug‘ilgan. Yoshligidan Qur’on va hadis ilmlarini o‘rganishga kirishgan.</p>
 
 <h2>Ta’limi</h2>
-<p>Moturidiy yoshligidan arab tilini mukammal o‘rgangan, shuningdek diniy va fiqhiy fanlarni o‘rganishda katta muvaffaqiyat qozongan. U Samarqand va Buxoro hududidagi mashhur ulamolardan saboq olgan. Bu bilimlar keyinchalik uning aqida va fiqhiy asarlarini yaratishda asos bo‘lgan.</p>
+<p>Arab tili va diniy ilmlarni chuqur o‘rgangan. Samarqand va Buxorodagi mashhur ulamolardan saboq olgan.</p>
 
 <h2>Ijodi va asarlari</h2>
-<p>Abu Mansur Moturidiy fiqh, aqida va kalom bo‘yicha ko‘plab asarlar yozgan. Uning asarlari musulmon dunyosida sunniy aqida va fiqhni shakllantirishda katta rol o‘ynagan. U o‘z asarlarida imon, iymon va insoniyat uchun ahloqiy qadriyatlarni yoritgan.</p>
+<p>Fiqh, aqida va kalom bo‘yicha muhim asarlar yozgan.</p>
 
 <h2>Moturidiya maktabi</h2>
-<p>Moturidiy asos solgan Moturidiya maktabi — sunniy aqida maktablaridan biri. U odamiy tafakkur, aql va maniy iymon tamoyillarini birlashtirgan. Bu maktab keyinchalik Markaziy Osiyo va Turkiy xalqlarda keng tarqalgan.</p>
+<p>U asos solgan maktab sunniy aqidaning muhim yo‘nalishlaridan biri hisoblanadi.</p>
 
 <h2>Ilmiy ahamiyati</h2>
-<p>Moturidiy asarlari bugungi kunda ham fiqh va kalom tadqiqotlari uchun muhim manba hisoblanadi. U aqida masalalarini mantiqiy va ilmiy asosda bayon qilgan. Shu sababli uning merosi islomiy ilmlarda katta ahamiyatga ega.</p>
+<p>Uning asarlari bugungi kunda ham ilmiy manba sifatida ishlatiladi.</p>
 
 <h2>Shaxsiy fazilatlari</h2>
-<p>Abu Mansur Moturidiy halol, ilmga sadoqatli va ehtiyotkor olim bo‘lgan. U aqida va fiqh masalalarida adolatli va haqqoniy yondashuvni qo‘llagan. Shu sababli uning asarlari keyingi olimlar uchun ishonchli manba hisoblanadi.</p>
+<p>Halol, ilmga sadoqatli va haqqoniy olim bo‘lgan.</p>
 
 <h2>Merosi</h2>
-<p>Moturidiy merosi Markaziy Osiyo, Turkiy xalqlar va butun islom dunyosida qadrlanadi. Uning ta’limi, asarlari va aqidaviy yondashuvi keyingi avlod olimlariga ilhom bergan. Bugungi kunda uning maktabi sunniy islom aqidasida muhim o‘rin tutadi.</p>
+<p>Moturidiy merosi butun islom olamida qadrlanadi.</p>
 
 <h2>Xulosa</h2>
-<p>Abu Mansur Moturidiy — islom tarixidagi buyuk olim va aqida mutafakkiri. U Moturidiya maktabining asoschisi bo‘lib, ilmiy va diniy meros qoldirgan. Bugungi kunda uning asarlari fiqh va kalom tadqiqotlarida katta ahamiyatga ega.</p>
+<p>U buyuk aqida mutafakkiri sifatida tarixda muhim o‘rin egallaydi.</p>
 
-<a href="https://youtu.be/RoBXgDaHea4?si=M23tFoZqUNqMBwRP">Abu Mansur Moturidiy haqida video</a>
-
+<a href="https://youtu.be/RoBXgDaHea4?si=M23tFoZqUNqMBwRP">🎥 Video</a>
 <a href="bobo-kalonlar.html">⬅️ Orqaga qaytish</a>
 
 </body>
