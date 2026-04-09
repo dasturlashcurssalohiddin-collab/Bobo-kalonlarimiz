@@ -2,7 +2,9 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ahmad al-Farg‘oniy</title>
+
 <style>
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
@@ -10,27 +12,25 @@ body {
     padding: 0;
     background: linear-gradient(135deg, #0f172a, #1e293b);
     color: #e2e8f0;
-}
-
-/* Asosiy konteyner */
-body {
     display: flex;
     justify-content: center;
 }
 
-body > * {
+/* Konteyner */
+.container {
     max-width: 900px;
+    padding: 30px;
 }
 
 /* Sarlavha */
 h1 {
     font-size: 42px;
-    margin-top: 30px;
+    text-align: center;
     color: #38bdf8;
     text-shadow: 0 0 10px rgba(56,189,248,0.5);
 }
 
-/* Bo'limlar */
+/* Bo‘limlar */
 h2 {
     margin-top: 40px;
     color: #60a5fa;
@@ -45,18 +45,24 @@ p {
     color: #cbd5f5;
 }
 
-/* Kartochka effekt */
-h2, p {
+/* Card effekt */
+.section {
     background: rgba(255,255,255,0.03);
-    padding: 15px;
+    padding: 20px;
     border-radius: 12px;
+    margin-top: 20px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 /* Tugmalar */
+.buttons {
+    text-align: center;
+    margin-top: 30px;
+}
+
 a {
     display: inline-block;
-    margin: 20px 10px 0 10px;
+    margin: 10px;
     padding: 12px 25px;
     background: linear-gradient(135deg, #2563eb, #1d4ed8);
     color: white;
@@ -66,20 +72,19 @@ a {
     box-shadow: 0 5px 15px rgba(37,99,235,0.4);
 }
 
-/* Hover effekt */
 a:hover {
     transform: translateY(-3px) scale(1.05);
     background: linear-gradient(135deg, #3b82f6, #2563eb);
 }
 
-/* Mobil uchun */
+/* Mobil */
 @media (max-width: 600px) {
-    body {
-        padding: 20px;
+    .container {
+        padding: 15px;
     }
 
     h1 {
-        font-size: 30px;
+        font-size: 28px;
     }
 
     p {
@@ -88,38 +93,58 @@ a:hover {
 }
 </style>
 </head>
+
 <body>
 
-<h1>Ahmad al-Fargani</h1>
-<p>Ahmad al-Fargani (9-asr oxiri – 10-asr boshlari) — mashhur Markaziy Osiyo astronomi, matematik va olim. U Samarqand hududida tug‘ilgan va islom olamida ilm-fan rivojiga katta hissa qo‘shgan. Al-Fargani astronomiya, matematika va geodeziya bo‘yicha chuqur bilimlarga ega bo‘lgan.</p>
+<div class="container">
 
+<h1>Ahmad al-Farg‘oniy</h1>
+
+<div class="section">
+<p>Ahmad al-Farg‘oniy (9-asr oxiri – 10-asr boshlari) — mashhur Markaziy Osiyo astronomi, matematik va olim. U Samarqand hududida tug‘ilgan va islom olamida ilm-fan rivojiga katta hissa qo‘shgan.</p>
+</div>
+
+<div class="section">
 <h2>Tug‘ilishi va hayoti</h2>
-<p>Ahmad al-Fargani 9-asr oxirida hozirgi O‘zbekiston hududida joylashgan Farg‘ona vodiysida tug‘ilgan. Yoshligidan ilmga qiziqqan, arab va fors tillarini mukammal o‘rgangan. Bolaligidan ilm-fanga intilgan va keyinchalik Samarqand va Buxoro hududidagi mashhur olimlardan saboq olgan.</p>
+<p>Ahmad al-Farg‘oniy Farg‘ona vodiysida tug‘ilgan. Yoshligidan ilmga qiziqqan va arab hamda fors tillarini mukammal o‘rgangan.</p>
+</div>
 
+<div class="section">
 <h2>Ta’limi</h2>
-<p>Al-Fargani yoshligidan astronomiya va matematika bilan shug‘ullangan. U Quyosh va Oy harakati, yulduzlar joylashuvi, trigonometrik hisob-kitoblar va geodeziya bo‘yicha bilimlarni o‘rgangan. Bu bilimlar keyinchalik uning ilmiy asarlarini yaratishda asos bo‘lgan.</p>
+<p>U astronomiya va matematika bilan shug‘ullangan. Quyosh, Oy va yulduzlar harakatini chuqur o‘rgangan.</p>
+</div>
 
+<div class="section">
 <h2>Ijodi va asarlari</h2>
-<p>Ahmad al-Fargani ko‘plab ilmiy asarlar yozgan. U astronomik nazariyalarni amaliy jihatdan izohlab, ilmdagi muhim masalalarni yoritgan. Uning asarlari arab va fors tillarida yozilgan va keyingi avlod olimlari tomonidan tarjima qilingan.</p>
+<p>Ko‘plab ilmiy asarlar yozgan va ilmni amaliy tarzda tushuntirib bergan.</p>
+</div>
 
-<h2>“Kitab fi al-Harakat al-Samawiya” asari</h2>
-<p>Al-Farganining eng mashhur asari — “Kitab fi al-Harakat al-Samawiya” (Osmon jismlarining harakati haqida kitob) hisoblanadi. Bu asar astronomiya sohasida muhim manba bo‘lib, Quyosh, Oy va sayyoralarning harakati, yulduzlar va ularning koordinatalari haqida batafsil ma’lumot beradi.</p>
+<div class="section">
+<h2>Asari</h2>
+<p>“Kitab fi al-Harakat al-Samawiya” — uning eng mashhur asari bo‘lib, astronomiya sohasida muhim hisoblanadi.</p>
+</div>
 
+<div class="section">
 <h2>Ilmiy ahamiyati</h2>
-<p>Al-Fargani asarlari ilm-fan rivojida katta ahamiyatga ega. U astronomiyani ilmiy asosda bayon qilgan va keyingi olimlar uchun ishonchli manba yaratgan. Shu sababli uning merosi Markaziy Osiyo va islom olamida qadrlanadi.</p>
+<p>Uning ishlari keyingi olimlar uchun asos bo‘lgan va ilm rivojiga katta hissa qo‘shgan.</p>
+</div>
 
-<h2>Shaxsiy fazilatlari</h2>
-<p>Ahmad al-Fargani ilmga sadoqatli, mehnatsevar va ehtiyotkor olim bo‘lgan. U astronomik va matematik masalalarni aniq va ilmiy asosda yoritgan. Shu sababli uning asarlari bugungi kunda ham ilmiy tadqiqotlar uchun foydali hisoblanadi.</p>
-
+<div class="section">
 <h2>Merosi</h2>
-<p>Al-Fargani merosi Markaziy Osiyo, Arab dunyosi va islom olamida qadrlanadi. Uning astronomik va matematik asarlari keyingi avlod olimlari uchun ilmiy manba bo‘lgan. Bugungi kunda uning ilmiy merosi tarixshunoslik, astronomiya va matematika sohalarida katta ahamiyatga ega.</p>
+<p>Bugungi kunda ham uning ilmiy merosi qadrlanadi va o‘rganiladi.</p>
+</div>
 
+<div class="section">
 <h2>Xulosa</h2>
-<p>Ahmad al-Fargani — Markaziy Osiyo va islom dunyosining buyuk astronomi va matematikasi. U ilmiy va astronomik meros qoldirgan. Bugungi kunda uning asarlari ilm-fan va tarixshunoslik sohalarida katta ahamiyatga ega bo‘lib qolmoqda.</p>
+<p>Ahmad al-Farg‘oniy — buyuk astronom va matematik. Uning merosi bugungi kunda ham muhim ahamiyatga ega.</p>
+</div>
 
-<a href="https://youtu.be/6olU31QbFCA?si=XgKK8ea1OCrXV7YW">Ahmad al-Fargani haqida video</a>
+<div class="buttons">
+<a href="https://youtu.be/6olU31QbFCA?si=XgKK8ea1OCrXV7YW">🎥 Video</a>
+<a href="bobo-kalonlar.html">⬅️ Orqaga</a>
+</div>
 
-<a href="bobo-kalonlar.html">⬅️ Orqaga qaytish</a>
+</div>
 
 </body>
 </html>
