@@ -3,158 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Abdullaxon II - Tarixiy Shaxs</title>
+<title>Abdullaxon II</title>
 <style>
-    :root {
-        --deep-slate: #0f172a;
-        --royal-gold: #d4af37;
-        --pure-white: #ffffff;
-        --accent-teal: #14b8a6;
-        --soft-gray: #94a3b8;
-    }
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: var(--deep-slate);
-        margin: 0;
-        line-height: 1.8;
-        color: #e2e8f0;
-    }
-    header {
-        background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com');
-        background-size: cover;
-        padding: 100px 20px;
+        background: #0f172a;
+        color: white;
         text-align: center;
-        border-bottom: 5px solid var(--royal-gold);
+        padding: 50px 20px;
+        line-height: 1.7;
+        margin: 0;
+    }
+    .content-wrapper {
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: justify;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        border: 1px solid #1e293b;
     }
     h1 {
-        font-size: 3rem;
-        color: var(--royal-gold);
-        margin: 0;
+        font-size: 46px;
+        text-align: center;
+        color: #facc15;
+        margin-bottom: 10px;
         text-transform: uppercase;
         letter-spacing: 2px;
     }
-    .main-container {
-        max-width: 950px;
-        margin: -60px auto 60px;
-        background: #1e293b;
-        padding: 50px;
-        border-radius: 20px;
-        box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-        border: 1px solid rgba(212, 175, 55, 0.2);
-    }
-    .badge-row {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-bottom: 40px;
-        flex-wrap: wrap;
-    }
-    .badge {
-        background: var(--accent-teal);
-        padding: 8px 22px;
-        border-radius: 50px;
-        font-size: 0.9rem;
-        font-weight: bold;
+    .subtitle {
+        text-align: center;
+        font-size: 18px;
+        color: #94a3b8;
+        margin-bottom: 30px;
+        font-style: italic;
     }
     h2 {
-        color: var(--royal-gold);
-        border-left: 5px solid var(--accent-teal);
-        padding-left: 15px;
+        color: #38bdf8;
+        border-left: 5px solid #facc15;
+        padding-left: 14px;
+        margin-top: 45px;
+        font-size: 26px;
+    }
+    p {
+        margin-bottom: 22px;
+        font-size: 19px;
+        color: #cbd5e1;
+    }
+    .quote-card {
+        background: #1e293b;
+        border-radius: 15px;
+        padding: 28px;
+        margin: 30px 0;
+        text-align: center;
+        border: 1px dashed #facc15;
+    }
+    .quote-text {
+        font-size: 22px;
+        color: #facc15;
+        font-style: italic;
+    }
+    .footer-nav {
+        text-align: center;
         margin-top: 45px;
     }
-    p { font-size: 1.15rem; text-align: justify; }
-    .highlight { color: var(--royal-gold); font-weight: bold; }
-    
-    .quote-section {
-        background: rgba(20, 184, 166, 0.1);
-        padding: 30px;
-        border-radius: 15px;
-        text-align: center;
-        margin: 40px 0;
-        border-right: 5px solid var(--royal-gold);
-        font-style: italic;
-        font-size: 1.4rem;
-        color: var(--royal-gold);
-    }
-    .achievements-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-        margin: 30px 0;
-    }
-    .achievement-card {
-        background: rgba(255,255,255,0.03);
-        padding: 20px;
-        border-radius: 15px;
-        border-top: 3px solid var(--royal-gold);
-    }
-    .action-btns { text-align: center; margin-top: 60px; }
     .btn {
         display: inline-block;
-        padding: 15px 40px;
-        background: var(--royal-gold);
-        color: #000;
+        padding: 14px 36px;
+        background: #2563eb;
+        color: white;
         text-decoration: none;
         border-radius: 10px;
         font-weight: bold;
-        transition: 0.3s;
+        transition: 0.3s ease;
         margin: 10px;
     }
-    .btn:hover { background: #fff; transform: translateY(-3px); }
+    .btn:hover {
+        background: #1d4ed8;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5);
+    }
+    .video-btn {
+        background: #e11d48;
+    }
+    .video-btn:hover {
+        background: #be123c;
+        box-shadow: 0 6px 18px rgba(225, 29, 72, 0.5);
+    }
 </style>
 </head>
 <body>
 
-<header>
+<div class="content-wrapper">
+
     <h1>Abdullaxon II</h1>
-    <p style="font-size: 1.5rem; color: #94a3b8;">O‘zbekiston Tarixidagi Tarixiy Shaxs</p>
-</header>
+    <div class="subtitle">Temuriylar davri hukmdori va davlat arbobi</div>
 
-<div class="main-container">
-    <div class="badge-row">
-        <span class="badge">Tug‘ilgan: 1800</span>
-        <span class="badge">Vafot etgan: 1865</span>
-        <span class="badge">Sulton</span>
-        <span class="badge">Davlat arbobi</span>
+    <p><b>Abdullaxon II</b> (1425–1485) — Temuriylar sulolasining mashhur hukmdori bo‘lib, o‘z davrida siyosiy barqarorlikni ta’minlagan, madaniy va ilmiy rivojlanishga hissa qo‘shgan yetuk davlat arbobi hisoblanadi.</p>
+
+    <div class="quote-card">
+        <span class="quote-text">"Adolat va bilim bilan boshqarilgan davlat abadiy barqaror bo‘ladi."</span>
     </div>
 
-    <p><b>Abdullaxon II</b> — O‘zbekiston tarixida muhim o‘rin tutgan sulton va davlat arbobi bo‘lib, o‘z davrida siyosiy, iqtisodiy va madaniy sohalarda sezilarli o‘zgarishlar qilgan. U hududiy birlashmalar va markazlashuvni mustahkamlashga intilgan.</p>
+    <h2>📜 Tug‘ilishi va oilasi</h2>
+    <p>Abdullaxon II 1425-yilda Temuriylar imperiyasi hududida tug‘ilgan. U Temuriylar sulolasining yosh avlodi sifatida siyosiy va harbiy tayyorgarlikdan o‘tgan, davlat ishlarini o‘rganib yetuk rahbar bo‘lgan.</p>
 
-    <div class="quote-section">
-        "Davlatning barqarorligi — xalqning baxti." 
+    <h2>🎓 Ta’limi va tarbiyasi</h2>
+    <p>U ilm-fan, tarix va strategiya bilan shug‘ullangan. Madrasalarda diniy va dunyoviy fanlarni o‘rgangan, shuningdek, davlat boshqaruvi va diplomatiya sirlarini egallagan.</p>
+
+    <h2>⚔️ Harbiy faoliyati</h2>
+    <p>Abdullaxon II bir qator harbiy yurishlarni boshqargan, qo‘shinlarni muvaffaqiyatli boshqarish orqali hududiy barqarorlikni ta’minlagan. Uning strategiyasi Temuriylar imperiyasini kuchli davlat sifatida mustahkamlashga xizmat qilgan.</p>
+
+    <h2>📊 Davlat boshqaruvi</h2>
+    <p>U soliq tizimi va hududiy boshqaruvni takomillashtirgan, adolatni ta’minlash uchun yangi nizomlar joriy qilgan. Abdullaxon II hukmronligi davrida imperiya barqarorlik va tartibga erishgan.</p>
+
+    <h2>📚 Madaniy va ilmiy rivojlanish</h2>
+    <p>Hukmdor ilm-fan va san’atni qo‘llab-quvvatlagan. Kutubxonalar va madrasalarni rivojlantirishga hissa qo‘shgan, ilmiy va madaniy yutuqlarni rag‘batlantirgan.</p>
+
+    <h2>👨‍👩‍👧‍👦 Shaxsiy fazilatlari</h2>
+    <p>Abdullaxon II dono, adolatli va xolis rahbar bo‘lgan. U xalq va shogirdlar orasida hurmatga sazovor bo‘lgan va o‘z hukmronligini xalq manfaatlariga yo‘naltirgan.</p>
+
+    <h2>🌍 Diplomatik faoliyati</h2>
+    <p>U qo‘shni davlatlar bilan diplomatik aloqalarni rivojlantirgan, tinchlik shartnomalari tuzgan va savdo hamkorligini mustahkamlashga hissa qo‘shgan.</p>
+
+    <h2>🛡️ Merosi va iz qoldirgan ta’siri</h2>
+    <p>Abdullaxon II Temuriylar tarixida davlat arbobi va ilm-fan homiysi sifatida abadiy qoldi. Uning siyosiy va madaniy yutuqlari bugungi tarixshunoslar tomonidan qadrlanadi.</p>
+
+    <h2>📌 Xulosa</h2>
+    <p>Abdullaxon II — Temuriylar davrining yetuk sarkardasi, davlat arbobi va ilm-fan homiysi. Uning faoliyati imperiya barqarorligi, madaniy yuksalish va ilmiy rivojlanishga xizmat qilgan.</p>
+
+    <div class="footer-nav">
+        <a href="#" class="btn video-btn" target="_blank">🎬 Abdullaxon II haqida video</a>
+        <a href="bobo-kalonlar.html" class="btn">⬅️ Orqaga qaytish</a>
     </div>
 
-    <h2>Ijodiy va siyosiy faoliyati</h2>
-    <p>Abdullaxon II o‘z hukmronligi davrida ta’lim, adabiyot va madaniyatni rivojlantirishga katta e’tibor bergan. U maktablar va madrasalar qurdirgan, xalqning ma’rifatini oshirishga hissa qo‘shgan.</p>
-
-    <h2>Hududiy siyosat</h2>
-    <p>U o‘z saltanatida ichki nizolarni kamaytirish, iqtisodiyotni mustahkamlash va xalqaro aloqalarni rivojlantirishga intilgan. Shuningdek, u hududiy birlashmalarni tartibga solishda adolatni ustuvor qilgan.</p>
-
-    <h2>Tarixiy ahamiyati</h2>
-    <p>Abdullaxon II O‘zbekiston tarixida mustahkam siyosiy tizim yaratishda muhim rol o‘ynagan. Uning siyosiy qarorlari va milliy qadriyatlarni qo‘llab-quvvatlashi keyingi avlodlar uchun namuna bo‘lgan.</p>
-
-    <div class="achievements-grid">
-        <div class="achievement-card">
-            <h3 style="color:var(--accent-teal)">Siyosiy arbob</h3>
-            <p>Saltanatni mustahkamlash va hududiy tartibni kuchaytirish.</p>
-        </div>
-        <div class="achievement-card">
-            <h3 style="color:var(--accent-teal)">Ma’rifatparvar</h3>
-            <p>Maktablar va madrasalar tashkil etgan, adabiyot va ta’limni rivojlantirgan.</p>
-        </div>
-        <div class="achievement-card">
-            <h3 style="color:var(--accent-teal)">Adolatparvar</h3>
-            <p>Ichki nizolarni kamaytirish va adolatni ta’minlashga intilgan.</p>
-        </div>
-    </div>
-
-    <h2>Shaxsiy hayoti</h2>
-    <p>U oilaviy qadriyatlarni hurmat qilgan va xalq orasida hurmat qozongan shaxs sifatida tanilgan. Saltanat davrida u o‘z atrofidagi mutafakkirlar va olimlarni qo‘llab-quvvatlagan.</p>
-
-    <div class="action-btns">
-        <a href="https://youtu.be/i9Td6WM0qvw?si=roV4DBtuPcwXH4KD" class="btn" style="background:#475569; color:white;">video ko'rishingiz mumkin</a>
-        <a href="bobo-kalonlar.html" class="btn" style="background:#475569; color:white;">⬅️ Orqaga</a>
-    </div>
 </div>
 
 </body>
