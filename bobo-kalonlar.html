@@ -13,6 +13,7 @@
     <meta property="og:type" content="website">
     
     <title>Bobo Kalonlarimiz - Tarixiy Ensiklopediya</title>
+    
    <!-- MANIFEST VA IKONKA -->
 <link rel="manifest" href='{"name":"Bobo Kalonlarimiz","short_name":"Bobo","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%22120%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22%3E🏛️%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any"}],"theme_color":"#6ad8ff","background_color":"#0a1428","display":"standalone","start_url":"/"}'>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' dominant-baseline='middle' text-anchor='middle'%3E🏛️%3C/text%3E%3C/svg%3E">
@@ -1478,33 +1479,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="timeline" id="timelineContainer"></div>
             </div>
         </div>
-        <!-- FOOTER -->
-<footer>
-    <div class="footer-grid">
-        <div class="footer-section">
-            <h3>🏛️ Bobo Kalonlarimiz</h3>
-            <p>Tarixiy shaxslar haqida ta'limiy ensiklopediya</p>
-        </div>
-        <div class="footer-section">
-            <h3>📧 Aloqa</h3>
-            <ul>
-                <li><a href="mailto:admin@bobokalonlar.uz">📧 Email</a></li>
-                <li><a href="#">📱 Telegram</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <hr style="border: 1px solid rgba(106, 216, 255, 0.2); margin: 30px 0;">
-
-    <!-- NAV HAVOLALAR ENG PASTDA -->
-    <ul style="list-style: none; padding: 0; text-align: center; margin-bottom: 10px;">
-        <li style="display: inline; margin: 0 10px;"><a href="#" onclick="showPage('statistics')">Statistika</a></li>
-        <li style="display: inline; margin: 0 10px;"><a href="#" onclick="showPage('admin')">Admin</a></li>
-    </ul>
-
-    <p class="footer-title" style="text-align:center;">© 2026 Bobo Kalonlarimiz</p>
-    <p style="text-align:center;">Muallif: Teshaboyev Salohiddin | Versiya: FINAL</p>
-</footer>
 
         <!-- STATISTICS -->
         <div id="statistics" class="page">
@@ -1543,6 +1517,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div id="categoryChart"></div>
                 </div>
 
+                <div class="chart-container">
+                    <h3>🏆 Eng Ko'p Aytilgan</h3>
+                    <div id="topPeopleChart"></div>
+                </div>
+            </div>
+        </div>
 
         <!-- ADMIN -->
         <div id="admin" class="page">
@@ -1713,7 +1693,7 @@ window.onload = renderUsers;
                         </form>
                     </div>
 
-              <!-- SETTINGS TAB -->
+                <!-- SETTINGS TAB -->
 <div id="settings-tab" class="admin-tab-content">
   <div class="admin-form">
     <h3>⚙️ Umumiy Sozlamalar</h3>
@@ -1781,13 +1761,12 @@ window.onload = renderUsers;
 </style>
 
 <script>
-// ELEMENTLAR
 const translateToggle = document.getElementById("translateToggle");
 const translatePanel = document.getElementById("translatePanel");
 const translateSearch = document.getElementById("translateSearch");
 const translateButtons = document.getElementById("translateButtons");
 
-// 15 TA TIL
+// Asosiy 15 til (5 asosiy + 10 qo‘shimcha)
 const languages = [
   { code: 'uz', name: 'Uzbek', flag: '🇺🇿' },
   { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -1806,26 +1785,12 @@ const languages = [
   { code: 'nl', name: 'Dutch', flag: '🇳🇱' }
 ];
 
-// PANEL TOGGLE
+// Panel toggle
 translateToggle.addEventListener("click", () => {
   translatePanel.style.display = translatePanel.style.display === "block" ? "none" : "block";
 });
 
-// Google Translate SCRIPT — faqat bir marta yuklanadi
-const gtScript = document.createElement('script');
-gtScript.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
-document.body.appendChild(gtScript);
-
-window.googleTranslateElementInit = function() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'uz',
-    includedLanguages: languages.map(x => x.code).join(','),
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-    autoDisplay: false
-  }, 'translatePanel');
-};
-
-// TIL TUGMALARINI RENDER
+// Render til tugmalari
 function renderTranslateButtons(filter = "") {
   translateButtons.innerHTML = "";
   languages.filter(l => l.name.toLowerCase().includes(filter.toLowerCase()))
@@ -1834,58 +1799,63 @@ function renderTranslateButtons(filter = "") {
     btn.className = "lang-btn";
     btn.innerHTML = `${lang.flag} ${lang.name}`;
     btn.onclick = () => {
-      alert(`${lang.name} tilini Google Translate panelidan tanlang`);
+      const gtScript = document.createElement('script');
+      gtScript.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
+      document.body.appendChild(gtScript);
+      window.googleTranslateElementInit = function() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'uz',
+          includedLanguages: languages.map(x => x.code).join(','),
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false
+        }, 'translatePanel');
+        // Translate tilini o'zgartirish
+        const select = document.querySelector('#translatePanel select');
+        if(select) select.value = lang.code;
+        select.dispatchEvent(new Event('change'));
+      };
     };
     translateButtons.appendChild(btn);
   });
 }
 
-// QIDIRUV
+// Qidiruv
 translateSearch.addEventListener("input", e => {
   renderTranslateButtons(e.target.value);
 });
 
-// BOSHLANG'ICH RENDER
+// Boshlang'ich render
 renderTranslateButtons();
-
-// SAQLASH FUNKSIYASI
-function saveSettings() {
-    const name = document.getElementById('siteName').value;
-    const desc = document.getElementById('siteDesc').value;
-    const keywords = document.getElementById('siteKeywords').value;
-    const email = document.getElementById('siteEmail').value;
-
-    localStorage.setItem('siteName', name);
-    localStorage.setItem('siteDesc', desc);
-    localStorage.setItem('siteKeywords', keywords);
-    localStorage.setItem('siteEmail', email);
-
-    alert("✅ Sozlamalar saqlandi!");
-}
 </script>
 
-<!-- FOOTER -->
-<footer>
-    <div class="footer-grid">
-        <div class="footer-section">
-            <h3>🏛️ Bobo Kalonlarimiz</h3>
-            <p>Tarixiy shaxslar haqida ta'limiy ensiklopediya</p>
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>🏛️ Bobo Kalonlarimiz</h3>
+                <p>Tarixiy shaxslar haqida ta'limiy ensiklopediya</p>
+            </div>
+            <div class="footer-section">
+                <h3>🔗 Havolalar</h3>
+                <ul>
+                    <li><a href="#" onclick="showPage('home')">Bosh Sahifa</a></li>
+                    <li><a href="#" onclick="showPage('timeline')">Timeline</a></li>
+                    <li><a href="#" onclick="showPage('statistics')">Statistika</a></li>
+                    <li><a href="#" onclick="showPage('admin')">Admin</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>📧 Aloqa</h3>
+                <ul>
+                    <li><a href="mailto:admin@bobokalonlar.uz">📧 Email</a></li>
+                    <li><a href="#">📱 Telegram</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="footer-section">
-            <h3>📧 Aloqa</h3>
-            <ul>
-                <li><a href="mailto:admin@bobokalonlar.uz">📧 Email</a></li>
-                <li><a href="#">📱 Telegram</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <hr style="border: 1px solid rgba(106, 216, 255, 0.2); margin: 30px 0;">
-
-
-    <p class="footer-title" style="text-align:center;">© 2026 Bobo Kalonlarimiz</p>
-    <p style="text-align:center;">Muallif: Teshaboyev Salohiddin \</p>
-</footer>
+        <hr style="border: 1px solid rgba(106, 216, 255, 0.2); margin: 30px 0;">
+        <p class="footer-title">© 2026 Bobo Kalonlarimiz</p>
+        <p>Muallif: Teshaboyev Salohiddin | Versiya: FINAL</p>
+    </footer>
 
     <!-- TOP BUTTON -->
     <button id="topBtn" onclick="scrollToTop()">⬆️</button>
@@ -1900,38 +1870,38 @@ function saveSettings() {
 { name: "Ibn Sino", born: 980, died: 1037, category: "olim", image: "download (5).jpeg" },
 { name: "Muhammad al-Xorazmiy", born: 780, died: 850, category: "olim", image: "download (6).jpeg" },
 { name: "Al-Beruniy", born: 973, died: 1048, category: "olim", image: "download (7).jpeg" },
-{ name: "Ahmad al-Farg'oniy", born: 797, died: 864, category: "olim", image: "download (8).jpeg" },
+{ name: "Ahmad al-Farg'oniy", born: 797, died: 865, category: "olim", image: "download (8).jpeg" },
 { name: "Imom al-Buxoriy", born: 810, died: 870, category: "din", image: "download (9).jpeg" },
 { name: "Imom at-Termiziy", born: 824, died: 892, category: "din", image: "download (10).jpeg" },
 { name: "Ahmad Yassaviy", born: 1093, died: 1166, category: "din", image: "download (11).jpeg" },
 { name: "Bahouddin Naqshband", born: 1318, died: 1389, category: "din", image: "download (12).jpeg" },
 { name: "Najmiddin Kubro", born: 1145, died: 1221, category: "din", image: "download (13).jpeg" },
-{ name: "Mahmud Qoshg'ariy", born: 1005, died: 1101, category: "olim", image: "download (14).jpeg" },
+{ name: "Mahmud Qoshg'ariy", born: 1005, died: 1102, category: "olim", image: "download (14).jpeg" },
 { name: "Mahmud Zamaxshariy", born: 1075, died: 1144, category: "olim", image: "download (15).jpeg" },
 { name: "Abu Mansur Moturidiy", born: 853, died: 944, category: "din", image: "download (16).jpeg" },
 { name: "Al-Farobiy", born: 872, died: 950, category: "olim", image: "download (17).jpeg" },
 { name: "Abdulla Qodiriy", born: 1894, died: 1938, category: "yozuvchi", image: "download (18).jpeg" },
-{ name: "Cho'lpon", born: 1893, died: 1938, category: "yozuvchi", image: "download (19).jpeg" },
+{ name: "Cho'lpon", born: 1897, died: 1938, category: "yozuvchi", image: "download (19).jpeg" },
 { name: "To'maris", born: 6-asr: "sarkarda", image: "download (20).jpeg" },
 { name: "Jaloliddin Manguberdi", born: 1199, died: 1231, category: "sarkarda", image: "download (21).jpeg" },
 { name: "Nodira Begim", born: 1792, died: 1842, category: "yozuvchi", image: "download (22).jpeg" },
-{ name: "Uvaysiy", born: 1781, died: 1837, category: "yozuvchi", image: "download (23).jpeg" },
+{ name: "Uvaysiy", born: 1780, died: 1845, category: "yozuvchi", image: "download (23).jpeg" },
 { name: "Mahmudxo'ja Behbudiy", born: 1875, died: 1919, category: "yozuvchi", image: "download (24).jpeg" },
 { name: "Munavvar Qori Abdurashidxonov", born: 1878, died: 1931, category: "yozuvchi", image: "download (25).jpeg" },
-{ name: "Abdulla Avloniy", born: 1878, died: 1934, category: "yozuvchi", image: "Download (26).jpeg" },
+{ name: "Abdulla Avloniy", born: 1878, died: 1934, category: "yozuvchi", image: "download (26).jpeg" },
 { name: "Is'hoqxon Ibrat", born: 1862, died: 1937, category: "yozuvchi", image: "download (27).jpeg" },
 { name: "Sadriddin Ayni", born: 1878, died: 1954, category: "yozuvchi", image: "download (28).jpeg" },
 { name: "Hamza Hakimzoda Niyoziy", born: 1889, died: 1929, category: "yozuvchi", image: "download (29).jpeg" },
 { name: "Usmon Nosir", born: 1912, died: 1944, category: "yozuvchi", image: "download (30).jpeg" },
 { name: "Ahmad Donish", born: 1827, died: 1897, category: "olim", image: "download (31).jpeg" },
-{ name: "Qutayba ibn Muslim", born: 667, died: 715, category: "sarkarda", image: "download (32).jpeg" },
+{ name: "Qutayba ibn Muslim", born: 669, died: 715, category: "sarkarda", image: "download (32).jpeg" },
 { name: "Mahmud of Ghazni", born: 971, died: 1030, category: "sarkarda", image: "download.jpeg" },
-{ name: "Abu Hafs Kabir", born: 767, died: 832, category: "din", image: "Download (34).jpeg" },
-{ name: "Burhan al-Din al-Marghinani", born: 1135, died: 1197, category: "din", image: "Download (35).jpeg" },
+{ name: "Abu Hafs Kabir", born: 767, died: 832, category: "din", image: "download (34).jpeg" },
+{ name: "Burhan al-Din al-Marghinani", born: 1135, died: 1197, category: "din", image: "download (35).jpeg" },
 { name: "Ali Qushchi", born: 1403, died: 1474, category: "olim", image: "download (36).jpeg" },
 { name: "Abu Bakr Narshakhi", born: 899, died: 959, category: "olim", image: "download (37).jpeg" },
-{ name: "Abu Muin Nasafi", born: 970, died: 1058, category: "din", image: "Download (38).jpeg" },
-{ name: "Najm al-Din Kubra", born: 1145, died: 1221, category: "din", image: "download (39).jpeg" },
+{ name: "Abu Muin Nasafi", born: 1027, died: 1115, category: "din", image: "download (38).jpeg" },
+{ name: "Najm al-Din Kubra", born: 1140, died: 1221, category: "din", image: "download (39).jpeg" },
 { name: "Yusuf Hamadani", born: 1048, died: 1140, category: "din", image: "download (40).jpeg" },
 { name: "Zulfiya", born: 1915, died: 1996, category: "yozuvchi", image: "download (41).jpeg" },
 { name: "Saida Zunnunova", born: 1926, died: 1977, category: "yozuvchi", image: "download (42).jpeg" },
@@ -1956,7 +1926,7 @@ function saveSettings() {
 { name: "Mirxond", born: 1433, died: 1498, category: "olim", image: "download (61).jpeg" },
 { name: "Xondamir", born: 1475, died: 1535, category: "olim", image: "download (62).jpeg" },
 { name: "Xoja Ahror Valiy", born: 1404, died: 1490, category: "din", image: "download (63).jpeg" },
-{ name: "Hakim Termiziy", born: 824, died: 896, category: "din", image: "download (64).jpeg" },
+{ name: "Hakim Termiziy", born: 820, died: 932, category: "din", image: "download (64).jpeg" },
 { name: "Abdulxoliq G'ijduvoniy", born: 1103, died: 1179, category: "din", image: "download (65).jpeg" },
 { name: "Sulton Uvays Qaraniy", born: 594, died: 657, category: "din", image: "download (66).jpeg" },
 { name: "Furqat", born: 1859, died: 1909, category: "yozuvchi", image: "download (67).jpeg" },
@@ -1967,8 +1937,9 @@ function saveSettings() {
 { name: "Oybek", born: 1905, died: 1968, category: "yozuvchi", image: "download (72).jpeg" },
 { name: "Abdurauf Fitrat", born: 1886, died: 1938, category: "yozuvchi", image: "download (73).jpeg" },
 { name: "Said Ahmad", born: 1920, died: 2007, category: "yozuvchi", image: "download (74).jpeg" },
-{ name: "O'tkir Hoshimov", born: 1937, died: 1996, category: "yozuvchi", image: "Download (75).jpeg" }
+{ name: "O'tkir Hoshimov", born: 1937, died: 1996, category: "yozuvchi", image: "download (75).jpeg" }
 ];
+
         // ============================================
         // GLOBAL
         // ============================================
@@ -2017,7 +1988,7 @@ function saveSettings() {
         <div class="card-overlay">
             <button class="card-overlay-btn" 
                 onclick="window.location.href='${person.name.toLowerCase().replace(/[^a-z0-9]+/g,'_')}.html'">
-                📖 Batafsil bilib olish niyatingiz bo'lsa tugma ustiga bosing siz uchun to'liq va ishonchli ma'lumor 
+                📖 Batafsil bilib olish niyatingiz bo'lsa tugma ustiga bosing siz uchun to'liq va ishonchli ma'lumot
             </button>
         </div>
     </div>
@@ -2093,6 +2064,95 @@ function saveSettings() {
                 showToast('❌ Ovoz tanishtirilmadi', 'error');
                 voiceBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
             };
+        }
+
+        // ============================================
+        // BIO
+        // ============================================
+        function showPersonBio(personId) {
+            const person = peopleData.find(p => p.id === personId);
+            if (!person) return;
+
+            const bioPage = document.createElement('div');
+            bioPage.className = 'page active';
+            bioPage.id = 'bio-page';
+            bioPage.innerHTML = `
+                <button class="back-btn" onclick="showPage('home'); document.getElementById('bio-page').remove();">
+                    ← Orqaga Qaytish
+                </button>
+                <div class="bio-container">
+                    <div class="bio-header">
+                        <div>
+                            <div class="bio-image">
+                                <img src="${person.image}" alt="${person.name}">
+                            </div>
+                        </div>
+                        <div class="bio-info">
+                            <h1>${person.name}</h1>
+                            <p class="category">🏷️ ${person.category}</p>
+                            <p class="dates">📅 ${person.born} - ${person.died} yillar</p>
+                            <div class="bio-stats">
+                                <div class="bio-stat">
+                                    <div class="bio-stat-value">${person.died - person.born}</div>
+                                    <div class="bio-stat-label">Umri (yil)</div>
+                                </div>
+                                <div class="bio-stat">
+                                    <div class="bio-stat-value">${new Date().getFullYear() - person.born}</div>
+                                    <div class="bio-stat-label">Tug'ilganidan beri</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bio-content">
+                        <h3>📖 Tavsif</h3>
+                        <p>${person.description}</p>
+
+                        <h3>✨ Asosiy Eʼtibor</h3>
+                        <ul>
+                            <li><strong>${person.name}</strong> - ${new Date().getFullYear() - person.born} yil avval tug'ilgan</li>
+                            <li>Toladgi: ${person.born}-yil</li>
+                            <li>Vafoti: ${person.died}-yil</li>
+                            <li>Kategoriya: ${person.category}</li>
+                            <li>Umri: ${person.died - person.born} yil</li>
+                        </ul>
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="sharePersonBio('${person.name}')">📤 Ulashish</button>
+                        <button class="btn btn-success" onclick="addToFavorites('${person.name}')">❤️ Sevimlilar</button>
+                    </div>
+                </div>
+            `;
+
+            document.querySelector('.page.active').classList.remove('active');
+            document.querySelector('.main-container').appendChild(bioPage);
+            window.scrollTo(0, 0);
+        }
+
+        function sharePersonBio(name) {
+            const text = `${name} haqida o'qiylik!`;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Bobo Kalonlarimiz',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text);
+                showToast('Nusxaladi!', 'success');
+            }
+        }
+
+        function addToFavorites(name) {
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            if (!favorites.includes(name)) {
+                favorites.push(name);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                showToast(`${name} sevimlilar'ga qo'shildi ❤️`, 'success');
+            } else {
+                showToast(`${name} allaqachon sevimlilar'da`, 'warning');
+            }
         }
 
         // ============================================
