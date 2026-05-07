@@ -14,686 +14,920 @@
     
     <title>Bobo Kalonlarimiz - Tarixiy Ensiklopediya</title>
     
-   <!-- MANIFEST VA IKONKA -->
-<link rel="manifest" href='{"name":"Bobo Kalonlarimiz","short_name":"Bobo","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%22120%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22%3E🏛️%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any"}],"theme_color":"#6ad8ff","background_color":"#0a1428","display":"standalone","start_url":"/"}'>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' dominant-baseline='middle' text-anchor='middle'%3E🏛️%3C/text%3E%3C/svg%3E">
+    <!-- MANIFEST VA IKONKA -->
+<link rel="manifest" href='{"name":"Bobo Kalonlarimiz","short_name":"Bobo","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Ctext x=%5B...]'>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' dominant-baseline='middle' tex[...]">
 <link rel="stylesheet" href="style.css">
 
-<!-- ORQA FON VIDEO -->
-<video autoplay muted id="bg-video">
-    <source src="animate-this-sunrise-cityscape-with-ultra-realisti.mp4" type="video/mp4">
-    Sizning brauzeringiz video tagini qo'llab-quvvatlamaydi.
-</video>
-
-<!-- VIDEO SWITCH SCRIPT -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const bgVideo = document.getElementById("bg-video");
-
-    function switchVideo(nextVideo, transitionVideo = "orqa fon.mp4") {
-        // 1. O‘tish videosini qo‘yish
-        bgVideo.src = transitionVideo;
-        bgVideo.loop = false;
-        bgVideo.play();
-
-        // 2. 5 soniyadan keyin asosiy video boshlash
-        setTimeout(() => {
-            bgVideo.src = nextVideo;
-            bgVideo.loop = true;
-            bgVideo.play();
-        }, 5000);
-    }
-
-    const url = window.location.href.toLowerCase();
-
-    if (url.includes("admin")) {
-        switchVideo("settings.mp4");
-    } else if (url.includes("boshqa-sahifa")) {
-        switchVideo("video2.mp4");
-    } else {
-        switchVideo("animate-this-sunrise-cityscape-with-ultra-realisti.mp4");
-    }
-});
-</script>
-    
-
-    
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        
+        :root {
+            --primary: #6ad8ff;
+            --secondary: #1e90ff;
+            --dark-bg: #0f1419;
+            --card-bg: #1a1a2e;
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #6ad8ff;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-        /* UTILITY CLASSES */
-        .hidden { display: none !important; }
-        .visible { display: block !important; }
-        .text-center { text-align: center; }
-        .text-left { text-align: left; }
-        .text-right { text-align: right; }
-        .mt-20 { margin-top: 20px; }
-        .mt-30 { margin-top: 30px; }
-        .mb-20 { margin-bottom: 20px; }
-        .mb-30 { margin-bottom: 30px; }
-        .p-20 { padding: 20px; }
-        .opacity-50 { opacity: 0.5; }
-        .cursor-pointer { cursor: pointer; }
-        .no-scroll { overflow: hidden; }
-        .flex { display: flex; }
-        .flex-center { display: flex; align-items: center; justify-content: center; }
-        .gap-10 { gap: 10px; }
-        .gap-20 { gap: 20px; }
+        body.light-mode {
+            --dark-bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-light: #333333;
+            --text-muted: #666666;
+        }
 
-        /* ANIMATIONS */
+        /* ===== APPEARANCE SETTINGS ===== */
+        .appearance-panel {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            padding: 20px;
+            width: 300px;
+            max-height: 500px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+
+        .appearance-panel.active {
+            display: block;
+        }
+
+        .appearance-panel h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .theme-btn {
+            padding: 12px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .theme-btn:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .theme-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: var(--primary);
+            color: #000;
+        }
+
+        .appearance-divider {
+            height: 1px;
+            background: rgba(106, 216, 255, 0.2);
+            margin: 15px 0;
+        }
+
+        .appearance-title {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .color-option {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.active {
+            border-color: var(--text-light);
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .font-size-control {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .font-size-btn {
+            padding: 8px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--accent);
+            color: var(--text-light);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .font-size-btn:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .font-size-display {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* ===== AI CHATBOT ===== */
+        .ai-chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 380px;
+            height: 500px;
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            z-index: 999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transform: translateY(600px);
+            transition: transform 0.3s ease;
+        }
+
+        .ai-chatbot.active {
+            transform: translateY(0);
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            padding: 15px;
+            border-radius: 13px 13px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .chatbot-close {
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .chatbot-close:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chatbot-message {
+            padding: 12px;
+            border-radius: 10px;
+            max-width: 90%;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbot-message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border-radius: 10px 10px 0 10px;
+        }
+
+        .chatbot-message.bot {
+            align-self: flex-start;
+            background: #2a2a3d;
+            color: var(--text-light);
+            border-radius: 10px 10px 10px 0;
+        }
+
+        .chatbot-input-area {
+            padding: 12px;
+            border-top: 1px solid rgba(106, 216, 255, 0.2);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 10px 12px;
+            background: #2a2a3d;
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 13px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .chatbot-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(106, 216, 255, 0.3);
+        }
+
+        .chatbot-send {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .chatbot-send:hover {
+            transform: scale(1.05);
+        }
+
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50%;
+            color: #000;
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-toggle.hidden {
+            display: none;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--accent);
+            z-index: 100;
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-search input {
+            padding: 8px 12px;
+            border: 1px solid var(--accent);
+            border-radius: 5px;
+            background: #2a2a3d;
+            color: var(--text-light);
+            outline: none;
+        }
+
+        .theme-toggle {
+            background: #2a2a3d;
+            border: 1px solid var(--accent);
+            color: var(--text-light);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-container {
+            margin-top: 70px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 40px 20px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        #search {
+            flex: 1;
+            padding: 12px 15px;
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 16px;
+            outline: none;
+        }
+
+        #search:focus {
+            box-shadow: 0 0 20px rgba(106, 216, 255, 0.4);
+        }
+
+        .voice-btn {
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            color: var(--text-light);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .voice-btn:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            color: var(--text-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 2px solid rgba(106, 216, 255, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: fadeInScale 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(106, 216, 255, 0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .card-overlay-btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .card-overlay-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .card-info {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .card-category {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .card-year {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
         @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        @keyframes rotate360 {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .animate-fadeInScale { animation: fadeInScale 0.6s ease forwards; }
-        .animate-rotate { animation: rotate360 2s linear infinite; }
-        .animate-pulse { animation: pulse 2s ease-in-out infinite; }
-
-        /* RESPONSIVE */
-        @media (max-width: 1024px) {
-            .nav-menu { display: none; }
-            .hamburger { display: flex; }
-            .bio-header { grid-template-columns: 1fr; gap: 30px; }
-            .bio-info h1 { text-align: center; }
-            .bio-content h3 { text-align: center; border: none; padding: 0; border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
-            .timeline::before { left: 20px; }
-            .timeline-item { padding-left: 70px !important; padding-right: 0 !important; text-align: left !important; }
-            .timeline-marker { left: 10px; }
-            .card-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-        }
-
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .main-container { padding: 80px 20px 40px; }
-            .hero-section { padding: 40px 20px; }
-            .hero-title { font-size: 2rem; }
-            .card-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-            .nav-container { padding: 12px 15px; gap: 10px; }
-            .logo { font-size: 18px; }
-            .nav-search input { width: 150px; }
-            .admin-tabs { gap: 8px; }
-            .admin-tab-btn { padding: 10px 16px; font-size: 12px; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .modal-content { width: 95%; padding: 25px; }
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .appearance-panel {
+                width: 250px;
+                right: 10px;
+            }
+
+            .ai-chatbot {
+                width: 320px;
+                height: 450px;
+            }
         }
 
         @media (max-width: 480px) {
-            h1 { font-size: 1.5rem; }
-            h2 { font-size: 1.3rem; }
-            .search-box { flex-direction: column; }
-            #search { max-width: 100%; }
-            .card { border-radius: 15px; }
-            .card-image { height: 200px; }
-            .card-title { font-size: 16px; }
-            .filter-btn { padding: 8px 14px; font-size: 12px; }
-            .bio-stats { flex-direction: column; gap: 10px; }
-            .form-buttons { flex-direction: column; }
-            .form-buttons button { width: 100%; }
-            .admin-table { font-size: 12px; }
-            .admin-table th, .admin-table td { padding: 10px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 25px; }
-            .toast { left: 15px; right: 15px; max-width: none; }
-        }
+            .main-container {
+                padding: 80px 15px 20px;
+            }
 
-        @media print {
-            .navbar, footer, #topBtn, .modal { display: none; }
-            .page { page-break-after: always; }
-            .card { box-shadow: none; border: 1px solid #ccc; }
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .appearance-panel {
+                width: 90vw;
+                right: 5%;
+            }
+
+            .ai-chatbot {
+                width: 90vw;
+                right: 5%;
+            }
         }
     </style>
 </head>
 
-
-
 <body>
     <!-- NAVBAR -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo" onclick="showPage('home'); return false;" title="Bosh Sahifa">
-                🏛️BIU🕌
-            </a>
+            <a href="#" class="logo">🏛️BIU🕌</a>
 
             <ul class="nav-menu">
-                <li><a href="#" onclick="showPage('home'); return false;" class="nav-link active">🏠 Bosh</a></li>
-                <li><a href="#" onclick="showPage('timeline'); return false;" class="nav-link">📅 Timeline</a></li>
-                <li><a href="#" onclick="showPage('statistics'); return false;" class="nav-link">📊 Statistika</a></li>
-                <li><a href="#" onclick="showPage('admin'); return false;" class="nav-link">⚙️ Admin</a></li>
+                <li><a href="#" class="nav-link active">🏠 Bosh</a></li>
+                <li><a href="#" class="nav-link">📅 Timeline</a></li>
+                <li><a href="#" class="nav-link">📊 Statistika</a></li>
+                <li><a href="#" class="nav-link">⚙️ Admin</a></li>
             </ul>
 
             <div class="nav-search">
-                <input type="text" id="navSearch" placeholder="Izlash..." onkeyup="liveSearch()">
+                <input type="text" id="navSearch" placeholder="Izlash...">
             </div>
 
-
-            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-
-        <div class="mobile-menu" id="mobileMenu">
-            <a href="#" onclick="showPage('home'); toggleMobileMenu();">🏠 Bosh Sahifa</a>
-            <a href="#" onclick="showPage('timeline'); toggleMobileMenu();">📅 Timeline</a>
-            <a href="#" onclick="showPage('statistics'); toggleMobileMenu();">📊 Statistika</a>
-            <a href="#" onclick="showPage('admin'); toggleMobileMenu();">⚙️ Admin</a>
+            <button class="theme-toggle" onclick="toggleAppearancePanel()">🎨 Appearance</button>
         </div>
     </nav>
 
-    <!-- MAIN -->
-    <main class="main-container">
+    <!-- APPEARANCE SETTINGS PANEL -->
+    <div class="appearance-panel" id="appearancePanel">
+        <h3>🎨 Tashqi Ko'rinish</h3>
 
-        <!-- HOME -->
+        <div class="appearance-title">Mavzu</div>
+        <div class="theme-options">
+            <button class="theme-btn active" onclick="setTheme('dark')">🌙 Qorong'i Mavzu</button>
+            <button class="theme-btn" onclick="setTheme('light')">☀️ Yorug' Mavzu</button>
+            <button class="theme-btn" onclick="setTheme('auto')">🔄 Avtomatik</button>
+        </div>
+
+        <div class="appearance-divider"></div>
+
+        <div class="appearance-title">Rang Sxemasi</div>
+        <div class="color-picker">
+            <div class="color-option active" style="background: #6ad8ff;" onclick="setColorScheme('#6ad8ff')"></div>
+            <div class="color-option" style="background: #ff6b9d;" onclick="setColorScheme('#ff6b9d')"></div>
+            <div class="color-option" style="background: #4ecdc4;" onclick="setColorScheme('#4ecdc4')"></div>
+            <div class="color-option" style="background: #ffd93d;" onclick="setColorScheme('#ffd93d')"></div>
+            <div class="color-option" style="background: #a8e6cf;" onclick="setColorScheme('#a8e6cf')"></div>
+            <div class="color-option" style="background: #ff8b94;" onclick="setColorScheme('#ff8b94')"></div>
+            <div class="color-option" style="background: #b4a7d6;" onclick="setColorScheme('#b4a7d6')"></div>
+            <div class="color-option" style="background: #73a580;" onclick="setColorScheme('#73a580')"></div>
+        </div>
+
+        <div class="appearance-divider"></div>
+
+        <div class="appearance-title">Shrift O'lchami</div>
+        <div class="font-size-control">
+            <button class="font-size-btn" onclick="changeFontSize(-1)">−</button>
+            <div class="font-size-display" id="fontSizeDisplay">100%</div>
+            <button class="font-size-btn" onclick="changeFontSize(1)">+</button>
+        </div>
+
+        <button style="width: 100%; padding: 10px; background: var(--accent); color: #000; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;" onclick="resetAppearance()">🔄 Standartga Qaytarish</button>
+    </div>
+
+    <!-- AI CHATBOT -->
+    <button class="chatbot-toggle" id="chatbotToggle" onclick="toggleChatbot()">🤖</button>
+
+    <div class="ai-chatbot" id="aiChatbot">
+        <div class="chatbot-header">
+            <h3>🤖 Bobo Kalonlar AI</h3>
+            <button class="chatbot-close" onclick="toggleChatbot()">✕</button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages"></div>
+        <div class="chatbot-input-area">
+            <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Savolni yozing...">
+            <button class="chatbot-send" onclick="sendChatMessage()">📤</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-container">
         <div id="home" class="page active">
             <div class="hero-section">
-                <h1 class="hero-title">Bobokalonlar-insoniyat ustozlari(BIU)</h1>
-                <p class="hero-subtitle">Butun dunyodagi buyuk olimlari, sarkardasi, yozuvchilari haqida to'liq ma'lumotlar</p>
+                <h1 class="hero-title">Bobokalonlar - Insoniyat Ustozlari</h1>
+                <p class="hero-subtitle">Butun dunyodagi buyuk olimlari, sarkardasi, yozuvchilari haqida</p>
             </div>
 
-            <div class="search-section">
-                <div class="search-box">
-                    <input type="text" id="search" placeholder="Bobo kalon nomini yozing..." onkeyup="filterCards()" title="Izlash">
-                    <button class="voice-btn" id="voiceBtn" title="Ovoz orqali">🎤</button>
-                </div>
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Bobo kalon nomini yozing...">
+                <button class="voice-btn">🎤</button>
             </div>
 
             <div class="filter-section">
-                <button class="filter-btn active" onclick="filterByCategory('all')">⭐ Hammasi</button>
-                <button class="filter-btn" onclick="filterByCategory('olim')">🧠 Olimlar</button>
-                <button class="filter-btn" onclick="filterByCategory('sarkarda')">⚔️ Sarkardalar</button>
-                <button class="filter-btn" onclick="filterByCategory('yozuvchi')">📜 Yozuvchilar</button>
-                <button class="filter-btn" onclick="filterByCategory('din')">🕌 Din Allomalari</button>
+                <button class="filter-btn active">⭐ Hammasi</button>
+                <button class="filter-btn">🧠 Olimlar</button>
+                <button class="filter-btn">⚔️ Sarkardalar</button>
+                <button class="filter-btn">📜 Yozuvchilar</button>
+                <button class="filter-btn">🕌 Din Allomalari</button>
             </div>
 
             <div class="card-grid" id="cardGrid"></div>
-</div>
-
-        <!-- TIMELINE -->
-        <div id="timeline" class="page">
-            <h2>📅 Tarixiy Timeline</h2>
-            <div style="background: linear-gradient(135deg, rgba(20, 30, 50, 0.8), rgba(10, 50, 80, 0.6)); border-radius: 20px; padding: 40px; border: 2px solid rgba(106, 216, 255, 0.2); margin-top: 40px;">
-                <div class="timeline" id="timelineContainer"></div>
-            </div>
         </div>
+    </main>
 
-        <!-- STATISTICS -->
-        <div id="statistics" class="page">
-            <h2>📊 Statistika va Analitika</h2>
-            <div class="stats-container">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">📚</div>
-                        <div class="stat-number" id="totalPeople">0</div>
-                        <div class="stat-label">Jami Shaxslar</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">👨‍🔬</div>
-                        <div class="stat-number" id="totalScholars">0</div>
-                        <div class="stat-label">Olimlar</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">⚔️</div>
-                        <div class="stat-number" id="totalCommanders">0</div>
-                        <div class="stat-label">Sarkardalar</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">✍️</div>
-                        <div class="stat-number" id="totalWriters">0</div>
-                        <div class="stat-label">Yozuvchilar</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">🕌</div>
-                        <div class="stat-number" id="totalReligious">0</div>
-                        <div class="stat-label">Din Allomalari</div>
-                    </div>
-                </div>
+    <script>
+        // ===== APPEARANCE FUNCTIONS =====
+        function toggleAppearancePanel() {
+            document.getElementById('appearancePanel').classList.toggle('active');
+        }
 
-                <div class="chart-container">
-                    <h3>📈 Kategoriyalar Bo'yicha</h3>
-                    <div id="categoryChart"></div>
-                </div>
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+            } else if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light');
+            } else if (theme === 'auto') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    document.body.classList.remove('light-mode');
+                } else {
+                    document.body.classList.add('light-mode');
+                }
+                localStorage.setItem('theme', 'auto');
+            }
 
-                <div class="chart-container">
-                    <h3>🏆 Eng Ko'p Aytilgan</h3>
-                    <div id="topPeopleChart"></div>
-                </div>
-            </div>
-        </div>
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
 
-        <!-- ADMIN -->
-        <div id="admin" class="page">
-            <h2>⚙️ Admin Paneli</h2>
+        function setColorScheme(color) {
+            document.documentElement.style.setProperty('--primary', color);
+            localStorage.setItem('colorScheme', color);
 
-            <div class="admin-container">
-                <div class="admin-tabs">
-                    <button class="admin-tab-btn active" onclick="switchAdminTab('users')">👥 Foydalanuvchilar</button>
-                    <button class="admin-tab-btn" onclick="switchAdminTab('settings')">⚙️ Sozlamalar</button>
-                </div>
+            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+            event.target.classList.add('active');
+        }
 
-                <!-- USERS TAB -->
-             <div id="users-tab" class="admin-tab-content active">
-    <div class="admin-form">
-        <h3>👤 Yangi Foydalanuvchi</h3>
+        let currentFontSize = 100;
+        function changeFontSize(change) {
+            currentFontSize += change * 10;
+            if (currentFontSize < 80) currentFontSize = 80;
+            if (currentFontSize > 120) currentFontSize = 120;
 
-        <!-- Google Login + Parol -->
-        <div id="gSignIn"></div>
-        <form id="userForm" onsubmit="addUser(event)" style="display:none;">
-            <div class="form-group">
-                <label>Ism:</label>
-                <input type="text" id="userName" required>
-            </div>
-            <div class="form-group">
-                <label>Email:</label>
-                <input type="email" id="userEmail" readonly required>
-            </div>
-            <div class="form-group">
-                <label>Parol:</label>
-                <input type="password" id="userPassword" placeholder="Google Account parolini kiriting" required>
-                <div id="passwordError" class="error"></div>
-            </div>
-            <div class="form-buttons">
-                <button type="submit" class="btn btn-success">✅ Qo'shish</button>
-                <button type="reset" class="btn btn-secondary" onclick="clearUsers()">🔄 Tozalash</button>
-            </div>
-        </form>
-    </div>
+            document.documentElement.style.fontSize = currentFontSize + '%';
+            document.getElementById('fontSizeDisplay').textContent = currentFontSize + '%';
+            localStorage.setItem('fontSize', currentFontSize);
+        }
 
-    <table class="admin-table">
-        <thead>
-            <tr>
-                <th>Ism</th>
-                <th>Email</th>
-                <th>Amallar</th>
-            </tr>
-        </thead>
-        <tbody id="usersTable"></tbody>
-    </table>
-</div>
+        function resetAppearance() {
+            document.body.classList.remove('light-mode');
+            document.documentElement.style.setProperty('--primary', '#6ad8ff');
+            currentFontSize = 100;
+            document.documentElement.style.fontSize = '100%';
+            document.getElementById('fontSizeDisplay').textContent = '100%';
+            
+            document.querySelectorAll('.theme-btn')[0].classList.add('active');
+            document.querySelectorAll('.theme-btn')[1].classList.remove('active');
+            document.querySelectorAll('.theme-btn')[2].classList.remove('active');
+            
+            document.querySelectorAll('.color-option')[0].classList.add('active');
+            document.querySelectorAll('.color-option').forEach((opt, i) => {
+                if (i > 0) opt.classList.remove('active');
+            });
 
-<script>
-const CLIENT_ID = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
-const BOT_TOKEN = "8656295440:AAEUBRVs4umfJkh-YPm3XMJh52R3e9l56bw";
-const CHAT_ID = "6283517295";
-const ADMIN_PASSWORD = "admin123"; // Misol parol
+            localStorage.clear();
+        }
 
-const userForm = document.getElementById("userForm");
-const usersTable = document.getElementById("usersTable");
+        // Load saved appearance settings
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                document.querySelectorAll('.theme-btn')[1].classList.add('active');
+                document.querySelectorAll('.theme-btn')[0].classList.remove('active');
+            }
 
-// Google login callback
-function handleCredentialResponse(res){
-    const data = jwt_decode(res.credential);
-    document.getElementById("userEmail").value = data.email;
-    document.getElementById("userForm").style.display = "block";
-}
+            const savedColor = localStorage.getItem('colorScheme');
+            if (savedColor) {
+                document.documentElement.style.setProperty('--primary', savedColor);
+            }
 
-// Google login tugmasi
-google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
-google.accounts.id.renderButton(document.getElementById("gSignIn"), { size: "large" });
-
-// Foydalanuvchi qo‘shish
-function addUser(e){
-    e.preventDefault();
-    const name = document.getElementById("userName").value.trim();
-    const email = document.getElementById("userEmail").value.trim();
-    const password = document.getElementById("userPassword").value;
-
-    if(password !== ADMIN_PASSWORD){
-        document.getElementById("passwordError").innerText = "Parol xato!";
-        return;
-    } else {
-        document.getElementById("passwordError").innerText = "";
-    }
-
-    const user = {name, email};
-    let users = JSON.parse(localStorage.getItem("adminUsers") || "[]");
-    users.push(user);
-    localStorage.setItem("adminUsers", JSON.stringify(users));
-
-    // Telegramga yuborish
-    const text = `📥 Yangi foydalanuvchi:
-👤 Ism: ${name}
-📧 Email: ${email}`;
-    fetch(`8656295440:AAEUBRVs4umfJkh-YPm3XMJh52R3e9l56bw`, {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({chat_id: 6283517295, text: text})
-    });
-
-    renderUsers();
-    userForm.reset();
-}
-
-// Foydalanuvchilarni jadvalga chiqarish
-function renderUsers(){
-    const users = JSON.parse(localStorage.getItem("adminUsers") || "[]");
-    usersTable.innerHTML = "";
-    users.forEach((user, i)=>{
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${user.name}</td><td>${user.email}</td>
-                        <td><button onclick="deleteUser(${i})" class="delete-btn">❌ O‘chirish</button></td>`;
-        usersTable.appendChild(tr);
-    });
-}
-
-// Foydalanuvchini o‘chirish
-function deleteUser(index){
-    let users = JSON.parse(localStorage.getItem("adminUsers") || "[]");
-    users.splice(index,1);
-    localStorage.setItem("adminUsers", JSON.stringify(users));
-    renderUsers();
-}
-
-// Barcha foydalanuvchilarni tozalash
-function clearUsers(){
-    localStorage.removeItem("adminUsers");
-    renderUsers();
-}
-
-// Sahifa yuklanganda jadvalni yangilash
-window.onload = renderUsers;
-</script>
-
-                <!-- CONTENT TAB -->
-                <div id="content-tab" class="admin-tab-content">
-                    <div class="admin-form">
-                        <form id="contentForm" onsubmit="addContent(event)">
-                            <div class="form-group">
-                                <label>Ism:</label>
-                                <input type="text" id="personName" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Toladgi Yili:</label>
-                                <input type="number" id="personBorn" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Vafot Yili:</label>
-                                <input type="number" id="personDied" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Kategoriya:</label>
-                                <select id="personCategory" required>
-                                    <option value="olim">🧠 Olim</option>
-                                    <option value="sarkarda">⚔️ Sarkarda</option>
-                                    <option value="yozuvchi">📜 Yozuvchi</option>
-                                    <option value="din">🕌 Din Allomai</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Tavsif:</label>
-                                <textarea id="personDesc" required></textarea>
-                            </div>
-                            <div class="form-buttons">
-                                <button type="submit" class="btn btn-success">✅ Qo'shish</button>
-                                <button type="reset" class="btn btn-secondary">🔄 Tozalash</button>
-                            </div>
-                        </form>
-                    </div>
-
-                <!-- SETTINGS TAB -->
-<div id="settings-tab" class="admin-tab-content">
-  <div class="admin-form">
-    <h3>⚙️ Umumiy Sozlamalar</h3>
-
-    <div class="form-group">
-      <label>Sayt Nomi:</label>
-      <input type="text" id="siteName" value="Bobo Kalonlarimiz">
-    </div>
-
-    <div class="form-group">
-      <label>Sayt Tavsifi:</label>
-      <textarea id="siteDesc">Butun dunyodagi bobo kalonlarimiz haqida ta'limiy loyiha</textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Meta Kalit So'zlar:</label>
-      <input type="text" id="siteKeywords" value="bobo, tarix, ensiklopediya">
-    </div>
-
-    <div class="form-group">
-      <label>Email:</label>
-      <input type="email" id="siteEmail" value="admin@bobokalonlar.uz">
-    </div>
-
-    <!-- TRANSLATE SECTION -->
-    <div class="form-group">
-      <label>Sayt Tilini Tarjima Qilish:</label>
-      <div class="translate-wrapper">
-        <button id="translateToggle" class="btn btn-primary">🌐 Translate</button>
-        <div id="translatePanel" class="translate-panel" style="display:none;">
-          <input type="text" id="translateSearch" placeholder="Qidirish..." class="translate-search">
-          <div id="translateButtons"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-buttons">
-      <button class="btn btn-success" onclick="saveSettings()">💾 Saqlash</button>
-    </div>
-  </div>
-</div>
-
-<style>
-.translate-wrapper { position: relative; }
-.translate-panel {
-  position: absolute; top: 40px; left: 0;
-  background: #1a1a2e; padding: 15px;
-  border-radius: 8px; max-height: 300px;
-  overflow-y: auto; width: 250px;
-  border: 1px solid #6ad8ff; z-index: 999;
-}
-.translate-search {
-  width: 100%; padding: 5px;
-  margin-bottom: 8px; border-radius: 4px;
-  border: 1px solid #ccc;
-}
-.lang-btn {
-  display: block; width: 100%;
-  margin-bottom: 5px; padding: 5px;
-  text-align: left; border: none;
-  border-radius: 4px; background: #2a2a3d;
-  color: #fff; cursor: pointer; transition: all 0.2s;
-}
-.lang-btn:hover { background: #6ad8ff; color: #000; }
-</style>
-
-<script>
-const translateToggle = document.getElementById("translateToggle");
-const translatePanel = document.getElementById("translatePanel");
-const translateSearch = document.getElementById("translateSearch");
-const translateButtons = document.getElementById("translateButtons");
-
-// Asosiy 15 til (5 asosiy + 10 qo‘shimcha)
-const languages = [
-  { code: 'uz', name: 'Uzbek', flag: '🇺🇿' },
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'ru', name: 'Russian', flag: '🇷🇺' },
-  { code: 'de', name: 'German', flag: '🇩🇪' },
-  { code: 'fr', name: 'French', flag: '🇫🇷' },
-  { code: 'es', name: 'Spanish', flag: '🇪🇸' },
-  { code: 'it', name: 'Italian', flag: '🇮🇹' },
-  { code: 'ja', name: 'Japanese', flag: '🇯🇵' },
-  { code: 'zh-CN', name: 'Chinese (Simplified)', flag: '🇨🇳' },
-  { code: 'ko', name: 'Korean', flag: '🇰🇷' },
-  { code: 'ar', name: 'Arabic', flag: '🇸🇦' },
-  { code: 'tr', name: 'Turkish', flag: '🇹🇷' },
-  { code: 'hi', name: 'Hindi', flag: '🇮🇳' },
-  { code: 'pt', name: 'Portuguese', flag: '🇵🇹' },
-  { code: 'nl', name: 'Dutch', flag: '🇳🇱' }
-];
-
-// Panel toggle
-translateToggle.addEventListener("click", () => {
-  translatePanel.style.display = translatePanel.style.display === "block" ? "none" : "block";
-});
-
-// Render til tugmalari
-function renderTranslateButtons(filter = "") {
-  translateButtons.innerHTML = "";
-  languages.filter(l => l.name.toLowerCase().includes(filter.toLowerCase()))
-  .forEach(lang => {
-    const btn = document.createElement("button");
-    btn.className = "lang-btn";
-    btn.innerHTML = `${lang.flag} ${lang.name}`;
-    btn.onclick = () => {
-      const gtScript = document.createElement('script');
-      gtScript.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
-      document.body.appendChild(gtScript);
-      window.googleTranslateElementInit = function() {
-        new google.translate.TranslateElement({
-          pageLanguage: 'uz',
-          includedLanguages: languages.map(x => x.code).join(','),
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false
-        }, 'translatePanel');
-        // Translate tilini o'zgartirish
-        const select = document.querySelector('#translatePanel select');
-        if(select) select.value = lang.code;
-        select.dispatchEvent(new Event('change'));
-      };
-    };
-    translateButtons.appendChild(btn);
-  });
-}
-
-// Qidiruv
-translateSearch.addEventListener("input", e => {
-  renderTranslateButtons(e.target.value);
-});
-
-// Boshlang'ich render
-renderTranslateButtons();
-</script>
-
-                </div>
-            </div>
-        </div>
-
-    <!-- TOP BUTTON -->
-    <button id="topBtn" onclick="scrollToTop()">⬆️</button>
-
-    <!-- JAVASCRIPT - 3000+ QO'R KOD -->
-      <script>
- const peopleData = [
-  { name: "Alisher Navoiy", born: 1441, died: 1501, category: "yozuvchi", image: "download (1).jpeg" },
-  { name: "Amir Temur", born: 1336, died: 1405, category: "sarkarda", image: "download (2).jpeg" },
-  { name: "Mirzo Ulug'bek", born: 1394, died: 1449, category: "olim", image: "download (3).jpeg" },
-  { name: "Zahiriddin Bobur", born: 1483, died: 1530, category: "yozuvchi", image: "download (4).jpeg" },
-  { name: "Ibn Sino", born: 980, died: 1037, category: "olim", image: "download (5).jpeg" },
-  { name: "Muhammad al-Xorazmiy", born: 780, died: 850, category: "olim", image: "download (6).jpeg" },
-  { name: "Al-Beruniy", born: 973, died: 1048, category: "olim", image: "download (7).jpeg" },
-  { name: "Ahmad al-Farg'oniy", born: 797, died: 865, category: "olim", image: "download (8).jpeg" },
-  { name: "Imom al-Buxoriy", born: 810, died: 870, category: "din", image: "download (9).jpeg" },
-  { name: "Imom at-Termiziy", born: 824, died: 892, category: "din", image: "download (10).jpeg" },
-  { name: "Ahmad Yassaviy", born: 1093, died: 1166, category: "din", image: "download (11).jpeg" },
-  { name: "Bahouddin Naqshband", born: 1318, died: 1389, category: "din", image: "download (12).jpeg" },
-  { name: "Najmiddin Kubro", born: 1145, died: 1221, category: "din", image: "download (13).jpeg" },
-  { name: "Mahmud Qoshg'ariy", born: 1005, died: 1102, category: "olim", image: "download (14).jpeg" },
-  { name: "Mahmud Zamaxshariy", born: 1075, died: 1144, category: "olim", image: "download (15).jpeg" },
-  { name: "Abu Mansur Moturidiy", born: 870, died: 944, category: "din", image: "download (16).jpeg" },
-  { name: "Al-Farobiy", born: 872, died: 950, category: "olim", image: "download (17).jpeg" },
-  { name: "Abdulla Qodiriy", born: 1894, died: 1938, category: "yozuvchi", image: "download (18).jpeg" },
-  { name: "Cho'lpon", born: 1897, died: 1938, category: "yozuvchi", image: "download (19).jpeg" },
-  { name: "To'maris", born: -570, died: -520, category: "sarkarda", image: "download (20).jpeg" }, // Mil. avv. VI asr taxminiy
-  { name: "Jaloliddin Manguberdi", born: 1199, died: 1231, category: "sarkarda", image: "download (21).jpeg" },
-  { name: "Nodira Begim", born: 1792, died: 1842, category: "yozuvchi", image: "download (22).jpeg" },
-  { name: "Uvaysiy", born: 1780, died: 1845, category: "yozuvchi", image: "download (23).jpeg" },
-  { name: "Mahmudxo'ja Behbudiy", born: 1875, died: 1919, category: "yozuvchi", image: "download (24).jpeg" },
-  { name: "Munavvar Qori Abdurashidxonov", born: 1878, died: 1931, category: "yozuvchi", image: "download (25).jpeg" },
-  { name: "Abdulla Avloniy", born: 1878, died: 1934, category: "yozuvchi", image: "download (26).jpeg" },
-  { name: "Is'hoqxon Ibrat", born: 1862, died: 1937, category: "yozuvchi", image: "download (27).jpeg" },
-  { name: "Sadriddin Ayni", born: 1878, died: 1954, category: "yozuvchi", image: "download (28).jpeg" },
-  { name: "Hamza Hakimzoda Niyoziy", born: 1889, died: 1929, category: "yozuvchi", image: "download (29).jpeg" },
-  { name: "Usmon Nosir", born: 1912, died: 1944, category: "yozuvchi", image: "download (30).jpeg" },
-  { name: "Ahmad Donish", born: 1827, died: 1897, category: "olim", image: "download (31).jpeg" },
-  { name: "Qutayba ibn Muslim", born: 661, died: 715, category: "sarkarda", image: "download (32).jpeg" },
-  { name: "Mahmud G'aznaviy", born: 971, died: 1030, category: "sarkarda", image: "download.jpeg" },
-  { name: "Abu Hafs Kabir", born: 767, died: 832, category: "din", image: "download (34).jpeg" },
-  { name: "Burhoniddin al-Marg'inoniy", born: 1123, died: 1197, category: "din", image: "download (35).jpeg" },
-  { name: "Ali Qushchi", born: 1403, died: 1474, category: "olim", image: "download (36).jpeg" },
-  { name: "Abu Bakr Narshaxiy", born: 899, died: 959, category: "olim", image: "download (37).jpeg" },
-  { name: "Abu Muin Nasafiy", born: 1027, died: 1114, category: "din", image: "download (38).jpeg" },
-  { name: "Najmiddin Kubro", born: 1145, died: 1221, category: "din", image: "download (39).jpeg" },
-  { name: "Yusuf Hamadoniy", born: 1048, died: 1140, category: "din", image: "download (40).jpeg" },
-  { name: "Zulfiya", born: 1915, died: 1996, category: "yozuvchi", image: "download (41).jpeg" },
-  { name: "Saida Zunnunova", born: 1926, died: 1977, category: "yozuvchi", image: "download (42).jpeg" },
-  { name: "Halima Xudoyberdiyeva", born: 1947, died: 2018, category: "yozuvchi", image: "download (43).jpeg" },
-  { name: "Gulchehra Nurullayeva", born: 1945, died: 2020, category: "yozuvchi", image: "download (44).jpeg" },
-  { name: "Komila Yashin", born: 1909, died: 1997, category: "yozuvchi", image: "download (45).jpeg" },
-  { name: "Robiya Balxiy", born: 900, died: 943, category: "yozuvchi", image: "download (46).jpeg" },
-  { name: "Gavharshodbegim", born: 1379, died: 1457, category: "sarkarda", image: "download (47).jpeg" },
-  { name: "Saray Mulk Xonim (Bibixonim)", born: 1341, died: 1408, category: "sarkarda", image: "download (48).jpeg" },
-  { name: "Muhammad Yusuf", born: 1954, died: 2001, category: "yozuvchi", image: "download (49).jpeg" },
-  { name: "Muhammad Shayboniyxon", born: 1451, died: 1510, category: "sarkarda", image: "download (50).jpeg" },
-  { name: "Ogahiy", born: 1809, died: 1874, category: "yozuvchi", image: "download (51).jpeg" },
-  { name: "Abulxayrxon", born: 1412, died: 1468, category: "sarkarda", image: "download (52).jpeg" },
-  { name: "Temur Malik", born: 1180, died: 1230, category: "sarkarda", image: "download (53).jpeg" },
-  { name: "Shohruh Mirzo", born: 1377, died: 1447, category: "sarkarda", image: "download (54).jpeg" },
-  { name: "Abu Said Mirzo", born: 1424, died: 1469, category: "sarkarda", image: "download (55).jpeg" },
-  { name: "Ubaydullaxon", born: 1487, died: 1540, category: "sarkarda", image: "download (56).jpeg" },
-  { name: "Abdullaxon II", born: 1533, died: 1598, category: "sarkarda", image: "download (57).jpeg" },
-  { name: "Qozizoda Rumiy", born: 1364, died: 1436, category: "olim", image: "download (58).jpeg" },
-  { name: "G'iyosiddin Jamshid Koshiy", born: 1380, died: 1429, category: "olim", image: "download (59).jpeg" },
-  { name: "Sharafiddin Ali Yazdiy", born: 1370, died: 1454, category: "olim", image: "download (60).jpeg" },
-  { name: "Mirxond", born: 1433, died: 1498, category: "olim", image: "download (61).jpeg" },
-  { name: "Xondamir", born: 1475, died: 1535, category: "olim", image: "download (62).jpeg" },
-  { name: "Xoja Ahror Valiy", born: 1404, died: 1490, category: "din", image: "download (63).jpeg" },
-  { name: "Hakim Termiziy", born: 820, died: 932, category: "din", image: "download (64).jpeg" },
-  { name: "Abdulxoliq G'ijduvoniy", born: 1103, died: 1179, category: "din", image: "download (65).jpeg" },
-  { name: "Sulton Uvays Qaraniy", born: 594, died: 657, category: "din", image: "download (66).jpeg" },
-  { name: "Furqat", born: 1859, died: 1909, category: "yozuvchi", image: "download (67).jpeg" },
-  { name: "Muqimiy", born: 1850, died: 1903, category: "yozuvchi", image: "download (68).jpeg" },
-  { name: "Erkin Vohidov", born: 1936, died: 2016, category: "yozuvchi", image: "download (69).jpeg" },
-  { name: "Abdulla Oripov", born: 1941, died: 2016, category: "yozuvchi", image: "download (70).jpeg" },
-  { name: "G'afur G'ulom", born: 1903, died: 1966, category: "yozuvchi", image: "download (71).jpeg" },
-  { name: "Oybek", born: 1905, died: 1968, category: "yozuvchi", image: "download (72).jpeg" },
-  { name: "Abdurauf Fitrat", born: 1886, died: 1938, category: "yozuvchi", image: "download (73).jpeg" },
-  { name: "Said Ahmad", born: 1920, died: 2007, category: "yozuvchi", image: "download (74).jpeg" },
-  { name: "O'tkir Hoshimov", born: 1941, died: 2013, category: "yozuvchi", image: "download (75).jpeg" }
-];
-
-        // ============================================
-        // GLOBAL
-        // ============================================
-        let currentLang = 'uz';
-        let currentCategory = 'all';
-        let currentPage = 'home';
-        let users = [];
-
-        // ============================================
-        // INIT
-        // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            loadUsers();
-            renderCards(peopleData);
-            setupVoiceSearch();
-            setupScrollToTop();
-            updateStatistics();
-            generateTimeline();
-            generateCharts();
-            loadUsersList();
-            loadContentTable();
+            const savedFontSize = localStorage.getItem('fontSize');
+            if (savedFontSize) {
+                currentFontSize = parseInt(savedFontSize);
+                document.documentElement.style.fontSize = currentFontSize + '%';
+                document.getElementById('fontSizeDisplay').textContent = currentFontSize + '%';
+            }
         });
 
-        // ============================================
-        // RENDER CARDS
-        // ============================================
-        function renderCards(people) {
+        // ===== AI CHATBOT FUNCTIONS =====
+        const boboKalonData = {
+            "alisher navoiy": "Alisher Navoiy (1441-1501) - O'zbek adabiyotining asosini qo'ygan buyuk shoir va yozuvchi. U ko'p asarlar tuzgan va o'zbek tilini ilmiy asosda to'ldirgan.",
+            "amir temur": "Amir Temur (1336-1405) - Turk sarkardasi, Temur imperiyasining asosini qo'ygan. U Maraqandani o'z saltanati markazi qilgan.",
+            "mirzo ulug'bek": "Mirzo Ulug'bek (1394-1449) - O'zbek olimi, astronom va matematikar. U Samarqandda buyuk butkhonani qurilgan va o'simani yozgan.",
+            "ibn sino": "Ibn Sino (980-1037) - O'rta Asiyaning eng buyuk tabib va faylasuf. U tibb sohasida ko'p ahamiyatli asarlar tuzmish.",
+            "al-beruniy": "Al-Beruniy (973-1048) - O'rta Asiyaning buyuk olimlari, geografist, matematiksi va astronomi. U ko'p xalqlarni o'rganib, ayriq sifatda Hindiston haqida yozgan."
+        };
+
+        function toggleChatbot() {
+            const chatbot = document.getElementById('aiChatbot');
+            const toggle = document.getElementById('chatbotToggle');
+            chatbot.classList.toggle('active');
+            toggle.classList.toggle('hidden');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatbotInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addChatMessage(message, 'user');
+            input.value = '';
+
+            // Get AI response
+            setTimeout(() => {
+                const response = getAIResponse(message);
+                addChatMessage(response, 'bot');
+            }, 500);
+        }
+
+        function addChatMessage(message, type) {
+            const messagesDiv = document.getElementById('chatbotMessages');
+            const msgElement = document.createElement('div');
+            msgElement.className = `chatbot-message ${type}`;
+            msgElement.textContent = message;
+            messagesDiv.appendChild(msgElement);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function getAIResponse(userMessage) {
+            const msg = userMessage.toLowerCase();
+
+            for (const [key, value] of Object.entries(boboKalonData)) {
+                if (msg.includes(key)) {
+                    return value;
+                }
+            }
+
+            if (msg.includes("salom") || msg.includes("assalom")) {
+                return "Assalom aleykum! 👋 Men Bobo Kalonlar haqida ma'lumot berishga tayyorman. Qaysi bobo kalonni bilib olmoqchisiz?";
+            }
+
+            if (msg.includes("kim") || msg.includes("who")) {
+                return "Men sizga Bobo Kalonlarimiz ensiklopediyasida o'zbek tarixining buyuk shaxslari haqida ma'lumot berishga yordamchi AI chatbot. Ismi, asari yoki davri bo'yicha soʻrashingiz mumkin! 🤖";
+            }
+
+            if (msg.includes("tafsil") || msg.includes("ma'lumot")) {
+                return "Bobo kalonlar haqida batafsilroq ma'lumot olish uchun ularning ismini yozing. Masalan: 'Alisher Navoiy', 'Ibn Sino' yoki 'Amir Temur'.";
+            }
+
+            return "Uzur, men bu haqida ma'lumotga ega emasman. Boshqa bobo kalonning nomini yozing yoki ularning asari haqida soʻrash.";
+        }
+
+        document.getElementById('chatbotInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+
+        // ===== SAMPLE CARD DATA =====
+        const peopleData = [
+            { name: "Alisher Navoiy", born: 1441, died: 1501, category: "yozuvchi" },
+            { name: "Amir Temur", born: 1336, died: 1405, category: "sarkarda" },
+            { name: "Mirzo Ulug'bek", born: 1394, died: 1449, category: "olim" },
+            { name: "Ibn Sino", born: 980, died: 1037, category: "olim" },
+            { name: "Al-Beruniy", born: 973, died: 1048, category: "olim" },
+            { name: "Ahmad al-Farg'oniy", born: 797, died: 865, category: "olim" }
+        ];
+
+        // Render cards
+        function renderCards() {
             const cardGrid = document.getElementById('cardGrid');
             cardGrid.innerHTML = '';
 
-            people.forEach((person, index) => {
+            peopleData.forEach((person, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.style.animationDelay = `${index * 0.05}s`;
@@ -705,638 +939,26 @@ renderTranslateButtons();
                     'din': '🕌'
                 }[person.category] || '👤';
 
-               card.innerHTML = `
-    <div class="card-image">
-        <img src="${person.image}" alt="${person.name}" loading="lazy">
-        <div class="card-overlay">
-            <button class="card-overlay-btn" 
-                onclick="window.location.href='${person.name.toLowerCase().replace(/[^a-z0-9]+/g,'_')}.html'">
-                📖 Batafsil bilib olish niyatingiz bo'lsa tugma ustiga bosing siz uchun to'liq va ishonchli ma'lumot
-            </button>
-        </div>
-    </div>
-    <div class="card-info">
-        <h3 class="card-title">${person.name}</h3>
-        <p class="card-category">${categoryIcon} ${person.category}</p>
-        <p class="card-year">📅 ${person.born} - ${person.died}</p>
-    </div>
-`;
-                card.onclick = (e) => {
-                    if (e.target.closest('.card-overlay-btn')) return;
-                    showPersonBio(person.id);
-                };
+                card.innerHTML = `
+                    <div class="card-image" style="background: linear-gradient(135deg, #1a1a2e, #0f3460); display: flex; align-items: center; justify-content: center;">
+                        <span style="font-size: 80px;">${categoryIcon}</span>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">${person.name}</h3>
+                        <p class="card-category">${categoryIcon} ${person.category}</p>
+                        <p class="card-year">📅 ${person.born} - ${person.died}</p>
+                    </div>
+                `;
 
                 cardGrid.appendChild(card);
             });
         }
 
-        // ============================================
-        // FILTER
-        // ============================================
-        function filterByCategory(category) {
-            currentCategory = category;
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            let filtered = category === 'all' ? peopleData : peopleData.filter(p => p.category === category);
-            renderCards(filtered);
-        }
-
-        function filterCards() {
-            const searchValue = document.getElementById('search').value.toLowerCase();
-            let filtered = peopleData.filter(person => person.name.toLowerCase().includes(searchValue));
-            if (currentCategory !== 'all') filtered = filtered.filter(p => p.category === currentCategory);
-            renderCards(filtered);
-        }
-
-        function liveSearch() {
-            const searchValue = document.getElementById('navSearch').value.toLowerCase();
-            const filtered = peopleData.filter(person => person.name.toLowerCase().includes(searchValue));
-            if (searchValue.length > 0) renderCards(filtered.slice(0, 5));
-            else if (currentPage === 'home') renderCards(currentCategory === 'all' ? peopleData : peopleData.filter(p => p.category === currentCategory));
-        }
-
-        // ============================================
-        // VOICE SEARCH
-        // ============================================
-        function setupVoiceSearch() {
-            const voiceBtn = document.getElementById('voiceBtn');
-            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                voiceBtn.style.display = 'none';
-                return;
-            }
-
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const recognition = new SpeechRecognition();
-            recognition.lang = currentLang === 'uz' ? 'uz-UZ' : currentLang === 'en' ? 'en-US' : 'ru-RU';
-
-            voiceBtn.onclick = () => {
-                voiceBtn.style.background = 'linear-gradient(135deg, #ff6b6b, #ff5252)';
-                recognition.start();
-            };
-
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                document.getElementById('search').value = transcript;
-                filterCards();
-                voiceBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
-                showToast(`Topildi: "${transcript}"`, 'success');
-            };
-
-            recognition.onerror = () => {
-                showToast('❌ Ovoz tanishtirilmadi', 'error');
-                voiceBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
-            };
-        }
-
-        // ============================================
-        // BIO
-        // ============================================
-        function showPersonBio(personId) {
-            const person = peopleData.find(p => p.id === personId);
-            if (!person) return;
-
-            const bioPage = document.createElement('div');
-            bioPage.className = 'page active';
-            bioPage.id = 'bio-page';
-            bioPage.innerHTML = `
-                <button class="back-btn" onclick="showPage('home'); document.getElementById('bio-page').remove();">
-                    ← Orqaga Qaytish
-                </button>
-                <div class="bio-container">
-                    <div class="bio-header">
-                        <div>
-                            <div class="bio-image">
-                                <img src="${person.image}" alt="${person.name}">
-                            </div>
-                        </div>
-                        <div class="bio-info">
-                            <h1>${person.name}</h1>
-                            <p class="category">🏷️ ${person.category}</p>
-                            <p class="dates">📅 ${person.born} - ${person.died} yillar</p>
-                            <div class="bio-stats">
-                                <div class="bio-stat">
-                                    <div class="bio-stat-value">${person.died - person.born}</div>
-                                    <div class="bio-stat-label">Umri (yil)</div>
-                                </div>
-                                <div class="bio-stat">
-                                    <div class="bio-stat-value">${new Date().getFullYear() - person.born}</div>
-                                    <div class="bio-stat-label">Tug'ilganidan beri</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bio-content">
-                        <h3>📖 Tavsif</h3>
-                        <p>${person.description}</p>
-
-                        <h3>✨ Asosiy Eʼtibor</h3>
-                        <ul>
-                            <li><strong>${person.name}</strong> - ${new Date().getFullYear() - person.born} yil avval tug'ilgan</li>
-                            <li>Toladgi: ${person.born}-yil</li>
-                            <li>Vafoti: ${person.died}-yil</li>
-                            <li>Kategoriya: ${person.category}</li>
-                            <li>Umri: ${person.died - person.born} yil</li>
-                        </ul>
-                    </div>
-
-                    <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
-                        <button class="btn btn-secondary" onclick="sharePersonBio('${person.name}')">📤 Ulashish</button>
-                        <button class="btn btn-success" onclick="addToFavorites('${person.name}')">❤️ Sevimlilar</button>
-                    </div>
-                </div>
-            `;
-
-            document.querySelector('.page.active').classList.remove('active');
-            document.querySelector('.main-container').appendChild(bioPage);
-            window.scrollTo(0, 0);
-        }
-
-        function sharePersonBio(name) {
-            const text = `${name} haqida o'qiylik!`;
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Bobo Kalonlarimiz',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(text);
-                showToast('Nusxaladi!', 'success');
-            }
-        }
-
-        function addToFavorites(name) {
-            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            if (!favorites.includes(name)) {
-                favorites.push(name);
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                showToast(`${name} sevimlilar'ga qo'shildi ❤️`, 'success');
-            } else {
-                showToast(`${name} allaqachon sevimlilar'da`, 'warning');
-            }
-        }
-
-        // ============================================
-        // TIMELINE
-        // ============================================
-        function generateTimeline() {
-            const container = document.getElementById('timelineContainer');
-            if (!container) return;
-
-            container.innerHTML = '';
-            const sorted = [...peopleData].sort((a, b) => a.born - b.born);
-
-            sorted.forEach((person, index) => {
-                const item = document.createElement('div');
-                item.className = 'timeline-item';
-                item.style.animationDelay = `${index * 0.1}s`;
-
-                const categoryIcon = {
-                    'olim': '🧠',
-                    'sarkarda': '⚔️',
-                    'yozuvchi': '📜',
-                    'din': '🕌'
-                }[person.category] || '👤';
-
-                item.innerHTML = `
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-year">📅 ${person.born}-${person.died}</div>
-                        <div class="timeline-desc">
-                            <strong>${person.name}</strong><br>
-                            ${categoryIcon} ${person.category}
-                        </div>
-                    </div>
-                `;
-
-                item.onclick = () => showPersonBio(person.id);
-                container.appendChild(item);
-            });
-        }
-
-        // ============================================
-        // STATISTICS
-        // ============================================
-        function updateStatistics() {
-            const total = peopleData.length;
-            const scholars = peopleData.filter(p => p.category === 'olim').length;
-            const commanders = peopleData.filter(p => p.category === 'sarkarda').length;
-            const writers = peopleData.filter(p => p.category === 'yozuvchi').length;
-            const religious = peopleData.filter(p => p.category === 'din').length;
-
-            animateCounter(document.getElementById('totalPeople'), 0, total, 1500);
-            animateCounter(document.getElementById('totalScholars'), 0, scholars, 1500);
-            animateCounter(document.getElementById('totalCommanders'), 0, commanders, 1500);
-            animateCounter(document.getElementById('totalWriters'), 0, writers, 1500);
-            animateCounter(document.getElementById('totalReligious'), 0, religious, 1500);
-        }
-
-        function animateCounter(element, start, end, duration) {
-            const range = end - start;
-            const increment = end > start ? 1 : -1;
-            const stepTime = Math.abs(Math.floor(duration / range));
-            let current = start;
-
-            const timer = setInterval(() => {
-                current += increment;
-                element.textContent = current;
-                if (current === end) clearInterval(timer);
-            }, stepTime);
-        }
-
-        // ============================================
-        // CHARTS
-        // ============================================
-        function generateCharts() {
-            generateCategoryChart();
-            generateTopPeopleChart();
-        }
-
-        function generateCategoryChart() {
-            const container = document.getElementById('categoryChart');
-            if (!container) return;
-
-            const categories = {
-                'olim': 0,
-                'sarkarda': 0,
-                'yozuvchi': 0,
-                'din': 0
-            };
-
-            peopleData.forEach(p => categories[p.category]++);
-
-            container.innerHTML = '';
-            const icons = { 'olim': '🧠', 'sarkarda': '⚔️', 'yozuvchi': '📜', 'din': '🕌' };
-
-            for (const [category, count] of Object.entries(categories)) {
-                const percentage = (count / peopleData.length) * 100;
-                const bar = document.createElement('div');
-                bar.className = 'bar';
-                bar.innerHTML = `
-                    <div class="bar-label">${icons[category]} ${category}</div>
-                    <div class="bar-container">
-                        <div class="bar-fill" style="width: 0%">
-                            <span>${count} (${percentage.toFixed(1)}%)</span>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(bar);
-
-                setTimeout(() => {
-                    bar.querySelector('.bar-fill').style.width = percentage + '%';
-                }, 100);
-            }
-        }
-
-        function generateTopPeopleChart() {
-            const container = document.getElementById('topPeopleChart');
-            if (!container) return;
-
-            container.innerHTML = '';
-            const sorted = [...peopleData].sort((a, b) => (b.died - b.born) - (a.died - a.born)).slice(0, 5);
-
-            sorted.forEach(person => {
-                const lifespan = person.died - person.born;
-                const percentage = (lifespan / 120) * 100;
-
-                const bar = document.createElement('div');
-                bar.className = 'bar';
-                bar.innerHTML = `
-                    <div class="bar-label">${person.name}</div>
-                    <div class="bar-container">
-                        <div class="bar-fill" style="width: 0%">
-                            ${lifespan} yil
-                        </div>
-                    </div>
-                `;
-                container.appendChild(bar);
-
-                setTimeout(() => {
-                    bar.querySelector('.bar-fill').style.width = Math.min(percentage, 100) + '%';
-                }, 100);
-            });
-        }
-
-        // ============================================
-        // ADMIN
-        // ============================================
-        function switchAdminTab(tabName) {
-            document.querySelectorAll('.admin-tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
-
-            const selectedTab = document.getElementById(tabName + '-tab');
-            if (selectedTab) selectedTab.classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        function addUser(e) {
-            e.preventDefault();
-
-            const newUser = {
-                id: users.length + 1,
-                name: document.getElementById('userName').value,
-                email: document.getElementById('userEmail').value,
-                role: document.getElementById('userRole').value,
-                date: new Date().toLocaleDateString('uz-UZ')
-            };
-
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
-
-            document.getElementById('userForm').reset();
-            loadUsersList();
-            showToast('✅ Foydalanuvchi qoʻshildi!', 'success');
-        }
-
-        function loadUsers() {
-            if (!localStorage.getItem('users')) {
-                users = [
-                    { id: 1, name: "Admin", email: "admin@example.com", role: "Admin", date: "2024-01-01" },
-                    { id: 2, name: "Editor", email: "editor@example.com", role: "Editor", date: "2024-01-05" }
-                ];
-                localStorage.setItem('users', JSON.stringify(users));
-            } else {
-                users = JSON.parse(localStorage.getItem('users'));
-            }
-        }
-
-        function loadUsersList() {
-            const tbody = document.getElementById('usersTable');
-            if (!tbody) return;
-
-            tbody.innerHTML = '';
-            users.forEach(user => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
-                    <td><span style="background: rgba(106, 216, 255, 0.2); padding: 5px 10px; border-radius: 5px;">${user.role}</span></td>
-                    <td class="action-buttons">
-                        <button class="btn btn-sm" onclick="deleteUser(${user.id})">🗑️ Oʻchirish</button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function deleteUser(id) {
-            if (confirm('Aniqmi oʻchirmoqchisiz?')) {
-                users = users.filter(u => u.id !== id);
-                localStorage.setItem('users', JSON.stringify(users));
-                loadUsersList();
-                showToast('✅ Oʻchirildi!', 'success');
-            }
-        }
-
-        function addContent(e) {
-            e.preventDefault();
-
-            const newContent = {
-                id: peopleData.length + 1,
-                name: document.getElementById('personName').value,
-                born: parseInt(document.getElementById('personBorn').value),
-                died: parseInt(document.getElementById('personDied').value),
-                category: document.getElementById('personCategory').value,
-                description: document.getElementById('personDesc').value,
-                image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 250 280%22%3E%3Crect fill=%22%23333%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%22100%22 fill=%22%23666%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E📚%3C/text%3E%3C/svg%3E'
-            };
-
-            peopleData.push(newContent);
-            localStorage.setItem('peopleData', JSON.stringify(peopleData));
-
-            document.getElementById('contentForm').reset();
-            loadContentTable();
-            updateStatistics();
-            generateCharts();
-            showToast('✅ Yangi shaxs qoʻshildi!', 'success');
-        }
-
-        function loadContentTable() {
-            const tbody = document.getElementById('contentTable');
-            if (!tbody) return;
-
-            tbody.innerHTML = '';
-            peopleData.forEach(person => {
-                const row = document.createElement('tr');
-                const categoryIcon = {
-                    'olim': '🧠',
-                    'sarkarda': '⚔️',
-                    'yozuvchi': '📜',
-                    'din': '🕌'
-                }[person.category] || '👤';
-
-                row.innerHTML = `
-                    <td>${person.name}</td>
-                    <td>${person.born}</td>
-                    <td>${person.died}</td>
-                    <td>${categoryIcon} ${person.category}</td>
-                    <td class="action-buttons">
-                        <button class="btn btn-sm btn-danger" onclick="deleteContent(${person.id})">🗑️</button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function deleteContent(id) {
-            if (confirm('Aniqmi oʻchirmoqchisiz?')) {
-                const index = peopleData.findIndex(p => p.id === id);
-                if (index > -1) {
-                    peopleData.splice(index, 1);
-                    loadContentTable();
-                    updateStatistics();
-                    showToast('✅ Oʻchirildi!', 'success');
-                }
-            }
-        }
-
-        function saveSettings() {
-            const settings = {
-                siteName: document.getElementById('siteName').value,
-                siteDesc: document.getElementById('siteDesc').value,
-                siteKeywords: document.getElementById('siteKeywords').value,
-                siteEmail: document.getElementById('siteEmail').value
-            };
-
-            localStorage.setItem('siteSettings', JSON.stringify(settings));
-            showToast('💾 Sozlamalar saqlandi!', 'success');
-        }
-
-        // ============================================
-        // NAVIGATION
-        // ============================================
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                if (page.id !== 'bio-page') page.classList.remove('active');
-            });
-
-            const page = document.getElementById(pageId);
-            if (page && page.id !== 'bio-page') page.classList.add('active');
-
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
-            if (hamburger) hamburger.classList.remove('active');
-            if (mobileMenu) mobileMenu.classList.remove('active');
-
-            currentPage = pageId;
-            window.scrollTo(0, 0);
-        }
-
-        // ============================================
-        // LANGUAGE
-        // ============================================
-        function changeLang(lang) {
-            currentLang = lang;
-
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            document.getElementById('search').placeholder = lang === 'uz' ? 'Bobo kalon nomini yozing...' : lang === 'en' ? 'Type name...' : 'Введите имя...';
-        }
-
-        // ============================================
-        // MOBILE MENU
-        // ============================================
-        function toggleMobileMenu() {
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
-
-            if (hamburger) hamburger.classList.toggle('active');
-            if (mobileMenu) mobileMenu.classList.toggle('active');
-        }
-
-        // ============================================
-        // SCROLL
-        // ============================================
-        function setupScrollToTop() {
-            const topBtn = document.getElementById('topBtn');
-
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    topBtn.classList.add('show');
-                } else {
-                    topBtn.classList.remove('show');
-                }
-            });
-        }
-
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-
-        // ============================================
-        // NOTIFICATIONS
-        // ============================================
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.animation = 'slideUp 0.4s ease reverse';
-                setTimeout(() => toast.remove(), 400);
-            }, 3000);
-        }
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', function() {
+            renderCards();
+            addChatMessage("Assalom aleykum! 👋 Men Bobo Kalonlar haqida ma'lumot berish uchun tayyorman. Qanday yordam bera olaman?", 'bot');
+        });
     </script>
 </body>
 </html>
-
-   <!-- FOOTER -->
-<footer class="modern-footer">
-    <div class="footer-grid">
-        <!-- Logo va Tavsif -->
-        <div class="footer-section main-info">
-            <h3 class="footer-logo">🏛️ Bobo Kalonlarimiz</h3>
-            <p>Buyuk ajdodlarimiz hayoti va merosini o'rganish uchun eng mukammal raqamli ensiklopediya.</p>
-        </div>
-
-        <!-- Havolalar -->
-        <div class="footer-section">
-            <h3>🔗 Tezkor havolalar</h3>
-            <ul class="footer-links">
-                <li><a href="#" onclick="showPage('home')">🏠 Bosh Sahifa</a></li>
-                <li><a href="#" onclick="showPage('timeline')">📅 Tarixiy Timeline</a></li>
-                <li><a href="#" onclick="showPage('statistics')">📊 Statistika</a></li>
-                <li><a href="#" onclick="showPage('admin')">⚙️ Admin Panel</a></li>
-            </ul>
-        </div>
-
-        <!-- Bog'lanish -->
-        <div class="footer-section">
-            <h3>📧 Aloqa markazi</h3>
-            <div class="contact-card">
-                <a href="mailto:admin@bobokalonlar.uz" class="contact-item">
-                    <span>📧</span> admin@bobokalonlar.uz
-                </a>
-                <a href="https://t.me/Biu_mualifi_AI_bot" class="contact-item bot-link">
-                    <span>🤖</span> @Biu_mualifi_AI_bot
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <hr class="footer-hr">
-        <div class="copyright-flex">
-            <p>© 2026 Bobo Kalonlarimiz | Barcha huquqlar himoyalangan</p>
-            <p class="author">Dasturchi: <span>Teshaboyev Salohiddin</span></p>
-        </div>
-    </div>
-</footer>
-
-<style>
-/* Footer uchun maxsus qo'shimcha stillar */
-.footer-grid {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-}
-
-.footer-links { list-style: none; padding: 0; }
-.footer-links li { margin-bottom: 12px; }
-.footer-links a { 
-    text-decoration: none; 
-    color: rgba(255,255,255,0.8); 
-    transition: 0.3s; 
-}
-.footer-links a:hover { color: #6ad8ff; padding-left: 5px; }
-
-.contact-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: white;
-    margin-bottom: 15px;
-    background: rgba(255,255,255,0.05);
-    padding: 10px;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.contact-item:hover { background: rgba(106, 216, 255, 0.2); }
-
-.copyright-flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    font-size: 14px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 20px;
-}
-
-.author span { color: #6ad8ff; font-weight: bold; }
-
-@media (max-width: 768px) {
-    .copyright-flex { flex-direction: column; gap: 10px; text-align: center; }
-}
-</style>
