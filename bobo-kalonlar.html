@@ -1251,31 +1251,96 @@ renderTranslateButtons();
 </body>
 </html>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-section">
-                <h3>🏛️ Bobo Kalonlarimiz</h3>
-                <p>Tarixiy shaxslar haqida ta'limiy ensiklopediya</p>
-            </div>
-            <div class="footer-section">
-                <h3>🔗 Havolalar</h3>
-                <ul>
-                    <li><a href="#" onclick="showPage('home')">Bosh Sahifa</a></li>
-                    <li><a href="#" onclick="showPage('timeline')">Timeline</a></li>
-                    <li><a href="#" onclick="showPage('statistics')">Statistika</a></li>
-                    <li><a href="#" onclick="showPage('admin')">Admin</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>📧 Aloqa</h3>
-                <ul>
-                    <li><a href="mailto:admin@bobokalonlar.uz">📧 Email</a></li>
-                    <li><a href="https://t.me/Biu_mualifi_AI_bot">📱 Telegram</a></li>
-                </ul>
+   <!-- FOOTER -->
+<footer class="modern-footer">
+    <div class="footer-grid">
+        <!-- Logo va Tavsif -->
+        <div class="footer-section main-info">
+            <h3 class="footer-logo">🏛️ Bobo Kalonlarimiz</h3>
+            <p>Buyuk ajdodlarimiz hayoti va merosini o'rganish uchun eng mukammal raqamli ensiklopediya.</p>
+        </div>
+
+        <!-- Havolalar -->
+        <div class="footer-section">
+            <h3>🔗 Tezkor havolalar</h3>
+            <ul class="footer-links">
+                <li><a href="#" onclick="showPage('home')">🏠 Bosh Sahifa</a></li>
+                <li><a href="#" onclick="showPage('timeline')">📅 Tarixiy Timeline</a></li>
+                <li><a href="#" onclick="showPage('statistics')">📊 Statistika</a></li>
+                <li><a href="#" onclick="showPage('admin')">⚙️ Admin Panel</a></li>
+            </ul>
+        </div>
+
+        <!-- Bog'lanish -->
+        <div class="footer-section">
+            <h3>📧 Aloqa markazi</h3>
+            <div class="contact-card">
+                <a href="mailto:admin@bobokalonlar.uz" class="contact-item">
+                    <span>📧</span> admin@bobokalonlar.uz
+                </a>
+                <a href="https://t.me/Biu_mualifi_AI_bot" class="contact-item bot-link">
+                    <span>🤖</span> @Biu_mualifi_AI_bot
+                </a>
             </div>
         </div>
-        <hr style="border: 1px solid rgba(106, 216, 255, 0.2); margin: 30px 0;">
-        <p class="footer-title">© 2026 Bobo Kalonlarimiz</p>
-        <p style="text-align: center; color: rgba(255,255,255,0.7);">Muallif: Teshaboyev Salohiddin | Versiya: v2.0 FIXED</p>
-    </footer>
+    </div>
+
+    <div class="footer-bottom">
+        <hr class="footer-hr">
+        <div class="copyright-flex">
+            <p>© 2026 Bobo Kalonlarimiz | Barcha huquqlar himoyalangan</p>
+            <p class="author">Dasturchi: <span>Teshaboyev Salohiddin</span></p>
+        </div>
+    </div>
+</footer>
+
+<style>
+/* Footer uchun maxsus qo'shimcha stillar */
+.footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+}
+
+.footer-links { list-style: none; padding: 0; }
+.footer-links li { margin-bottom: 12px; }
+.footer-links a { 
+    text-decoration: none; 
+    color: rgba(255,255,255,0.8); 
+    transition: 0.3s; 
+}
+.footer-links a:hover { color: #6ad8ff; padding-left: 5px; }
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: white;
+    margin-bottom: 15px;
+    background: rgba(255,255,255,0.05);
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.contact-item:hover { background: rgba(106, 216, 255, 0.2); }
+
+.copyright-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 20px;
+}
+
+.author span { color: #6ad8ff; font-weight: bold; }
+
+@media (max-width: 768px) {
+    .copyright-flex { flex-direction: column; gap: 10px; text-align: center; }
+}
+</style>
