@@ -8,8 +8,9 @@
 <style>
 * { box-sizing: border-box; }
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Rang-barang gradient o'rniga professional och rang */
+    background-color: #f4f7f6;
     margin: 0;
     padding: 0;
     display: flex;
@@ -17,102 +18,110 @@ body {
     align-items: center;
     min-height: 100vh;
 }
+
 .container {
-    background: #fff;
-    padding: 40px 30px;
-    border-radius: 20px;
+    background: #ffffff;
+    padding: 40px 35px;
+    border-radius: 12px; /* Burchaklarni biroz o'tkirroq qildik */
     width: 100%;
-    max-width: 500px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    max-width: 400px; /* Sign in uchun kichikroq hajm mosroq */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05); /* Soya ancha yumshatildi */
+    border: 1px solid #e1e4e8;
 }
+
 h2 {
     text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-    font-size: 26px;
+    margin-bottom: 30px;
+    color: #1a202c;
+    font-size: 24px;
+    font-weight: 700;
 }
+
 label {
     display: block;
     margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: 500;
-    color: #333;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #4a5568;
+    font-size: 14px;
 }
+
 input, textarea {
     width: 100%;
     padding: 12px;
     margin-bottom: 5px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
     font-size: 15px;
-    transition: 0.3s;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box; /* Padding masalasini to'g'irlaydi */
 }
-input:focus, textarea:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+
+input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     outline: none;
 }
-textarea {
-    resize: vertical;
-    min-height: 80px;
-}
+
 button {
     width: 100%;
     padding: 12px;
-    margin-top: 15px;
+    margin-top: 20px;
     border: none;
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
+
 .submit-btn {
-    background: linear-gradient(135deg, #667eea, #5a67d8);
+    background-color: #2563eb; /* Professional ko'k rang */
     color: white;
 }
+
 .submit-btn:hover {
-    background: linear-gradient(135deg, #5a67d8, #4c51bf);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    background-color: #1d4ed8;
 }
+
 .submit-btn:disabled {
-    background: #ccc;
+    background-color: #93c5fd;
     cursor: not-allowed;
 }
+
 .delete-btn {
-    background: #ff6b6b;
-    color: white;
-    margin-top: 10px;
-}
-.delete-btn:hover {
-    background: #ff5252;
-}
-.error {
-    color: red;
-    font-size: 13px;
-    margin-top: -3px;
-    margin-bottom: 8px;
-}
-.success {
-    color: green;
-    text-align: center;
-    font-weight: bold;
+    background-color: transparent;
+    color: #6b7280;
     margin-top: 15px;
-    font-size: 15px;
+    font-size: 14px;
+    text-decoration: underline;
 }
-.loading {
-    color: blue;
+
+.delete-btn:hover {
+    color: #ef4444;
+}
+
+.error {
+    color: #dc2626;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.success {
+    color: #059669;
     text-align: center;
-    font-weight: bold;
-    margin-top: 10px;
-    display: none;
+    font-weight: 500;
+    margin-top: 15px;
 }
+
 .user-info {
-    background: #f0f0f0;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    text-align: center;
+    background: #f8fafc;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #64748b;
 }
 </style>
 </head>
