@@ -285,9 +285,6 @@ form.addEventListener("submit", async function(e) {
             localStorage.setItem("formExtra", data.extra);
 
             await sendToTelegram(data);
-
-            document.getElementById("success").innerText = "✅ Ariza muvaffaqiyatli yuborildi!";
-            document.getElementById("loading").style.display = "none";
             
             setTimeout(() => {
                 window.location.href = "bobo-kalonlar.html";
