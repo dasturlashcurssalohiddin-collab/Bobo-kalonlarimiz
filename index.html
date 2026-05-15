@@ -9,7 +9,6 @@
 * { box-sizing: border-box; }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* Rang-barang gradient o'rniga professional och rang */
     background-color: #f4f7f6;
     margin: 0;
     padding: 0;
@@ -22,10 +21,10 @@ body {
 .container {
     background: #ffffff;
     padding: 40px 35px;
-    border-radius: 12px; /* Burchaklarni biroz o'tkirroq qildik */
+    border-radius: 12px;
     width: 100%;
-    max-width: 400px; /* Sign in uchun kichikroq hajm mosroq */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05); /* Soya ancha yumshatildi */
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     border: 1px solid #e1e4e8;
 }
 
@@ -54,7 +53,6 @@ input, textarea {
     border: 1px solid #d1d5db;
     font-size: 15px;
     transition: all 0.2s ease-in-out;
-    box-sizing: border-box; /* Padding masalasini to'g'irlaydi */
 }
 
 input:focus {
@@ -76,29 +74,12 @@ button {
 }
 
 .submit-btn {
-    background-color: #2563eb; /* Professional ko'k rang */
+    background-color: #2563eb;
     color: white;
 }
 
 .submit-btn:hover {
     background-color: #1d4ed8;
-}
-
-.submit-btn:disabled {
-    background-color: #93c5fd;
-    cursor: not-allowed;
-}
-
-.delete-btn {
-    background-color: transparent;
-    color: #6b7280;
-    margin-top: 15px;
-    font-size: 14px;
-    text-decoration: underline;
-}
-
-.delete-btn:hover {
-    color: #ef4444;
 }
 
 .error {
@@ -152,7 +133,6 @@ button {
         <textarea id="extra" placeholder="Istalgan qo'shimcha ma'lumot"></textarea>
 
         <button type="submit" class="submit-btn" id="submitBtn">Yuborish</button>
-        <div id="loading" class="loading">⏳ Jo'natilmoqda...</div>
         <div id="success" class="success"></div>
     </form>
 
@@ -175,7 +155,6 @@ function handleCredentialResponse(res) {
     const data = jwt_decode(res.credential);
     localStorage.setItem("userName", data.name);
     localStorage.setItem("userEmail", data.email);
-    
     showForm(data.name, data.email);
 }
 
@@ -264,8 +243,8 @@ form.addEventListener("submit", async function(e) {
         return;
     }
 
-    document.getElementById("loading").style.display = "block";
     submitBtn.disabled = true;
+    submitBtn.innerText = "Yuborilmoqda...";   // qisqa vaqt ko'rinadi
 
     try {
         const response = await fetch(API_ENDPOINT, {
@@ -274,10 +253,7 @@ form.addEventListener("submit", async function(e) {
             body: JSON.stringify(data)
         });
 
-        console.log('📥 Server javob:', response.status);
-        
         const result = await response.json();
-        console.log('📦 JSON:', result);
 
         if (response.ok && result.success) {
             localStorage.setItem("formName", data.name);
@@ -286,19 +262,20 @@ form.addEventListener("submit", async function(e) {
 
             await sendToTelegram(data);
             
+            document.getElementById("success").innerText = "✅ Muvaffaqiyatli yuborildi!";
+            
             setTimeout(() => {
                 window.location.href = "bobo-kalonlar.html";
-            }, 1500);
+            }, 1200);
         } else {
             alert("❌ Xatolik: " + (result.error || "Noma'lum xatolik"));
-            document.getElementById("loading").style.display = "none";
-            submitBtn.disabled = false;
         }
     } catch (err) {
-        console.error('❌ Catch xatolik:', err);
-        alert("❌ Xatolik: " + err.message);
-        document.getElementById("loading").style.display = "none";
+        console.error('❌ Xatolik:', err);
+        alert("❌ Xatolik yuz berdi. Qayta urinib ko'ring.");
+    } finally {
         submitBtn.disabled = false;
+        submitBtn.innerText = "Yuborish";
     }
 });
 
