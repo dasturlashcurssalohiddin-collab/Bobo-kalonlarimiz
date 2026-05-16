@@ -11,7 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* ===== RESET & BASE ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -24,7 +23,6 @@
   --muted: #7a6d55;
   --border: #ddd5c0;
   --blue: #1a3a6b;
-  --blue-hover: #0f2548;
   --success: #2d6a4f;
   --error: #b91c1c;
   --card-shadow: 0 20px 60px rgba(26,18,8,0.12), 0 4px 16px rgba(26,18,8,0.08);
@@ -45,15 +43,13 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== BACKGROUND TEXTURE ===== */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
     radial-gradient(ellipse at 20% 10%, rgba(201,168,76,0.10) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 90%, rgba(26,58,107,0.08) 0%, transparent 50%),
-    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    radial-gradient(ellipse at 80% 90%, rgba(26,58,107,0.08) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -63,11 +59,10 @@ body::before {
   width: 100%;
   max-width: 1100px;
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   position: relative;
   z-index: 1;
 }
-
 .site-header .logo-line {
   display: flex;
   align-items: center;
@@ -75,16 +70,13 @@ body::before {
   gap: 12px;
   margin-bottom: 6px;
 }
-
 .logo-ornament {
-  width: 36px;
-  height: 2px;
+  width: 36px; height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold));
 }
 .logo-ornament.right {
   background: linear-gradient(90deg, var(--gold), transparent);
 }
-
 .site-header h1 {
   font-family: 'Playfair Display', serif;
   font-size: clamp(22px, 4vw, 36px);
@@ -92,7 +84,6 @@ body::before {
   color: var(--deep);
   letter-spacing: 0.02em;
 }
-
 .site-header .subtitle {
   font-size: 13px;
   color: var(--muted);
@@ -121,55 +112,61 @@ body::before {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== VIDEO PANEL (left) ===== */
+/* ===== VIDEO PANEL ===== */
 .video-panel {
   position: relative;
   background: var(--deep);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: flex-end;
   min-height: 560px;
   overflow: hidden;
 }
 
+/* dark gradient so text readable */
 .video-panel::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, transparent 60%);
+  background: linear-gradient(
+    to bottom,
+    rgba(26,18,8,0.10) 0%,
+    rgba(26,18,8,0.0)  35%,
+    rgba(26,18,8,0.60) 100%
+  );
+  z-index: 1;
   pointer-events: none;
 }
 
-/* Ornamental border inside video panel */
 .video-panel::after {
   content: '';
   position: absolute;
   inset: 12px;
-  border: 1px solid rgba(201,168,76,0.2);
+  border: 1px solid rgba(201,168,76,0.25);
   border-radius: 12px;
   pointer-events: none;
+  z-index: 2;
 }
 
+/* Video fills entire panel — KEY FIX */
 .video-wrapper {
-  width: 100%;
-  height: 100%;
   position: absolute;
   inset: 0;
 }
-
 .video-wrapper video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  opacity: 0.85;
+  object-fit: cover;        /* fills without black bars */
+  object-position: center top;
+  display: block;
 }
 
 .video-overlay {
   position: relative;
-  z-index: 2;
-  padding: 32px;
-  text-align: center;
+  z-index: 3;
+  padding: 28px 28px 32px;
+  text-align: left;
   width: 100%;
 }
 
@@ -177,414 +174,269 @@ body::before {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(201,168,76,0.15);
-  border: 1px solid rgba(201,168,76,0.4);
+  background: rgba(201,168,76,0.18);
+  border: 1px solid rgba(201,168,76,0.45);
   color: var(--gold-light);
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 11px; font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  padding: 6px 14px;
+  padding: 5px 13px;
   border-radius: 100px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   backdrop-filter: blur(8px);
 }
-
-.video-badge::before {
-  content: '▶';
-  font-size: 9px;
-}
+.video-badge::before { content: '▶'; font-size: 9px; }
 
 .video-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(20px, 2.5vw, 30px);
-  color: #fff;
-  font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 12px;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  font-size: clamp(18px, 2.2vw, 26px);
+  color: #fff; font-weight: 700;
+  line-height: 1.3; margin-bottom: 10px;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.6);
 }
 
 .video-desc {
   font-size: 13px;
-  color: rgba(255,255,255,0.65);
-  line-height: 1.6;
-  max-width: 280px;
-  margin: 0 auto 24px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.6; max-width: 280px; margin-bottom: 20px;
 }
 
-/* Steps shown on video panel */
-.steps-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: left;
-}
-
+.steps-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
 .steps-list li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(255,255,255,0.85);
-  font-size: 13px;
-  font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+  color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 500;
 }
-
 .step-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  width: 26px; height: 26px; border-radius: 50%;
   background: rgba(201,168,76,0.2);
   border: 1px solid rgba(201,168,76,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  flex-shrink: 0;
-  color: var(--gold-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0; color: var(--gold-light);
 }
 
-/* ===== FORM PANEL (right) ===== */
+/* Pulse ring — hidden when video loads */
+.pulse-ring {
+  display: none;
+  width: 70px; height: 70px; border-radius: 50%;
+  border: 2px solid rgba(201,168,76,0.4);
+  align-items: center; justify-content: center;
+  margin-bottom: 18px;
+  animation: pulseRing 2s ease-in-out infinite;
+}
+@keyframes pulseRing {
+  0%,100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.3); }
+  50%      { box-shadow: 0 0 0 14px rgba(201,168,76,0); }
+}
+.pulse-ring .play-icon { font-size: 24px; color: var(--gold-light); margin-left: 4px; }
+
+/* ===== FORM PANEL ===== */
 .form-panel {
   padding: 48px 44px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-
-.form-panel-header {
-  margin-bottom: 28px;
-}
-
+.form-panel-header { margin-bottom: 24px; }
 .form-panel-header h2 {
   font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  color: var(--deep);
-  font-weight: 700;
-  margin-bottom: 6px;
+  font-size: 26px; color: var(--deep); font-weight: 700; margin-bottom: 6px;
 }
+.form-panel-header p { font-size: 13px; color: var(--muted); }
 
-.form-panel-header p {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-/* Gold divider */
 .divider {
-  width: 40px;
-  height: 3px;
+  width: 40px; height: 3px;
   background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  border-radius: 2px;
-  margin: 14px 0 22px;
+  border-radius: 2px; margin: 12px 0 20px;
 }
 
-/* ===== GOOGLE SIGN-IN AREA ===== */
-#gSignIn {
-  margin-bottom: 20px;
-}
+#gSignIn { margin-bottom: 20px; }
 
-/* User welcome banner */
 .user-banner {
-  display: none;
-  align-items: center;
-  gap: 12px;
+  display: none; align-items: center; gap: 12px;
   background: linear-gradient(135deg, #f0f7ff, #e8f4fd);
-  border: 1px solid #bddafc;
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-bottom: 22px;
+  border: 1px solid #bddafc; border-radius: 10px;
+  padding: 12px 16px; margin-bottom: 20px;
   animation: fadeSlide 0.4s ease both;
 }
-
 @keyframes fadeSlide {
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 .user-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
+  width: 38px; height: 38px; border-radius: 50%;
   background: linear-gradient(135deg, var(--blue), #2563eb);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 15px; font-weight: 700; flex-shrink: 0;
 }
+.user-banner-text strong { display: block; color: var(--blue); font-size: 14px; font-weight: 600; }
+.user-banner-text span   { font-size: 12px; color: #5a7a9a; }
 
-.user-banner-text strong {
-  display: block;
-  color: var(--blue);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.user-banner-text span {
-  font-size: 12px;
-  color: #5a7a9a;
-}
-
-/* ===== FORM FIELDS ===== */
 .form-body { display: none; }
 
-.field-group {
-  margin-bottom: 18px;
-}
-
+.field-group { margin-bottom: 16px; }
 .field-group label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 7px;
+  display: block; font-size: 12px; font-weight: 600;
+  color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.08em; margin-bottom: 7px;
 }
-
 .field-group input,
 .field-group textarea {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  color: var(--ink);
-  background: #fff;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  outline: none;
+  width: 100%; padding: 12px 16px;
+  border: 1.5px solid var(--border); border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px;
+  color: var(--ink); background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s; outline: none;
 }
-
 .field-group input::placeholder,
-.field-group textarea::placeholder {
-  color: #bbb;
-}
-
+.field-group textarea::placeholder { color: #bbb; }
 .field-group input:focus,
 .field-group textarea:focus {
   border-color: var(--gold);
   box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
 }
+.field-group input[readonly] { background: #f8f6f0; color: var(--muted); cursor: default; }
+.field-group textarea { resize: vertical; min-height: 80px; }
 
-.field-group input[readonly] {
-  background: #f8f6f0;
-  color: var(--muted);
-  cursor: default;
-}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-.field-group textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-/* Phone prefix wrapper */
-.phone-wrap {
-  display: flex;
-  gap: 0;
-}
-
+.phone-wrap { display: flex; }
 .phone-prefix {
-  padding: 12px 14px;
-  background: #f0ece3;
-  border: 1.5px solid var(--border);
-  border-right: none;
+  padding: 12px 14px; background: #f0ece3;
+  border: 1.5px solid var(--border); border-right: none;
   border-radius: 10px 0 0 10px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--muted);
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
+  font-size: 14px; font-weight: 600; color: var(--muted);
+  white-space: nowrap; display: flex; align-items: center;
 }
+.phone-wrap input { border-radius: 0 10px 10px 0 !important; }
 
-.phone-wrap input {
-  border-radius: 0 10px 10px 0 !important;
-}
-
-/* Error messages */
 .field-error {
-  font-size: 11.5px;
-  color: var(--error);
-  margin-top: 5px;
-  display: none;
-  align-items: center;
-  gap: 4px;
+  font-size: 11.5px; color: var(--error);
+  margin-top: 5px; display: none; align-items: center; gap: 4px;
 }
+.field-error.visible { display: flex; }
 
-.field-error.visible {
-  display: flex;
-}
-
-/* ===== BUTTONS ===== */
 .btn-submit {
-  width: 100%;
-  padding: 14px 24px;
+  width: 100%; padding: 14px 24px;
   background: linear-gradient(135deg, var(--blue) 0%, #1e4a8c 100%);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
+  color: #fff; border: none; border-radius: 10px;
   font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s;
-  position: relative;
-  overflow: hidden;
-  margin-top: 6px;
-  letter-spacing: 0.02em;
+  font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all 0.25s;
+  margin-top: 6px; letter-spacing: 0.02em;
 }
-
-.btn-submit::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.btn-submit:hover:not(:disabled)::before { opacity: 1; }
 .btn-submit:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 8px 24px rgba(26,58,107,0.35);
 }
-.btn-submit:active:not(:disabled) { transform: translateY(0); }
 .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
 
 .btn-clear {
-  width: 100%;
-  padding: 11px 24px;
-  background: transparent;
-  color: var(--muted);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 10px;
-  display: none;
+  width: 100%; padding: 11px 24px;
+  background: transparent; color: var(--muted);
+  border: 1.5px solid var(--border); border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; margin-top: 10px; display: none;
 }
-
 .btn-clear:hover { background: #f4ede0; border-color: #c9b08a; color: var(--ink); }
 
-/* Success message */
 .success-msg {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  background: #d1fae5;
-  border: 1px solid #6ee7b7;
-  color: var(--success);
-  padding: 12px 16px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 14px;
-  animation: fadeSlide 0.4s ease both;
+  display: none; align-items: center; gap: 8px;
+  background: #d1fae5; border: 1px solid #6ee7b7;
+  color: var(--success); padding: 12px 16px;
+  border-radius: 10px; font-size: 14px; font-weight: 500; margin-top: 14px;
 }
-
 .success-msg.visible { display: flex; }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  body { padding: 16px 12px; align-items: flex-start; }
-
-  .main-card {
-    grid-template-columns: 1fr;
-    border-radius: 16px;
-  }
-
-  .video-panel {
-    min-height: 280px;
-    order: -1;
-  }
-
-  .video-panel::after { inset: 8px; }
-
-  .video-overlay {
-    padding: 24px 20px;
-  }
-
-  .steps-list { display: none; }
-
-  .form-panel {
-    padding: 32px 24px;
-  }
-
-  .field-row {
-    grid-template-columns: 1fr;
-  }
+.spinner {
+  display: inline-block; width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+  vertical-align: middle; margin-right: 8px;
 }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-@media (max-width: 480px) {
-  .site-header h1 { font-size: 20px; }
-  .video-panel { min-height: 220px; }
-  .form-panel { padding: 24px 18px; }
-  .form-panel-header h2 { font-size: 22px; }
-}
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 
+/* Tablet */
 @media (min-width: 769px) and (max-width: 1024px) {
   .main-card { max-width: 860px; }
   .form-panel { padding: 40px 36px; }
-  .video-title { font-size: 22px; }
 }
 
-/* ===== LOADING SPINNER ===== */
-.spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255,255,255,0.4);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  vertical-align: middle;
-  margin-right: 8px;
+/* ---- MOBILE ---- */
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: var(--warm-white);
+  }
+  body::before { display: none; }
+
+  .site-header {
+    padding: 18px 16px 12px;
+    margin-bottom: 0;
+    background: var(--warm-white);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .main-card {
+    grid-template-columns: 1fr;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* *** VIDEO PANEL — full width, 56vw tall *** */
+  .video-panel {
+    width: 100%;
+    /* Use vw-based height so it's proportional on any phone */
+    height: 56vw;
+    min-height: 200px;
+    max-height: 320px;
+    order: -1;
+    border-radius: 0;
+  }
+
+  .video-panel::after { inset: 8px; border-radius: 12px; }
+
+  /* hide heavy content on mobile */
+  .video-title  { font-size: 15px; margin-bottom: 4px; }
+  .video-desc   { display: none; }
+  .steps-list   { display: none; }
+  .video-badge  { font-size: 10px; padding: 4px 10px; margin-bottom: 8px; }
+  .video-overlay { padding: 14px 18px 18px; }
+
+  /* Form panel */
+  .form-panel {
+    padding: 28px 20px 40px;
+    border-radius: 0;
+  }
+  .field-row { grid-template-columns: 1fr; }
+  .form-panel-header h2 { font-size: 22px; }
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* Animated gold dots in video panel when no video */
-.pulse-ring {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 2px solid rgba(201,168,76,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
-  position: relative;
-  animation: pulseRing 2s ease-in-out infinite;
-}
-
-@keyframes pulseRing {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.3); }
-  50%       { box-shadow: 0 0 0 16px rgba(201,168,76,0); }
-}
-
-.pulse-ring .play-icon {
-  font-size: 28px;
-  color: var(--gold-light);
-  margin-left: 4px;
+/* Small phones */
+@media (max-width: 420px) {
+  .video-panel {
+    height: 62vw;
+    min-height: 180px;
+    max-height: 260px;
+  }
+  .form-panel { padding: 22px 16px 36px; }
+  .form-panel-header h2 { font-size: 20px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <header class="site-header">
   <div class="logo-line">
     <span class="logo-ornament"></span>
@@ -594,32 +446,36 @@ body::before {
   <p class="subtitle">Bobokalonlar-insoniyat-ustozlari</p>
 </header>
 
-<!-- Main Card -->
 <div class="main-card">
 
-  <!-- LEFT: Video Panel -->
+  <!-- LEFT / TOP: Video Panel -->
   <div class="video-panel">
     <div class="video-wrapper">
       <video autoplay muted loop playsinline id="bgVideo">
-        <source src="Dow.001.3gp" type="video/mp4">
-        <!-- Audio-only fallback gracefully handled -->
+        <source src="Dow.001.3gp" type="video/3gpp">
+        <source src="Dow.001.mp4" type="video/mp4">
       </video>
     </div>
-  <div class="video-overlay">
-     
 
-      <div class="pulse-ring"\>
-        
+    <div class="video-overlay">
+      <div class="pulse-ring" id="pulseRing">
+        <span class="play-icon">▶</span>
       </div>
-
-      <h2 class="video-title"</h2>
-      <p class="video-desc"
-        
+      <div class="video-badge">Bobo Kalonlar</div>
+      <h2 class="video-title">Kelajak avlodga yo'l ko'rsatamiz</h2>
+      <p class="video-desc">
+        Ro'yxatdan o'ting, bilim olish va rivojlanish yo'lida birinchi qadamni qo'ying.
+      </p>
+      <ul class="steps-list">
+        <li><span class="step-icon">✦</span> Google orqali kiring</li>
+        <li><span class="step-icon">✦</span> Ism-familiyangizni kiriting</li>
+        <li><span class="step-icon">✦</span> Telefon raqamingizni qo'shing</li>
+        <li><span class="step-icon">✦</span> Arizangizni yuboring</li>
       </ul>
     </div>
   </div>
 
-  <!-- RIGHT: Form Panel -->
+  <!-- RIGHT / BOTTOM: Form Panel -->
   <div class="form-panel">
     <div class="form-panel-header">
       <h2>Ariza topshirish</h2>
@@ -627,10 +483,8 @@ body::before {
       <div class="divider"></div>
     </div>
 
-    <!-- Google Sign-In -->
     <div id="gSignIn"></div>
 
-    <!-- User Banner -->
     <div class="user-banner" id="userBanner">
       <div class="user-avatar" id="userAvatar">U</div>
       <div class="user-banner-text">
@@ -639,9 +493,7 @@ body::before {
       </div>
     </div>
 
-    <!-- Form Body (shown after sign-in) -->
     <div class="form-body" id="formBody">
-
       <div class="field-row">
         <div class="field-group">
           <label>Ism</label>
@@ -686,44 +538,34 @@ body::before {
     <button class="btn-clear" id="clearBtn" onclick="clearData()">
       ⟳ Akkauntdan chiqish
     </button>
-
   </div>
 </div>
 
 <script>
-// ===== CONFIG =====
-const CLIENT_ID   = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
+const CLIENT_ID          = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
 const TELEGRAM_BOT_TOKEN = "7123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh";
 const TELEGRAM_CHAT_ID   = "123456789";
-const API_ENDPOINT = "https://bobokalonlar-insoniyat-utozlari-biu.onrender.com/api/send-form";
+const API_ENDPOINT       = "https://bobokalonlar-insoniyat-utozlari-biu.onrender.com/api/send-form";
 
-// ===== DOM REFS =====
-const userBanner  = document.getElementById("userBanner");
-const userAvatar  = document.getElementById("userAvatar");
-const userNameEl  = document.getElementById("userName");
+const userBanner       = document.getElementById("userBanner");
+const userAvatar       = document.getElementById("userAvatar");
+const userNameEl       = document.getElementById("userName");
 const userEmailDisplay = document.getElementById("userEmailDisplay");
-const formBody    = document.getElementById("formBody");
-const clearBtn    = document.getElementById("clearBtn");
-const submitBtn   = document.getElementById("submitBtn");
-const successMsg  = document.getElementById("successMsg");
+const formBody         = document.getElementById("formBody");
+const clearBtn         = document.getElementById("clearBtn");
+const submitBtn        = document.getElementById("submitBtn");
+const successMsg       = document.getElementById("successMsg");
+const pulseRing        = document.getElementById("pulseRing");
 
-// ===== VIDEO FALLBACK =====
+// Video fallback
 const video = document.getElementById("bgVideo");
 if (video) {
-  video.addEventListener("error", () => {
-    video.style.display = "none";
-    document.getElementById("pulseRing").style.display = "flex";
-  });
-  // If no video source loads
-  setTimeout(() => {
-    if (video.readyState === 0) {
-      video.style.display = "none";
-      document.getElementById("pulseRing").style.display = "flex";
-    }
-  }, 1500);
+  video.addEventListener("loadeddata", () => { pulseRing.style.display = "none"; });
+  video.addEventListener("error", () => { pulseRing.style.display = "flex"; });
+  setTimeout(() => { if (video.readyState === 0) pulseRing.style.display = "flex"; }, 2000);
 }
 
-// ===== GOOGLE AUTH =====
+// Google Auth
 function handleCredentialResponse(res) {
   const data = jwt_decode(res.credential);
   localStorage.setItem("userName",  data.name);
@@ -732,95 +574,62 @@ function handleCredentialResponse(res) {
 }
 
 function showForm(name, email) {
-  // Banner
   userBanner.style.display = "flex";
   const initials = name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0,2);
-  userAvatar.textContent = initials;
-  userNameEl.textContent = "Salom, " + name + "!";
+  userAvatar.textContent       = initials;
+  userNameEl.textContent       = "Salom, " + name + "!";
   userEmailDisplay.textContent = email;
-
-  // Form
-  formBody.style.display = "block";
-  clearBtn.style.display  = "block";
-
-  // Pre-fill
+  formBody.style.display       = "block";
+  clearBtn.style.display       = "block";
+  document.getElementById("gSignIn").style.display = "none";
   document.getElementById("email").value     = email;
   document.getElementById("firstName").value = localStorage.getItem("formFirstName") || "";
   document.getElementById("lastName").value  = localStorage.getItem("formLastName")  || "";
   document.getElementById("phone").value     = localStorage.getItem("formPhone")     || "";
   document.getElementById("extra").value     = localStorage.getItem("formExtra")     || "";
-
-  // Hide Google button
-  document.getElementById("gSignIn").style.display = "none";
 }
 
 window.onload = () => {
-  google.accounts.id.initialize({
-    client_id: CLIENT_ID,
-    callback:  handleCredentialResponse
-  });
+  google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
   google.accounts.id.renderButton(
     document.getElementById("gSignIn"),
     { size: "large", width: "100%", theme: "outline", shape: "rectangular" }
   );
-
-  const savedName  = localStorage.getItem("userName");
-  const savedEmail = localStorage.getItem("userEmail");
-  if (savedName && savedEmail) showForm(savedName, savedEmail);
+  const n = localStorage.getItem("userName");
+  const e = localStorage.getItem("userEmail");
+  if (n && e) showForm(n, e);
 };
 
-// ===== VALIDATION =====
+// Validation
 function clearErrors() {
   document.querySelectorAll(".field-error").forEach(el => el.classList.remove("visible"));
 }
-
 function showError(id, msg) {
   const el = document.getElementById(id);
   if (msg) el.textContent = "✗ " + msg;
   el.classList.add("visible");
 }
-
 function validate(data) {
-  clearErrors();
-  let ok = true;
-
-  if (!data.firstName || data.firstName.length < 2) {
-    showError("firstNameError", "Ism kamida 2 ta harf bo'lishi kerak");
-    ok = false;
-  }
-  if (!data.lastName || data.lastName.length < 2) {
-    showError("lastNameError", "Familiya kamida 2 ta harf bo'lishi kerak");
-    ok = false;
-  }
-  if (!/^[0-9]{9}$/.test(data.phone)) {
-    showError("phoneError", "9 ta raqam kiriting (masalan: 901234567)");
-    ok = false;
-  }
+  clearErrors(); let ok = true;
+  if (!data.firstName || data.firstName.length < 2) { showError("firstNameError", "Ism kamida 2 ta harf bo'lishi kerak"); ok = false; }
+  if (!data.lastName  || data.lastName.length  < 2) { showError("lastNameError",  "Familiya kamida 2 ta harf bo'lishi kerak"); ok = false; }
+  if (!/^[0-9]{9}$/.test(data.phone))               { showError("phoneError",     "9 ta raqam kiriting (masalan: 901234567)"); ok = false; }
   return ok;
 }
 
-// ===== TELEGRAM =====
+// Telegram
 async function sendToTelegram(data) {
-  const msg = `
-📋 *Yangi Ariza — Bobo Kalonlar*
-👤 *Ism:* ${data.firstName} ${data.lastName}
-📧 *Email:* ${data.email}
-📱 *Telefon:* +998${data.phone}
-ℹ️ *Ma'lumot:* ${data.extra || "—"}
-⏰ *Vaqt:* ${new Date().toLocaleString("uz-UZ")}
-  `;
+  const msg = `📋 *Yangi Ariza — BIU*\n👤 *Ism:* ${data.firstName} ${data.lastName}\n📧 *Email:* ${data.email}\n📱 *Telefon:* +998${data.phone}\nℹ️ *Ma'lumot:* ${data.extra || "—"}\n⏰ *Vaqt:* ${new Date().toLocaleString("uz-UZ")}`;
   try {
     await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg, parse_mode: "Markdown" })
     });
-  } catch (e) {
-    console.error("Telegram xatosi:", e);
-  }
+  } catch(e) { console.error("Telegram xatosi:", e); }
 }
 
-// ===== SUBMIT =====
+// Submit
 async function handleSubmit() {
   const data = {
     firstName: document.getElementById("firstName").value.trim(),
@@ -829,40 +638,28 @@ async function handleSubmit() {
     phone:     document.getElementById("phone").value.trim(),
     extra:     document.getElementById("extra").value.trim()
   };
-
   if (!validate(data)) return;
-
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="spinner"></span> Yuborilmoqda...';
-
   try {
-    const payload = { ...data, name: `${data.firstName} ${data.lastName}` };
-
     const response = await fetch(API_ENDPOINT, {
-      method:  "POST",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify(payload)
+      body: JSON.stringify({ ...data, name: `${data.firstName} ${data.lastName}` })
     });
-
     const result = await response.json();
-
     if (response.ok && result.success) {
       localStorage.setItem("formFirstName", data.firstName);
       localStorage.setItem("formLastName",  data.lastName);
       localStorage.setItem("formPhone",     data.phone);
       localStorage.setItem("formExtra",     data.extra);
-
       await sendToTelegram(data);
-
       successMsg.classList.add("visible");
-
-      setTimeout(() => {
-        window.location.href = "bobo-kalonlar.html";
-      }, 1800);
+      setTimeout(() => { window.location.href = "bobo-kalonlar.html"; }, 1800);
     } else {
-      alert("❌ Xatolik: " + (result?.error || "Noma'lum xatolik yuz berdi"));
+      alert("❌ Xatolik: " + (result?.error || "Noma'lum xatolik"));
     }
-  } catch (err) {
+  } catch(err) {
     console.error("Xatolik:", err);
     alert("❌ Server bilan bog'lanishda xatolik. Qayta urinib ko'ring.");
   } finally {
@@ -871,14 +668,12 @@ async function handleSubmit() {
   }
 }
 
-// Phone — only digits
 document.getElementById("phone").addEventListener("input", function() {
   this.value = this.value.replace(/\D/g, "").slice(0, 9);
 });
 
-// ===== CLEAR =====
 function clearData() {
-  if (confirm("Akkauntdan chiqmoqchimisiz? Barcha ma'lumotlar o'chiriladi.")) {
+  if (confirm("Akkauntdan chiqmoqchimisiz?")) {
     localStorage.clear();
     location.reload();
   }
