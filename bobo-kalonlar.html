@@ -1,1839 +1,1613 @@
-/* =====================================================
-   BIU — BOBOKALONLAR · PREMIUM CSS
-   Muallif: Teshaboyev Salohiddin
-   ===================================================== */
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bobo Kalonlarimiz - O'zbek Tarixiy Ensiklopediyasi | Eng Yaxshi Ensiklopediya">
+    <meta name="theme-color" content="#6ad8ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="keywords" content="bobo, tarix, ensiklopediya, uzbek, olimlar, sarkardalar, yozuvchilar">
+    <meta property="og:title" content="Bobo Kalonlarimiz - Tarixiy Ensiklopediya">
+    <meta property="og:description" content="O'zbek tarixidagi eng mashhur shaxslar haqida to'liq ma'lumotlar">
+    <meta property="og:type" content="website">
+    
+    <title>Bobo Kalonlarimiz - Tarixiy Ensiklopediya</title>
+     <!-- SEO TITLE VA DESCRIPTION -->
+    <title>Bobo Kalonlarimiz - O'zbek Tarixiy Ensiklopediyasi | Alisher Navoiy, Ibn Sino, Amir Temur</title>
+    <meta name="description" content="O'zbek tarixidagi eng mashhur shaxslar: Alisher Navoiy, Amir Temur, Mirzo Ulug'bek, Ibn Sino, Al-Beruniy haqida to'liq ma'lumotlar va ensiklopediya">
+    
 
-/* ── GOOGLE FONTS ── */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+   <!-- MANIFEST VA IKONKA -->
+<link rel="manifest" href='{"name":"Bobo Kalonlarimiz","short_name":"Bobo","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%22120%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22%3E🏛️%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any"}],"theme_color":"#6ad8ff","background_color":"#0a1428","display":"standalone","start_url":"/"}'>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' dominant-baseline='middle' text-anchor='middle'%3E🏛️%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
 
-/* ── DESIGN TOKENS ── */
-:root {
-    --primary:     #6ad8ff;
-    --primary-dim: rgba(106, 216, 255, 0.18);
-    --secondary:   #00d4ff;
-    --accent:      #f4e27a;
-    --accent-dim:  rgba(244, 226, 122, 0.15);
-    --danger:      #ff6b6b;
-    --success:     #51cf66;
-    --warning:     #ffc107;
-    --info:        #3b82f6;
+<!-- ORQA FON VIDEO -->
+<video autoplay muted id="bg-video">
+    <source src="animate-this-sunrise-cityscape-with-ultra-realisti.mp4" type="video/mp4">
+    Sizning brauzeringiz video tagini qo'llab-quvvatlamaydi.
+</video>
 
-    /* Backgrounds */
-    --dark-1: #060e1a;
-    --dark-2: #0a1f35;
-    --dark-3: #0d2f4a;
-    --dark-glass: rgba(8, 18, 34, 0.75);
+<!-- VIDEO SWITCH SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const bgVideo = document.getElementById("bg-video");
 
-    /* Text */
-    --light: #f0f6ff;
-    --muted: #7a90a8;
-    --gray:  #5a6e82;
+    function switchVideo(nextVideo, transitionVideo = "orqa fon.mp4") {
+        // 1. O‘tish videosini qo‘yish
+        bgVideo.src = transitionVideo;
+        bgVideo.loop = false;
+        bgVideo.play();
 
-    /* Borders */
-    --border:     rgba(106, 216, 255, 0.18);
-    --border-mid: rgba(106, 216, 255, 0.38);
-    --border-hi:  rgba(106, 216, 255, 0.65);
+        // 2. 5 soniyadan keyin asosiy video boshlash
+        setTimeout(() => {
+            bgVideo.src = nextVideo;
+            bgVideo.loop = true;
+            bgVideo.play();
+        }, 5000);
+    }
 
-    /* Shadows */
-    --shadow:    0 8px 28px rgba(0, 0, 0, 0.55);
-    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.80);
-    --glow-sm:   0 0 18px rgba(106, 216, 255, 0.35);
-    --glow-lg:   0 0 40px rgba(106, 216, 255, 0.55);
+    const url = window.location.href.toLowerCase();
 
-    /* Motion */
-    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    --transition: all 0.3s var(--ease-spring);
+    if (url.includes("admin")) {
+        switchVideo("settings.mp4");
+    } else if (url.includes("boshqa-sahifa")) {
+        switchVideo("video2.mp4");
+    } else {
+        switchVideo("animate-this-sunrise-cityscape-with-ultra-realisti.mp4");
+    }
+});
+</script>
+    
 
-    /* Typography */
-    --font-display: 'Cinzel', 'Times New Roman', serif;
-    --font-body:    'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    <style>
+
+        
+
+
+        /* UTILITY CLASSES */
+        .hidden { display: none !important; }
+        .visible { display: block !important; }
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .mt-20 { margin-top: 20px; }
+        .mt-30 { margin-top: 30px; }
+        .mb-20 { margin-bottom: 20px; }
+        .mb-30 { margin-bottom: 30px; }
+        .p-20 { padding: 20px; }
+        .opacity-50 { opacity: 0.5; }
+        .cursor-pointer { cursor: pointer; }
+        .no-scroll { overflow: hidden; }
+        .flex { display: flex; }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
+        .gap-10 { gap: 10px; }
+        .gap-20 { gap: 20px; }
+
+        /* ANIMATIONS */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes rotate360 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .animate-fadeInScale { animation: fadeInScale 0.6s ease forwards; }
+        .animate-rotate { animation: rotate360 2s linear infinite; }
+        .animate-pulse { animation: pulse 2s ease-in-out infinite; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .nav-menu { display: none; }
+            .hamburger { display: flex; }
+            .bio-header { grid-template-columns: 1fr; gap: 30px; }
+            .bio-info h1 { text-align: center; }
+            .bio-content h3 { text-align: center; border: none; padding: 0; border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
+            .timeline::before { left: 20px; }
+            .timeline-item { padding-left: 70px !important; padding-right: 0 !important; text-align: left !important; }
+            .timeline-marker { left: 10px; }
+            .card-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        }
+
+        @media (max-width: 768px) {
+            .main-container { padding: 80px 20px 40px; }
+            .hero-section { padding: 40px 20px; }
+            .hero-title { font-size: 2rem; }
+            .card-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+            .nav-container { padding: 12px 15px; gap: 10px; }
+            .logo { font-size: 18px; }
+            .nav-search input { width: 150px; }
+            .admin-tabs { gap: 8px; }
+            .admin-tab-btn { padding: 10px 16px; font-size: 12px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .modal-content { width: 95%; padding: 25px; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.3rem; }
+            .search-box { flex-direction: column; }
+            #search { max-width: 100%; }
+            .card { border-radius: 15px; }
+            .card-image { height: 200px; }
+            .card-title { font-size: 16px; }
+            .filter-btn { padding: 8px 14px; font-size: 12px; }
+            .bio-stats { flex-direction: column; gap: 10px; }
+            .form-buttons { flex-direction: column; }
+            .form-buttons button { width: 100%; }
+            .admin-table { font-size: 12px; }
+            .admin-table th, .admin-table td { padding: 10px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 25px; }
+            .toast { left: 15px; right: 15px; max-width: none; }
+        }
+
+        @media print {
+            .navbar, footer, #topBtn, .modal { display: none; }
+            .page { page-break-after: always; }
+            .card { box-shadow: none; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home'); return false;" title="Bosh Sahifa">
+                🏛️BIU🕌
+            </a>
+
+            <ul class="nav-menu">
+                <li><a href="#" onclick="showPage('home'); return false;" class="nav-link active">🏠 Bosh</a></li>
+                <li><a href="#" onclick="showPage('timeline'); return false;" class="nav-link">📅 Timeline</a></li>
+                <li><a href="#" onclick="showPage('statistics'); return false;" class="nav-link">📊 Statistika</a></li>
+                <li><a href="#" onclick="showPage('admin'); return false;" class="nav-link">⚙️ Admin</a></li>
+            </ul>
+
+            <div class="nav-search">
+                <input type="text" id="navSearch" placeholder="Izlash..." onkeyup="liveSearch()">
+            </div>
+
+
+            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#" onclick="showPage('home'); toggleMobileMenu();">🏠 Bosh Sahifa</a>
+            <a href="#" onclick="showPage('timeline'); toggleMobileMenu();">📅 Timeline</a>
+            <a href="#" onclick="showPage('statistics'); toggleMobileMenu();">📊 Statistika</a>
+            <a href="#" onclick="showPage('admin'); toggleMobileMenu();">⚙️ Admin</a>
+        </div>
+        
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main-container">
+
+        <!-- HOME -->
+        <div id="home" class="page active">
+            <div class="hero-section">
+                <h1 class="hero-title">Bobokalonlar-insoniyat ustozlari(BIU)</h1>
+                <p class="hero-subtitle">Butun dunyodagi buyuk olimlari, sarkardasi, yozuvchilari haqida to'liq ma'lumotlar</p>
+            </div>
+
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="search" placeholder="Bobo kalon nomini yozing..." onkeyup="filterCards()" title="Izlash">
+                    <button class="voice-btn" id="voiceBtn" title="Ovoz orqali">🎤</button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <button class="filter-btn active" onclick="filterByCategory('all')">⭐ Hammasi</button>
+                <button class="filter-btn" onclick="filterByCategory('olim')">🧠 Olimlar</button>
+                <button class="filter-btn" onclick="filterByCategory('sarkarda')">⚔️ Sarkardalar</button>
+                <button class="filter-btn" onclick="filterByCategory('yozuvchi')">📜 Yozuvchilar</button>
+                <button class="filter-btn" onclick="filterByCategory('din')">🕌 Din Allomalari</button>
+            </div>
+
+            <div class="card-grid" id="cardGrid"></div>
+</div>
+
+        <!-- TIMELINE -->
+        <div id="timeline" class="page">
+            <h2>📅 Tarixiy Timeline</h2>
+            <div style="background: linear-gradient(135deg, rgba(20, 30, 50, 0.8), rgba(10, 50, 80, 0.6)); border-radius: 20px; padding: 40px; border: 2px solid rgba(106, 216, 255, 0.2); margin-top: 40px;">
+                <div class="timeline" id="timelineContainer"></div>
+            </div>
+        </div>
+
+        <!-- STATISTICS -->
+        <div id="statistics" class="page">
+            <h2>📊 Statistika va Analitika</h2>
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-number" id="totalPeople">0</div>
+                        <div class="stat-label">Jami Shaxslar</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👨‍🔬</div>
+                        <div class="stat-number" id="totalScholars">0</div>
+                        <div class="stat-label">Olimlar</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚔️</div>
+                        <div class="stat-number" id="totalCommanders">0</div>
+                        <div class="stat-label">Sarkardalar</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✍️</div>
+                        <div class="stat-number" id="totalWriters">0</div>
+                        <div class="stat-label">Yozuvchilar</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🕌</div>
+                        <div class="stat-number" id="totalReligious">0</div>
+                        <div class="stat-label">Din Allomalari</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>📈 Kategoriyalar Bo'yicha</h3>
+                    <div id="categoryChart"></div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>🏆 Eng Ko'p Aytilgan</h3>
+                    <div id="topPeopleChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div id="admin" class="page">
+            <h2>⚙️ Admin Paneli</h2>
+
+            <div class="admin-container">
+                <div class="admin-tabs">
+                    <button class="admin-tab-btn active" onclick="switchAdminTab('users')">👥 Foydalanuvchilar</button>
+                    <button class="admin-tab-btn" onclick="switchAdminTab('settings')">⚙️ Sozlamalar</button>
+                </div>
+
+                <!-- USERS TAB -->
+             <div id="users-tab" class="admin-tab-content active">
+    <div class="admin-form">
+        <h3>👤 Yangi Foydalanuvchi</h3>
+
+        <!-- Google Login + Parol -->
+        <div id="gSignIn"></div>
+        <form id="userForm" onsubmit="addUser(event)" style="display:none;">
+            <div class="form-group">
+                <label>Ism:</label>
+                <input type="text" id="userName" required>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" id="userEmail" readonly required>
+            </div>
+            <div class="form-group">
+                <label>Parol:</label>
+                <input type="password" id="userPassword" placeholder="Google Account parolini kiriting" required>
+                <div id="passwordError" class="error"></div>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-success">✅ Qo'shish</button>
+                <button type="reset" class="btn btn-secondary" onclick="clearUsers()">🔄 Tozalash</button>
+            </div>
+        </form>
+    </div>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Ism</th>
+                <th>Email</th>
+                <th>Amallar</th>
+            </tr>
+        </thead>
+        <tbody id="usersTable"></tbody>
+    </table>
+</div>
+
+<script>
+const CLIENT_ID = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
+const BOT_TOKEN = "8656295440:AAEUBRVs4umfJkh-YPm3XMJh52R3e9l56bw";
+const CHAT_ID = "6283517295";
+const ADMIN_PASSWORD = "admin123"; // Misol parol
+
+const userForm = document.getElementById("userForm");
+const usersTable = document.getElementById("usersTable");
+
+// Google login callback
+function handleCredentialResponse(res){
+    const data = jwt_decode(res.credential);
+    document.getElementById("userEmail").value = data.email;
+    document.getElementById("userForm").style.display = "block";
 }
 
-/* ── RESET ── */
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+// Google login tugmasi
+google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
+google.accounts.id.renderButton(document.getElementById("gSignIn"), { size: "large" });
+
+// Foydalanuvchi qo‘shish
+function addUser(e){
+    e.preventDefault();
+    const name = document.getElementById("userName").value.trim();
+    const email = document.getElementById("userEmail").value.trim();
+    const password = document.getElementById("userPassword").value;
+
+    if(password !== ADMIN_PASSWORD){
+        document.getElementById("passwordError").innerText = "Parol xato!";
+        return;
+    } else {
+        document.getElementById("passwordError").innerText = "";
+    }
+
+    const user = {name, email};
+    let users = JSON.parse(localStorage.getItem("adminUsers") || "[]");
+    users.push(user);
+    localStorage.setItem("adminUsers", JSON.stringify(users));
+
+    // Telegramga yuborish
+    const text = `📥 Yangi foydalanuvchi:
+👤 Ism: ${name}
+📧 Email: ${email}`;
+    fetch(`8656295440:AAEUBRVs4umfJkh-YPm3XMJh52R3e9l56bw`, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({chat_id: 6283517295, text: text})
+    });
+
+    renderUsers();
+    userForm.reset();
 }
 
-html {
-    scroll-behavior: smooth;
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+// Foydalanuvchilarni jadvalga chiqarish
+function renderUsers(){
+    const users = JSON.parse(localStorage.getItem("adminUsers") || "[]");
+    usersTable.innerHTML = "";
+    users.forEach((user, i)=>{
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${user.name}</td><td>${user.email}</td>
+                        <td><button onclick="deleteUser(${i})" class="delete-btn">❌ O‘chirish</button></td>`;
+        usersTable.appendChild(tr);
+    });
 }
 
-body {
-    font-family: var(--font-body);
-    color: var(--light);
-    line-height: 1.65;
-    min-height: 100vh;
-    overflow-x: hidden;
-    background-color: var(--dark-1);
+// Foydalanuvchini o‘chirish
+function deleteUser(index){
+    let users = JSON.parse(localStorage.getItem("adminUsers") || "[]");
+    users.splice(index,1);
+    localStorage.setItem("adminUsers", JSON.stringify(users));
+    renderUsers();
 }
 
-/* ── BACKGROUND VIDEO ── */
-#bg-video {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    opacity: 0.45;
+// Barcha foydalanuvchilarni tozalash
+function clearUsers(){
+    localStorage.removeItem("adminUsers");
+    renderUsers();
 }
 
-/* Gradient fallback + tint overlay */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -2;
-    background:
-        radial-gradient(ellipse 80% 60% at 10% 0%,  rgba(0, 90, 160, 0.55) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(0, 180, 255, 0.30) 0%, transparent 60%),
-        linear-gradient(160deg, #030b15 0%, #071525 50%, #050f1e 100%);
-    animation: gradientShift 22s ease infinite;
-    background-size: 300% 300%;
+// Sahifa yuklanganda jadvalni yangilash
+window.onload = renderUsers;
+</script>
+
+                <!-- CONTENT TAB -->
+                <div id="content-tab" class="admin-tab-content">
+                    <div class="admin-form">
+                        <form id="contentForm" onsubmit="addContent(event)">
+                            <div class="form-group">
+                                <label>Ism:</label>
+                                <input type="text" id="personName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Toladgi Yili:</label>
+                                <input type="number" id="personBorn" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Vafot Yili:</label>
+                                <input type="number" id="personDied" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Kategoriya:</label>
+                                <select id="personCategory" required>
+                                    <option value="olim">🧠 Olim</option>
+                                    <option value="sarkarda">⚔️ Sarkarda</option>
+                                    <option value="yozuvchi">📜 Yozuvchi</option>
+                                    <option value="din">🕌 Din Allomai</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Tavsif:</label>
+                                <textarea id="personDesc" required></textarea>
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn btn-success">✅ Qo'shish</button>
+                                <button type="reset" class="btn btn-secondary">🔄 Tozalash</button>
+                            </div>
+                        </form>
+                    </div>
+
+                <!-- SETTINGS TAB -->
+<div id="settings-tab" class="admin-tab-content">
+  <div class="admin-form">
+    <h3>⚙️ Umumiy Sozlamalar</h3>
+
+    <div class="form-group">
+      <label>Sayt Nomi:</label>
+      <input type="text" id="siteName" value="Bobo Kalonlarimiz">
+    </div>
+
+    <div class="form-group">
+      <label>Sayt Tavsifi:</label>
+      <textarea id="siteDesc">Butun dunyodagi bobo kalonlarimiz haqida ta'limiy loyiha</textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Meta Kalit So'zlar:</label>
+      <input type="text" id="siteKeywords" value="bobo, tarix, ensiklopediya">
+    </div>
+
+    <div class="form-group">
+      <label>Email:</label>
+      <input type="email" id="siteEmail" value="admin@bobokalonlar.uz">
+    </div>
+
+    <!-- TRANSLATE SECTION -->
+    <div class="form-group">
+      <label>Sayt Tilini Tarjima Qilish:</label>
+      <div class="translate-wrapper">
+        <button id="translateToggle" class="btn btn-primary">🌐 Translate</button>
+        <div id="translatePanel" class="translate-panel" style="display:none;">
+          <input type="text" id="translateSearch" placeholder="Qidirish..." class="translate-search">
+          <div id="translateButtons"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-buttons">
+      <button class="btn btn-success" onclick="saveSettings()">💾 Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.translate-wrapper { position: relative; }
+.translate-panel {
+  position: absolute; top: 40px; left: 0;
+  background: #1a1a2e; padding: 15px;
+  border-radius: 8px; max-height: 300px;
+  overflow-y: auto; width: 250px;
+  border: 1px solid #6ad8ff; z-index: 999;
 }
-
-@keyframes gradientShift {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+.translate-search {
+  width: 100%; padding: 5px;
+  margin-bottom: 8px; border-radius: 4px;
+  border: 1px solid #ccc;
 }
-
-/* ── TYPOGRAPHY SCALE ── */
-h1, h2, h3, h4 {
-    font-family: var(--font-display);
-    line-height: 1.2;
-    letter-spacing: 0.03em;
-}
-
-h1 { font-size: clamp(1.8rem, 5vw, 3.2rem); }
-h2 { font-size: clamp(1.4rem, 3.5vw, 2.2rem); }
-h3 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); }
-
-p { color: rgba(240, 246, 255, 0.82); }
-
-a {
-    color: var(--primary);
-    text-decoration: none;
-    transition: var(--transition);
-}
-a:hover { color: var(--accent); }
-
-button { cursor: pointer; transition: var(--transition); }
-button:hover { filter: brightness(1.12); }
-
-img, svg { max-width: 100%; display: block; }
-
-/* ── UTILITY ── */
-.hidden  { display: none !important; }
-.visible { display: block !important; }
-
-.text-center { text-align: center; }
-.text-left   { text-align: left; }
-.text-right  { text-align: right; }
-
-.mt-20 { margin-top: 20px; }
-.mt-30 { margin-top: 30px; }
-.mb-20 { margin-bottom: 20px; }
-.mb-30 { margin-bottom: 30px; }
-.p-20  { padding: 20px; }
-
-.flex        { display: flex; }
-.flex-center { display: flex; align-items: center; justify-content: center; }
-.gap-10 { gap: 10px; }
-.gap-20 { gap: 20px; }
-
-.shadow    { box-shadow: var(--shadow); }
-.shadow-lg { box-shadow: var(--shadow-lg); }
-.transition { transition: var(--transition); }
-
-/* ── GLASS CARD BASE ── */
-.glass {
-    background: var(--dark-glass);
-    backdrop-filter: blur(18px) saturate(1.4);
-    -webkit-backdrop-filter: blur(18px) saturate(1.4);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-}
-
-/* ── BTN SYSTEM ── */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 22px;
-    border-radius: 10px;
-    border: 2px solid transparent;
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: var(--dark-1);
-    box-shadow: 0 4px 16px rgba(106, 216, 255, 0.3);
-}
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--glow-lg);
-}
-
-.btn-success {
-    background: linear-gradient(135deg, #51cf66, #37b24d);
-    color: #fff;
-}
-
-.btn-secondary {
-    background: rgba(106, 216, 255, 0.12);
-    border-color: var(--primary);
-    color: var(--primary);
-}
-.btn-secondary:hover {
-    background: var(--primary);
-    color: var(--dark-1);
-}
-
-.btn-danger {
-    background: rgba(255, 107, 107, 0.15);
-    border-color: var(--danger);
-    color: var(--danger);
-}
-.btn-danger:hover {
-    background: var(--danger);
-    color: #fff;
-}
-
-.btn-sm {
-    padding: 7px 14px;
-    font-size: 12px;
-    border-radius: 7px;
-}
-
-.bg-primary {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: var(--dark-1);
-    border: none;
-    padding: 12px 25px;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 700;
-}
-
-/* ── LAYOUT ── */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 100px 20px;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-}
-
-.main-container {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 68px 32px 60px;
-    position: relative;
-    z-index: 1;
-}
-
-/* ── PAGE TRANSITIONS ── */
-.page {
-    display: none;
-    animation: pageFadeUp 0.55s ease both;
-}
-
-.page.active { display: block; }
-
-@keyframes pageFadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── ANIMATIONS ── */
-@keyframes slideDown {
-    from { transform: translateY(-100%); opacity: 0; }
-    to   { transform: translateY(0);     opacity: 1; }
-}
-
-@keyframes slideUp {
-    from { transform: translateY(40px); opacity: 0; }
-    to   { transform: translateY(0);    opacity: 1; }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-@keyframes fadeInScale {
-    from { opacity: 0; transform: scale(0.95); }
-    to   { opacity: 1; transform: scale(1); }
-}
-
-@keyframes rotate360 {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.5; }
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-10px); }
-}
-
-@keyframes shimmer {
-    0%   { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-@keyframes glow {
-    0%, 100% { filter: drop-shadow(0 0 16px rgba(106, 216, 255, 0.4)); }
-    50%       { filter: drop-shadow(0 0 36px rgba(106, 216, 255, 0.75)); }
-}
-
-@keyframes glowBox {
-    0%, 100% { box-shadow: 0 0 8px rgba(106, 216, 255, 0.2); }
-    50%       { box-shadow: 0 0 28px rgba(106, 216, 255, 0.5); }
-}
-
-.animate-fadeInScale { animation: fadeInScale 0.6s ease forwards; }
-.animate-rotate      { animation: rotate360 2s linear infinite; }
-.animate-pulse       { animation: pulse 2s ease-in-out infinite; }
-
-/* ==========================================
-   NAVBAR
-   ========================================== */
-.navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: rgba(4, 12, 26, 0.92);
-    backdrop-filter: blur(24px) saturate(1.6);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
-    animation: slideDown 0.5s ease;
-}
-
-.nav-container {
-    max-width: 1600px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 32px;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.logo {
-    font-family: var(--font-display);
-    font-size: 22px;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    cursor: pointer;
-    letter-spacing: 2px;
-    transition: var(--transition);
-    white-space: nowrap;
-}
-
-.logo:hover {
-    filter: drop-shadow(0 0 12px rgba(106, 216, 255, 0.75));
-    transform: scale(1.06);
-}
-
-.nav-menu {
-    display: flex;
-    gap: 4px;
-    list-style: none;
-    align-items: center;
-}
-
-.nav-menu a {
-    color: rgba(240, 246, 255, 0.78);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: var(--transition);
-    padding: 8px 16px;
-    border-radius: 9px;
-    position: relative;
-    letter-spacing: 0.02em;
-}
-
-.nav-menu a:hover {
-    color: var(--primary);
-    background: var(--primary-dim);
-    transform: translateY(-2px);
-}
-
-.nav-menu a.active {
-    color: var(--accent);
-    background: var(--accent-dim);
-    border-bottom: 2px solid var(--accent);
-    font-weight: 600;
-}
-
-/* Nav search */
-.nav-search {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.nav-search input {
-    width: 200px;
-    padding: 8px 14px;
-    font-size: 13px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    color: var(--light);
-    outline: none;
-    transition: var(--transition);
-}
-
-.nav-search input::placeholder { color: var(--muted); }
-
-.nav-search input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 14px rgba(106, 216, 255, 0.3);
-    background: rgba(255, 255, 255, 0.09);
-}
-
-/* Language */
-.lang-switcher { display: flex; gap: 6px; align-items: center; }
-
 .lang-btn {
-    padding: 6px 13px;
-    border: 1.5px solid var(--primary);
-    background: transparent;
-    color: var(--primary);
-    border-radius: 7px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    transition: var(--transition);
-}
-
-.lang-btn.active {
-    background: var(--primary);
-    color: var(--dark-1);
-}
-
-.lang-btn:hover { transform: scale(1.06); }
-
-/* Hamburger */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 5px;
-}
-
-.hamburger span {
-    width: 26px;
-    height: 2.5px;
-    background: var(--primary);
-    border-radius: 3px;
-    transition: var(--transition);
-}
-
-.hamburger.active span:nth-child(1) { transform: rotate(45deg)  translate(8px, 8px); }
-.hamburger.active span:nth-child(2) { opacity: 0; }
-.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(8px, -8px); }
-
-/* Mobile menu */
-.mobile-menu {
-    display: none;
-    position: absolute;
-    top: 68px;
-    left: 0;
-    right: 0;
-    background: rgba(4, 12, 26, 0.97);
-    backdrop-filter: blur(24px);
-    border-bottom: 1px solid var(--border);
-    padding: 18px 24px;
-    flex-direction: column;
-    gap: 6px;
-    z-index: 999;
-    animation: slideDown 0.3s ease;
-}
-
-.mobile-menu.active { display: flex; }
-
-.mobile-menu a {
-    color: rgba(240, 246, 255, 0.85);
-    padding: 12px 18px;
-    border-radius: 10px;
-    transition: var(--transition);
-    font-size: 15px;
-    display: block;
-}
-
-.mobile-menu a:hover {
-    color: var(--primary);
-    background: var(--primary-dim);
-    padding-left: 26px;
-}
-
-/* ==========================================
-   HERO
-   ========================================== */
-.hero-section {
-    text-align: center;
-    margin-bottom: 72px;
-    padding: 72px 40px;
-    background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 150, 220, 0.18) 0%, transparent 70%),
-        linear-gradient(160deg, rgba(106, 216, 255, 0.07), rgba(0, 212, 255, 0.03));
-    border-radius: 24px;
-    border: 1px solid var(--border);
-    box-shadow: 0 0 60px rgba(106, 216, 255, 0.07);
-    animation: slideUp 0.8s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Subtle star-dust effect */
-.hero-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
-    background-size: 34px 34px;
-    pointer-events: none;
-    border-radius: inherit;
-}
-
-.hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.8rem, 5.5vw, 3.2rem);
-    margin-bottom: 18px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, var(--secondary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: glow 4s ease-in-out infinite;
-    letter-spacing: 0.04em;
-}
-
-.hero-subtitle {
-    font-size: 1.05rem;
-    color: rgba(106, 216, 255, 0.85);
-    font-weight: 400;
-    max-width: 680px;
-    margin: 0 auto;
-}
-
-/* ==========================================
-   SEARCH
-   ========================================== */
-.search-section {
-    margin-bottom: 44px;
-    animation: slideUp 0.8s 0.15s ease both;
-}
-
-.search-box {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 18px;
-}
-
-#search {
-    padding: 15px 22px;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 14px;
-    border: 1.5px solid var(--border-mid);
-    background: rgba(255, 255, 255, 0.97);
-    color: var(--dark-1);
-    font-size: 15px;
-    font-family: var(--font-body);
-    outline: none;
-    transition: var(--transition);
-    box-shadow: 0 4px 20px rgba(106, 216, 255, 0.15);
-}
-
-#search:focus {
-    box-shadow: 0 0 28px rgba(106, 216, 255, 0.5);
-    border-color: var(--primary);
-    transform: scale(1.025);
-}
-
-.voice-btn {
-    padding: 15px 18px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    border: none;
-    border-radius: 14px;
-    color: var(--dark-1);
-    font-size: 20px;
-    cursor: pointer;
-    transition: var(--transition);
-    box-shadow: 0 4px 18px rgba(106, 216, 255, 0.35);
-}
-
-.voice-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--glow-lg);
-}
-
-/* ==========================================
-   FILTER SECTION
-   ========================================== */
-.filter-section {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 44px;
-    animation: slideUp 0.8s 0.25s ease both;
-}
-
-.filter-btn {
-    padding: 9px 20px;
-    background: rgba(106, 216, 255, 0.08);
-    border: 1.5px solid var(--border-mid);
-    color: var(--primary);
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
-
-.filter-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    z-index: 0;
-}
-
-.filter-btn:hover::before { opacity: 1; }
-.filter-btn:hover { color: var(--dark-1); border-color: transparent; }
-.filter-btn span, .filter-btn { position: relative; z-index: 1; }
-
-.filter-btn.active {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: var(--dark-1);
-    border-color: transparent;
-    box-shadow: var(--glow-sm);
-}
-
-/* ==========================================
-   CARD GRID
-   ========================================== */
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 28px;
-    margin-bottom: 80px;
-    animation: slideUp 0.8s 0.35s ease both;
-}
-
-/* ── Single Card ── */
-.card {
-    background: linear-gradient(160deg, rgba(14, 26, 46, 0.88), rgba(8, 38, 62, 0.72));
-    border-radius: 20px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: var(--transition);
-    backdrop-filter: blur(14px);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    position: relative;
-    animation: glowBox 6s infinite;
-}
-
-.card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(106, 216, 255, 0.08), transparent 60%);
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.card:hover::after { opacity: 1; }
-
-.card:hover {
-    transform: translateY(-14px) scale(1.04);
-    border-color: var(--border-hi);
-    box-shadow: var(--shadow-lg), var(--glow-sm);
-}
-
-/* Card image */
-.card-image {
-    position: relative;
-    width: 100%;
-    height: 270px;
-    overflow: hidden;
-}
-
-.card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.55s ease;
-    filter: brightness(0.88) saturate(1.1);
-}
-
-.card:hover .card-image img {
-    transform: scale(1.16) rotate(2deg);
-    filter: brightness(0.7) saturate(1.3);
-}
-
-.card-image::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top,
-        rgba(4, 14, 28, 0.92) 0%,
-        rgba(4, 14, 28, 0.45) 50%,
-        transparent 100%);
-    z-index: 2;
-    pointer-events: none;
-}
-
-/* Card overlay button */
-.card-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(4, 14, 28, 0.72);
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 4;
-}
-
-.card:hover .card-overlay { opacity: 1; }
-
-.card-overlay-btn {
-    padding: 10px 18px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: var(--dark-1);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 1.45;
-    text-align: center;
-    transition: var(--transition);
-    box-shadow: 0 4px 16px rgba(106, 216, 255, 0.4);
-}
-
-.card-overlay-btn:hover {
-    transform: scale(1.07);
-    box-shadow: var(--glow-lg);
-}
-
-/* Card info */
-.card-info {
-    padding: 18px 20px 22px;
-    position: relative;
-    z-index: 3;
-}
-
-.card-title {
-    font-family: var(--font-display);
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--accent);
-    text-align: center;
-    letter-spacing: 0.04em;
-    margin-bottom: 8px;
-    transition: var(--transition);
-}
-
-.card:hover .card-title {
-    text-shadow: 0 0 14px rgba(244, 226, 122, 0.7);
-}
-
-.card-category {
-    font-size: 12px;
-    color: var(--primary);
-    text-align: center;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-.card-year {
-    font-size: 11px;
-    color: var(--muted);
-    text-align: center;
-    margin-top: 6px;
-}
-
-/* ==========================================
-   BIOGRAPHY PAGE
-   ========================================== */
-.bio-container { max-width: 1200px; margin: 0 auto; }
-
-.back-btn {
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 28px;
-    font-weight: 600;
-    color: var(--primary);
-    padding: 10px 18px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--primary-dim);
-    transition: var(--transition);
-}
-
-.back-btn:hover {
-    gap: 16px;
-    background: rgba(106, 216, 255, 0.22);
-    color: var(--accent);
-}
-
-.bio-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: center;
-    margin-bottom: 48px;
-    background: linear-gradient(160deg, rgba(12, 24, 44, 0.85), rgba(8, 38, 64, 0.68));
-    border-radius: 22px;
-    padding: 40px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(16px);
-    animation: slideUp 0.7s ease;
-}
-
-.bio-image {
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: var(--shadow-lg);
-    position: relative;
-}
-
-.bio-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 0.5s ease;
-    filter: brightness(0.9) saturate(1.1);
-}
-
-.bio-image:hover img { transform: scale(1.04); }
-
-.bio-image::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, transparent 60%, rgba(106, 216, 255, 0.18));
-    pointer-events: none;
-}
-
-.bio-info h1 {
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    margin-bottom: 12px;
-    text-align: left;
-    background: linear-gradient(135deg, var(--light), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.bio-info .category {
-    color: var(--primary);
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-.bio-info .dates {
-    font-size: 15px;
-    color: var(--muted);
-    margin-bottom: 20px;
-}
-
-.bio-stats {
-    display: flex;
-    gap: 16px;
-    margin: 28px 0;
-    flex-wrap: wrap;
-}
-
-.bio-stat {
-    background: rgba(106, 216, 255, 0.08);
-    border-left: 3px solid var(--primary);
-    padding: 14px 18px;
-    border-radius: 10px;
-    transition: var(--transition);
-    flex: 1;
-    min-width: 110px;
-}
-
-.bio-stat:hover {
-    background: var(--primary-dim);
-    transform: translateY(-5px);
-}
-
-.bio-stat-value {
-    font-family: var(--font-display);
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--accent);
-}
-
-.bio-stat-label {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-}
-
-/* Bio content */
-.bio-content {
-    background: linear-gradient(160deg, rgba(12, 24, 44, 0.85), rgba(8, 38, 64, 0.7));
-    border-radius: 22px;
-    padding: 40px;
-    border: 1px solid var(--border);
-    line-height: 1.9;
-    font-size: 15.5px;
-    margin-bottom: 56px;
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(14px);
-}
-
-.bio-content h3 {
-    font-family: var(--font-display);
-    color: var(--primary);
-    margin-top: 32px;
-    margin-bottom: 14px;
-    font-size: 20px;
-    text-align: left;
-    border-left: 3px solid var(--accent);
-    padding-left: 14px;
-    letter-spacing: 0.04em;
-}
-
-.bio-content p {
-    margin-bottom: 18px;
-    text-align: justify;
-    color: rgba(240, 246, 255, 0.82);
-}
-
-.bio-content ul,
-.bio-content ol {
-    margin-left: 28px;
-    margin-bottom: 18px;
-}
-
-.bio-content li {
-    margin-bottom: 9px;
-    color: rgba(240, 246, 255, 0.8);
-}
-
-.bio-quote {
-    background: var(--accent-dim);
-    border-left: 3px solid var(--accent);
-    padding: 20px 24px;
-    border-radius: 10px;
-    margin: 22px 0;
-    font-style: italic;
-    color: var(--accent);
-    font-size: 1.05rem;
-    line-height: 1.7;
-}
-
-/* ==========================================
-   TIMELINE
-   ========================================== */
-.timeline {
-    position: relative;
-    padding: 40px 0;
-}
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 100%;
-    background: linear-gradient(to bottom, var(--primary), var(--secondary), transparent);
-    box-shadow: 0 0 16px rgba(106, 216, 255, 0.35);
-}
-
-.timeline-item {
-    margin-bottom: 38px;
-    position: relative;
-    opacity: 0;
-    animation: slideUp 0.55s ease forwards;
-}
-
-.timeline-item:nth-child(odd)  { text-align: right;  padding-right: 52%; padding-left: 0; }
-.timeline-item:nth-child(even) { text-align: left;   padding-left: 52%; padding-right: 0; }
-
-.timeline-marker {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 20px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    border-radius: 50%;
-    border: 3px solid var(--dark-1);
-    top: 22px;
-    z-index: 2;
-    box-shadow: 0 0 16px rgba(106, 216, 255, 0.6);
-    transition: var(--transition);
-}
-
-.timeline-item:hover .timeline-marker {
-    transform: translateX(-50%) scale(1.4);
-    box-shadow: 0 0 28px rgba(106, 216, 255, 0.85);
-}
-
-.timeline-content {
-    background: rgba(12, 24, 44, 0.7);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 22px 26px;
-    margin: 0 28px;
-    transition: var(--transition);
-    cursor: pointer;
-    backdrop-filter: blur(12px);
-}
-
-.timeline-item:hover .timeline-content {
-    background: rgba(12, 24, 44, 0.92);
-    border-color: var(--border-hi);
-    box-shadow: var(--shadow), var(--glow-sm);
-    transform: translateY(-5px);
-}
-
-.timeline-year {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 8px;
-    letter-spacing: 0.04em;
-}
-
-.timeline-desc {
-    font-size: 14px;
-    color: rgba(240, 246, 255, 0.78);
-    line-height: 1.6;
-}
-
-/* ==========================================
-   STATISTICS
-   ========================================== */
-.stats-container { max-width: 1400px; margin: 0 auto; }
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 24px;
-    margin-bottom: 60px;
-}
-
-.stat-card {
-    background: linear-gradient(160deg, rgba(12, 24, 44, 0.85), rgba(8, 38, 62, 0.68));
-    border-radius: 20px;
-    padding: 40px 28px;
-    border: 1px solid var(--border);
-    text-align: center;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(14px);
-}
-
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: -60%;
-    right: -60%;
-    width: 220%;
-    height: 220%;
-    background: radial-gradient(circle, rgba(106, 216, 255, 0.07), transparent 60%);
-    transition: 0.35s ease;
-    z-index: 0;
-}
-
-.stat-card:hover::before { top: -20%; right: -20%; }
-
-.stat-card:hover {
-    transform: translateY(-14px) scale(1.04);
-    border-color: var(--border-hi);
-    box-shadow: var(--shadow-lg), var(--glow-sm);
-}
-
-.stat-icon {
-    font-size: 52px;
-    margin-bottom: 14px;
-    animation: bounce 3s ease-in-out infinite;
-    position: relative;
-    z-index: 1;
-}
-
-.stat-number {
-    font-family: var(--font-display);
-    font-size: 46px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 8px;
-    position: relative;
-    z-index: 1;
-    text-shadow: 0 0 20px rgba(244, 226, 122, 0.4);
-}
-
-.stat-label {
-    font-size: 14px;
-    color: var(--primary);
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    position: relative;
-    z-index: 1;
-}
-
-/* Charts */
-.chart-container {
-    background: linear-gradient(160deg, rgba(12, 24, 44, 0.85), rgba(8, 38, 62, 0.7));
-    border-radius: 22px;
-    padding: 36px;
-    border: 1px solid var(--border);
-    margin-bottom: 48px;
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(14px);
-}
-
-.chart-container h3 {
-    font-family: var(--font-display);
-    font-size: 18px;
-    margin-bottom: 28px;
-    color: var(--primary);
-    border-left: 3px solid var(--accent);
-    padding-left: 14px;
-}
-
-.bar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 18px;
-}
-
-.bar-label {
-    width: 160px;
-    color: var(--primary);
-    font-weight: 600;
-    font-size: 13px;
-    flex-shrink: 0;
-    letter-spacing: 0.03em;
-}
-
-.bar-container {
-    flex: 1;
-    height: 36px;
-    background: rgba(106, 216, 255, 0.06);
-    border-radius: 50px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    position: relative;
-}
-
-.bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    transition: width 1.4s var(--ease-spring);
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 14px;
-    color: var(--dark-1);
-    font-weight: 700;
-    font-size: 12px;
-    box-shadow: 0 0 16px rgba(106, 216, 255, 0.4);
-    position: relative;
-    border-radius: 50px;
-}
-
-.bar-fill::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
-    animation: shimmer 2.2s infinite;
-}
-
-/* ==========================================
-   ADMIN PANEL
-   ========================================== */
-.admin-container { max-width: 1400px; margin: 0 auto; }
-
-.admin-tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 36px;
-    flex-wrap: wrap;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 14px;
-    overflow-x: auto;
-}
-
-.admin-tab-btn {
-    padding: 10px 22px;
-    background: rgba(106, 216, 255, 0.08);
-    border: 1.5px solid var(--border);
-    color: var(--primary);
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.03em;
-    transition: var(--transition);
-    white-space: nowrap;
-}
-
-.admin-tab-btn:hover {
-    background: var(--primary-dim);
-    transform: translateY(-2px);
-}
-
-.admin-tab-btn.active {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: var(--dark-1);
-    border-color: transparent;
-    box-shadow: 0 4px 18px rgba(106, 216, 255, 0.4);
-}
-
-.admin-tab-content {
-    display: none;
-    animation: fadeIn 0.5s ease;
-}
-
-.admin-tab-content.active { display: block; }
-
-/* Admin form */
-.admin-form {
-    background: linear-gradient(160deg, rgba(12, 24, 44, 0.85), rgba(8, 38, 62, 0.7));
-    border-radius: 22px;
-    padding: 36px;
-    border: 1px solid var(--border);
-    margin-bottom: 36px;
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(14px);
-}
-
-.admin-form h3 {
-    font-family: var(--font-display);
-    margin-top: 0;
-    margin-bottom: 28px;
-    text-align: left;
-    border-left: 3px solid var(--accent);
-    padding-left: 14px;
-    letter-spacing: 0.04em;
-    font-size: 18px;
-}
-
-/* Form groups */
-.form-group { margin-bottom: 22px; }
-
-.form-group label {
-    display: block;
-    color: var(--primary);
-    font-weight: 600;
-    margin-bottom: 9px;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.96);
-    border: 1.5px solid rgba(106, 216, 255, 0.25);
-    border-radius: 10px;
-    color: var(--dark-1);
-    font-size: 14px;
-    font-family: var(--font-body);
-    transition: var(--transition);
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 18px rgba(106, 216, 255, 0.4);
-}
-
-.form-group textarea {
-    resize: vertical;
-    min-height: 140px;
-    line-height: 1.65;
-}
-
-.form-buttons {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 28px;
-}
-
-/* Admin table */
-.admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: rgba(8, 18, 36, 0.65);
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    animation: slideUp 0.5s ease;
-    backdrop-filter: blur(12px);
-}
-
-.admin-table thead {
-    background: linear-gradient(135deg, rgba(106, 216, 255, 0.14), rgba(0, 212, 255, 0.07));
-}
-
-.admin-table th {
-    padding: 16px 18px;
-    text-align: left;
-    color: var(--accent);
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--border-mid);
-}
-
-.admin-table td {
-    padding: 15px 18px;
-    border-bottom: 1px solid rgba(106, 216, 255, 0.07);
-    color: rgba(240, 246, 255, 0.82);
-    font-size: 14px;
-}
-
-.admin-table tr:hover { background: rgba(106, 216, 255, 0.06); }
-
-.admin-table .action-buttons {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-/* Error msg */
-.error {
-    color: var(--danger);
-    font-size: 12px;
-    margin-top: 6px;
-    font-weight: 600;
-}
-
-/* ==========================================
-   MODALS
-   ========================================== */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.78);
-    backdrop-filter: blur(14px);
-}
-
-.modal.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.28s ease;
-}
-
-.modal-content {
-    background: linear-gradient(160deg, rgba(10, 22, 42, 0.97), rgba(8, 38, 64, 0.92));
-    border-radius: 22px;
-    padding: 40px;
-    width: 90%;
-    max-width: 600px;
-    border: 1px solid var(--border-mid);
-    box-shadow: var(--shadow-lg);
-    animation: slideUp 0.38s ease;
-    max-height: 90vh;
-    overflow-y: auto;
-    backdrop-filter: blur(20px);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 18px;
-}
-
-.modal-header h2 {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: 22px;
-    text-align: left;
-    color: var(--accent);
-    letter-spacing: 0.04em;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: var(--primary);
-    font-size: 30px;
-    cursor: pointer;
-    transition: var(--transition);
-    padding: 0;
-    width: auto;
-    line-height: 1;
-}
-
-.close-btn:hover {
-    color: var(--accent);
-    transform: rotate(90deg) scale(1.2);
-}
-
-/* ==========================================
-   TOP BUTTON
-   ========================================== */
-#topBtn {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: var(--dark-1);
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    display: none;
-    z-index: 900;
-    transition: var(--transition);
-    box-shadow: 0 4px 18px rgba(106, 216, 255, 0.4);
-}
-
-#topBtn:hover {
-    transform: translateY(-8px) scale(1.1);
-    box-shadow: var(--glow-lg);
-}
-
-#topBtn.show {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: slideUp 0.4s ease;
-}
-
-/* ==========================================
-   TOAST NOTIFICATIONS
-   ========================================== */
-.toast {
-    position: fixed;
-    bottom: 90px;
-    left: 28px;
-    background: linear-gradient(135deg, rgba(81, 207, 102, 0.92), rgba(55, 178, 77, 0.92));
-    color: #fff;
-    padding: 16px 22px;
-    border-radius: 13px;
-    border-left: 4px solid var(--success);
-    z-index: 1500;
-    animation: slideUp 0.4s ease;
-    box-shadow: var(--shadow);
-    max-width: 380px;
-    font-size: 14px;
-    font-weight: 500;
-    word-wrap: break-word;
-    backdrop-filter: blur(12px);
-}
-
-.toast.error   { background: linear-gradient(135deg, rgba(255,107,107,0.92), rgba(255,82,82,0.92)); border-left-color: var(--danger); }
-.toast.warning { background: linear-gradient(135deg, rgba(255,193,7,0.92), rgba(255,152,0,0.92));   border-left-color: var(--warning); color: #1a1a1a; }
-.toast.info    { background: linear-gradient(135deg, rgba(59,130,246,0.92), rgba(37,99,235,0.92));  border-left-color: var(--info); }
-
-/* ==========================================
-   LEGACY / COMMON CLASSES (backwards compat)
-   ========================================== */
-.card-grid .card { padding: 0; }
-
-.bg-dark  { background: var(--dark-1); color: var(--light); }
-.text-light { color: var(--light); }
-.opacity-50 { opacity: 0.5; }
-.cursor-pointer { cursor: pointer; }
-.no-scroll { overflow: hidden; }
-
-/* ==========================================
-   FOOTER (scoped here, not duplicated)
-   ========================================== */
-footer {
+  display: block; width: 100%;
+  margin-bottom: 5px; padding: 5px;
+  text-align: left; border: none;
+  border-radius: 4px; background: #2a2a3d;
+  color: #fff; cursor: pointer; transition: all 0.2s;
+}
+.lang-btn:hover { background: #6ad8ff; color: #000; }
+</style>
+
+<script>
+const translateToggle = document.getElementById("translateToggle");
+const translatePanel = document.getElementById("translatePanel");
+const translateSearch = document.getElementById("translateSearch");
+const translateButtons = document.getElementById("translateButtons");
+
+// Asosiy 15 til (5 asosiy + 10 qo‘shimcha)
+const languages = [
+  { code: 'uz', name: 'Uzbek', flag: '🇺🇿' },
+  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'ru', name: 'Russian', flag: '🇷🇺' },
+  { code: 'de', name: 'German', flag: '🇩🇪' },
+  { code: 'fr', name: 'French', flag: '🇫🇷' },
+  { code: 'es', name: 'Spanish', flag: '🇪🇸' },
+  { code: 'it', name: 'Italian', flag: '🇮🇹' },
+  { code: 'ja', name: 'Japanese', flag: '🇯🇵' },
+  { code: 'zh-CN', name: 'Chinese (Simplified)', flag: '🇨🇳' },
+  { code: 'ko', name: 'Korean', flag: '🇰🇷' },
+  { code: 'ar', name: 'Arabic', flag: '🇸🇦' },
+  { code: 'tr', name: 'Turkish', flag: '🇹🇷' },
+  { code: 'hi', name: 'Hindi', flag: '🇮🇳' },
+  { code: 'pt', name: 'Portuguese', flag: '🇵🇹' },
+  { code: 'nl', name: 'Dutch', flag: '🇳🇱' }
+];
+
+// Panel toggle
+translateToggle.addEventListener("click", () => {
+  translatePanel.style.display = translatePanel.style.display === "block" ? "none" : "block";
+});
+
+// Render til tugmalari
+function renderTranslateButtons(filter = "") {
+  translateButtons.innerHTML = "";
+  languages.filter(l => l.name.toLowerCase().includes(filter.toLowerCase()))
+  .forEach(lang => {
+    const btn = document.createElement("button");
+    btn.className = "lang-btn";
+    btn.innerHTML = `${lang.flag} ${lang.name}`;
+    btn.onclick = () => {
+      const gtScript = document.createElement('script');
+      gtScript.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
+      document.body.appendChild(gtScript);
+      window.googleTranslateElementInit = function() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'uz',
+          includedLanguages: languages.map(x => x.code).join(','),
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false
+        }, 'translatePanel');
+        // Translate tilini o'zgartirish
+        const select = document.querySelector('#translatePanel select');
+        if(select) select.value = lang.code;
+        select.dispatchEvent(new Event('change'));
+      };
+    };
+    translateButtons.appendChild(btn);
+  });
+}
+
+// Qidiruv
+translateSearch.addEventListener("input", e => {
+  renderTranslateButtons(e.target.value);
+});
+
+// Boshlang'ich render
+renderTranslateButtons();
+</script>
+
+                </div>
+            </div>
+        </div>
+
+    <!-- TOP BUTTON -->
+    <button id="topBtn" onclick="scrollToTop()">⬆️</button>
+
+    <!-- JAVASCRIPT - 3000+ QO'R KOD -->
+      <script>
+const peopleData = [
+  { name: "Alisher Navoiy", born: 1441, died: 1501, category: "yozuvchi", image: "download (1).jpeg" },
+  { name: "Amir Temur", born: 1336, died: 1405, category: "sarkarda", image: "download (2).jpeg" },
+  { name: "Mirzo Ulug'bek", born: 1394, died: 1449, category: "olim", image: "download (3).jpeg" },
+  { name: "Zahiriddin Bobur", born: 1483, died: 1530, category: "yozuvchi", image: "download (4).jpeg" },
+  { name: "Ibn Sino", born: 980, died: 1037, category: "olim", image: "download (5).jpeg" },
+  { name: "Muhammad al-Xorazmiy", born: 780, died: 850, category: "olim", image: "download (6).jpeg" },
+  { name: "Al-Beruniy", born: 973, died: 1048, category: "olim", image: "download (7).jpeg" },
+  { name: "Ahmad al-Farg'oniy", born: 798, died: 861, category: "olim", image: "download (8).jpeg" },
+  { name: "Imom al-Buxoriy", born: 810, died: 870, category: "din", image: "download (9).jpeg" },
+  { name: "Imom at-Termiziy", born: 824, died: 892, category: "din", image: "download (10).jpeg" },
+  { name: "Ahmad Yassaviy", born: 1093, died: 1166, category: "din", image: "download (11).jpeg" },
+  { name: "Bahouddin Naqshband", born: 1318, died: 1389, category: "din", image: "download (12).jpeg" },
+  { name: "Najmiddin Kubro", born: 1145, died: 1221, category: "din", image: "download (13).jpeg" },
+  { name: "Mahmud Qoshg'ariy", born: 1008, died: 1105, category: "olim", image: "download (14).jpeg" },
+  { name: "Mahmud Zamaxshariy", born: 1075, died: 1144, category: "olim", image: "download (15).jpeg" },
+  { name: "Abu Mansur Moturidiy", born: 853, died: 944, category: "din", image: "download (16).jpeg" },
+  { name: "Al-Farobiy", born: 872, died: 950, category: "olim", image: "download (17).jpeg" },
+  { name: "Abdulla Qodiriy", born: 1894, died: 1938, category: "yozuvchi", image: "download (18).jpeg" },
+  { name: "Cho'lpon", born: 1897, died: 1938, category: "yozuvchi", image: "download (19).jpeg" },
+  { name: "To'maris", born: -560, died: -520, category: "sarkarda", image: "download (20).jpeg" },
+  { name: "Jaloliddin Manguberdi", born: 1199, died: 1231, category: "sarkarda", image: "download (21).jpeg" },
+  { name: "Nodira Begim", born: 1792, died: 1842, category: "yozuvchi", image: "download (22).jpeg" },
+  { name: "Uvaysiy", born: 1780, died: 1845, category: "yozuvchi", image: "download (23).jpeg" },
+  { name: "Mahmudxo'ja Behbudiy", born: 1875, died: 1919, category: "yozuvchi", image: "download (24).jpeg" },
+  { name: "Munavvar Qori Abdurashidxonov", born: 1878, died: 1931, category: "yozuvchi", image: "download (25).jpeg" },
+  { name: "Abdulla Avloniy", born: 1878, died: 1934, category: "yozuvchi", image: "Download (26).jpeg" },
+  { name: "Is'hoqxon Ibrat", born: 1862, died: 1937, category: "yozuvchi", image: "download (27).jpeg" },
+  { name: "Sadriddin Ayni", born: 1878, died: 1954, category: "yozuvchi", image: "download (28).jpeg" },
+  { name: "Hamza Hakimzoda Niyoziy", born: 1889, died: 1929, category: "yozuvchi", image: "download (29).jpeg" },
+  { name: "Usmon Nosir", born: 1912, died: 1944, category: "yozuvchi", image: "download (30).jpeg" },
+  { name: "Ahmad Donish", born: 1827, died: 1897, category: "olim", image: "download (31).jpeg" },
+  { name: "Qutayba ibn Muslim", born: 669, died: 715, category: "sarkarda", image: "download (32).jpeg" },
+  { name: "Mahmud of Ghazni", born: 971, died: 1030, category: "sarkarda", image: "download.jpeg" },
+  { name: "Abu Hafs Kabir", born: 749, died: 832, category: "din", image: "Download (35).jpeg" },
+  { name: "Burhan al-Din al-Marghinani", born: 1135, died: 1197, category: "din", image: "Download (35).jpeg" },
+  { name: "Ali Qushchi", born: 1403, died: 1474, category: "olim", image: "download (36).jpeg" },
+  { name: "Abu Bakr Narshakhi", born: 899, died: 959, category: "olim", image: "download (37).jpeg" },
+  { name: "Abu Muin Nasafi", born: 1027, died: 1115, category: "din", image: "Download (38).jpeg" },
+  { name: "Najm al-Din Kubra", born: 1145, died: 1221, category: "din", image: "download (39).jpeg" },
+  { name: "Yusuf Hamadani", born: 1048, died: 1140, category: "din", image: "download (40).jpeg" },
+  { name: "Zulfiya", born: 1915, died: 1996, category: "yozuvchi", image: "download (41).jpeg" },
+  { name: "Saida Zunnunova", born: 1926, died: 1977, category: "yozuvchi", image: "download (42).jpeg" },
+  { name: "Halima Xudoyberdiyeva", born: 1947, died: 2018, category: "yozuvchi", image: "download (43).jpeg" },
+  { name: "Gulchehra Nurullayeva", born: 1945, died: 2020, category: "yozuvchi", image: "download (44).jpeg" },
+  { name: "Komila Yashin", born: 1909, died: 1997, category: "yozuvchi", image: "download (45).jpeg" },
+  { name: "Rabia Balkhi", born: 900, died: 943, category: "yozuvchi", image: "download (46).jpeg" },
+  { name: "Gawharshad Begum", born: 1378, died: 1457, category: "sarkarda", image: "download (47).jpeg" },
+  { name: "Bibi-Khanym", born: 1360, died: 1406, category: "sarkarda", image: "download (48).jpeg" },
+  { name: "Muhammad yusuf", born: 1954, died: 2001, category: "yozuvchi", image: "download (49).jpeg" },
+  { name: "Muhammad Shayboniyxon", born: 1451, died: 1510, category: "sarkarda", image: "download (50).jpeg" },
+  { name: "Ogahiy", born: 1809, died: 1874, category: "yozuvchi", image: "download (51).jpeg" },
+  { name: "Abulxayrxon", born: 1412, died: 1468, category: "sarkarda", image: "download (52).jpeg" },
+  { name: "Temur Malik", born: 1170, died: 1232, category: "sarkarda", image: "download (53).jpeg" },
+  { name: "Shohruh Mirzo", born: 1377, died: 1447, category: "sarkarda", image: "download (54).jpeg" },
+  { name: "Abu Said Mirzo", born: 1424, died: 1469, category: "sarkarda", image: "download (55).jpeg" },
+  { name: "Ubaydullaxon", born: 1487, died: 1539, category: "sarkarda", image: "download (56).jpeg" },
+  { name: "Abdullaxon II", born: 1534, died: 1598, category: "sarkarda", image: "download (57).jpeg" },
+  { name: "Qazi Zada Rumiy", born: 1364, died: 1436, category: "olim", image: "download (58).jpeg" },
+  { name: "G'iyosiddin Jamshid Koshiy", born: 1380, died: 1429, category: "olim", image: "download (59).jpeg" },
+  { name: "Sharafiddin Ali Yazdiy", born: 1370, died: 1454, category: "olim", image: "download (60).jpeg" },
+  { name: "Mirxond", born: 1433, died: 1498, category: "olim", image: "download (61).jpeg" },
+  { name: "Xondamir", born: 1475, died: 1535, category: "olim", image: "download (62).jpeg" },
+  { name: "Xoja Ahror Valiy", born: 1404, died: 1490, category: "din", image: "download (63).jpeg" },
+  { name: "Hakim Termiziy", born: 820, died: 910, category: "din", image: "download (64).jpeg" },
+  { name: "Abdulxoliq G'ijduvoniy", born: 1103, died: 1179, category: "din", image: "download (65).jpeg" },
+  { name: "Sulton Uvays Qaraniy", born: 594, died: 657, category: "din", image: "download (66).jpeg" },
+  { name: "Furqat", born: 1858, died: 1909, category: "yozuvchi", image: "download (67).jpeg" },
+  { name: "Muqimiy", born: 1850, died: 1903, category: "yozuvchi", image: "download (68).jpeg" },
+  { name: "Erkin Vohidov", born: 1936, died: 2016, category: "yozuvchi", image: "download (69).jpeg" },
+  { name: "Abdulla Oripov", born: 1941, died: 2016, category: "yozuvchi", image: "download (70).jpeg" },
+  { name: "G'afur G'ulom", born: 1903, died: 1966, category: "yozuvchi", image: "download (71).jpeg" },
+  { name: "Oybek", born: 1905, died: 1968, category: "yozuvchi", image: "download (72).jpeg" },
+  { name: "Abdurauf Fitrat", born: 1886, died: 1938, category: "yozuvchi", image: "download (73).jpeg" },
+  { name: "Said Ahmad", born: 1920, died: 2007, category: "yozuvchi", image: "download (74).jpeg" },
+  { name: "O'tkir Hoshimov", born: 1941, died: 2013, category: "yozuvchi", image: "Download (75).jpeg" },
+  { name: "Abduqodir Shakuriy", born: 1875, died: 1943, category: "yozuvchi", image: "download (76).jpeg" },
+
+  // Bobo kalonlar (Sahobalar va dastlabki islom olimlari)
+  { name: "Qaffol Shoshiy", born: 904, died: 976, category: "din", image: "download (77).jpeg" },
+  { name: "Abu Iso Muhammad Termiziy", born: 824, died: 892, category: "din", image: "download (78).jpeg" },
+  { name: "Ismoil Samoniy", born: 849, died: 907, category: "sarkarda", image: "download (79).jpeg" },
+
+  // Momolar (buyuk ayollar)
+  { name: "Turkan Xotun", born: 1053, died: 1094, category: "sarkarda", image: "download (80).jpeg" },
+  { name: "Mahsatiy Ganjavi", born: 1089, died: 1159, category: "yozuvchi", image: "download (81).jpeg" },
+
+  // Jadidlar (qo'shilmagan)
+  { name: "Fitrat", born: 1886, died: 1938, category: "yozuvchi", image: "download (82).jpeg" },
+  { name: "Ubaydulla Xo'jayev", born: 1896, died: 1938, category: "yozuvchi", image: "download (83).jpeg" },
+  { name: "Fayzulla Xo'jayev", born: 1896, died: 1938, category: "sarkarda", image: "download (84).jpeg" },
+  { name: "Ashurali Zohiriy", born: 1885, died: 1937, category: "yozuvchi", image: "download (85).jpeg" },
+  { name: "Tavallo", born: 1882, died: 1937, category: "yozuvchi", image: "download (86).jpeg" },
+// Davomi - 100 taga yetkazish uchun
+  { name: "Yusuf Xos Hojib", born: 1019, died: 1085, category: "yozuvchi", image: "download (87).jpeg" },
+  { name: "Ahmad Yugnakiy", born: 1150, died: 1210, category: "yozuvchi", image: "download (88).jpeg" },
+  { name: "Rabg'uziy", born: 1270, died: 1315, category: "yozuvchi", image: "download (89).jpeg" },
+  { name: "Lutfiy", born: 1366, died: 1465, category: "yozuvchi", image: "download (90).jpeg" },
+  { name: "Sakkokiy", born: 1370, died: 1430, category: "yozuvchi", image: "download (91).jpeg" },
+  { name: "Atoiy", born: 1380, died: 1440, category: "yozuvchi", image: "download (92).jpeg" },
+  { name: "Gadoiy", born: 1400, died: 1460, category: "yozuvchi", image: "download (93).jpeg" },
+  { name: "Munis Xorazmiy", born: 1778, died: 1829, category: "yozuvchi", image: "download (94).jpeg" },
+  { name: "Avaz O'tar", born: 1884, died: 1919, category: "yozuvchi", image: "download (95).jpeg" },
+  { name: "Xivalik Muhammad Rahimxon II (Feruz)", born: 1844, died: 1910, category: "yozuvchi", image: "download (96).jpeg" },
+  { name: "Ismoil Samoniy", born: 849, died: 907, category: "sarkarda", image: "download (97).jpeg" },
+  { name: "Nasr ibn Ahmad Somoniy", born: 906, died: 943, category: "sarkarda", image: "download (98).jpeg" },
+  { name: "Alptegin", born: 910, died: 963, category: "sarkarda", image: "download (99).jpeg" },
+  { name: "Qorabog'xon", born: 1230, died: 1280, category: "sarkarda", image: "download (100).jpeg" },
+];
+
+
+
+
+
+
+        // ============================================
+        // GLOBAL
+        // ============================================
+        let currentLang = 'uz';
+        let currentCategory = 'all';
+        let currentPage = 'home';
+        let users = [];
+
+        // ============================================
+        // INIT
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+            renderCards(peopleData);
+            setupVoiceSearch();
+            setupScrollToTop();
+            updateStatistics();
+            generateTimeline();
+            generateCharts();
+            loadUsersList();
+            loadContentTable();
+        });
+
+        // ============================================
+        // RENDER CARDS
+        // ============================================
+        function renderCards(people) {
+            const cardGrid = document.getElementById('cardGrid');
+            cardGrid.innerHTML = '';
+
+            people.forEach((person, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.animationDelay = `${index * 0.05}s`;
+
+                const categoryIcon = {
+                    'olim': '🧠',
+                    'sarkarda': '⚔️',
+                    'yozuvchi': '📜',
+                    'din': '🕌'
+                }[person.category] || '👤';
+
+               card.innerHTML = `
+    <div class="card-image">
+        <img src="${person.image}" alt="${person.name}" loading="lazy">
+        <div class="card-overlay">
+            <button class="card-overlay-btn" 
+                onclick="window.location.href='${person.name.toLowerCase().replace(/[^a-z0-9]+/g,'_')}.html'">
+                📖 Batafsil bilib olish niyatingiz bo'lsa tugma ustiga bosing siz uchun to'liq va ishonchli ma'lumot
+            </button>
+        </div>
+    </div>
+    <div class="card-info">
+        <h3 class="card-title">${person.name}</h3>
+        <p class="card-category">${categoryIcon} ${person.category}</p>
+        <p class="card-year">📅 ${person.born} - ${person.died}</p>
+    </div>
+`;
+                card.onclick = (e) => {
+                    if (e.target.closest('.card-overlay-btn')) return;
+                    showPersonBio(person.id);
+                };
+
+                cardGrid.appendChild(card);
+            });
+        }
+
+        // ============================================
+        // FILTER
+        // ============================================
+        function filterByCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            let filtered = category === 'all' ? peopleData : peopleData.filter(p => p.category === category);
+            renderCards(filtered);
+        }
+
+        function filterCards() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            let filtered = peopleData.filter(person => person.name.toLowerCase().includes(searchValue));
+            if (currentCategory !== 'all') filtered = filtered.filter(p => p.category === currentCategory);
+            renderCards(filtered);
+        }
+
+        function liveSearch() {
+            const searchValue = document.getElementById('navSearch').value.toLowerCase();
+            const filtered = peopleData.filter(person => person.name.toLowerCase().includes(searchValue));
+            if (searchValue.length > 0) renderCards(filtered.slice(0, 5));
+            else if (currentPage === 'home') renderCards(currentCategory === 'all' ? peopleData : peopleData.filter(p => p.category === currentCategory));
+        }
+
+        // ============================================
+        // VOICE SEARCH
+        // ============================================
+        function setupVoiceSearch() {
+            const voiceBtn = document.getElementById('voiceBtn');
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                voiceBtn.style.display = 'none';
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = currentLang === 'uz' ? 'uz-UZ' : currentLang === 'en' ? 'en-US' : 'ru-RU';
+
+            voiceBtn.onclick = () => {
+                voiceBtn.style.background = 'linear-gradient(135deg, #ff6b6b, #ff5252)';
+                recognition.start();
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('search').value = transcript;
+                filterCards();
+                voiceBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+                showToast(`Topildi: "${transcript}"`, 'success');
+            };
+
+            recognition.onerror = () => {
+                showToast('❌ Ovoz tanishtirilmadi', 'error');
+                voiceBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+            };
+        }
+
+        // ============================================
+        // BIO
+        // ============================================
+        function showPersonBio(personId) {
+            const person = peopleData.find(p => p.id === personId);
+            if (!person) return;
+
+            const bioPage = document.createElement('div');
+            bioPage.className = 'page active';
+            bioPage.id = 'bio-page';
+            bioPage.innerHTML = `
+                <button class="back-btn" onclick="showPage('home'); document.getElementById('bio-page').remove();">
+                    ← Orqaga Qaytish
+                </button>
+                <div class="bio-container">
+                    <div class="bio-header">
+                        <div>
+                            <div class="bio-image">
+                                <img src="${person.image}" alt="${person.name}">
+                            </div>
+                        </div>
+                        <div class="bio-info">
+                            <h1>${person.name}</h1>
+                            <p class="category">🏷️ ${person.category}</p>
+                            <p class="dates">📅 ${person.born} - ${person.died} yillar</p>
+                            <div class="bio-stats">
+                                <div class="bio-stat">
+                                    <div class="bio-stat-value">${person.died - person.born}</div>
+                                    <div class="bio-stat-label">Umri (yil)</div>
+                                </div>
+                                <div class="bio-stat">
+                                    <div class="bio-stat-value">${new Date().getFullYear() - person.born}</div>
+                                    <div class="bio-stat-label">Tug'ilganidan beri</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bio-content">
+                        <h3>📖 Tavsif</h3>
+                        <p>${person.description}</p>
+
+                        <h3>✨ Asosiy Eʼtibor</h3>
+                        <ul>
+                            <li><strong>${person.name}</strong> - ${new Date().getFullYear() - person.born} yil avval tug'ilgan</li>
+                            <li>Toladgi: ${person.born}-yil</li>
+                            <li>Vafoti: ${person.died}-yil</li>
+                            <li>Kategoriya: ${person.category}</li>
+                            <li>Umri: ${person.died - person.born} yil</li>
+                        </ul>
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="sharePersonBio('${person.name}')">📤 Ulashish</button>
+                        <button class="btn btn-success" onclick="addToFavorites('${person.name}')">❤️ Sevimlilar</button>
+                    </div>
+                </div>
+            `;
+
+            document.querySelector('.page.active').classList.remove('active');
+            document.querySelector('.main-container').appendChild(bioPage);
+            window.scrollTo(0, 0);
+        }
+
+        function sharePersonBio(name) {
+            const text = `${name} haqida o'qiylik!`;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Bobo Kalonlarimiz',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text);
+                showToast('Nusxaladi!', 'success');
+            }
+        }
+
+        function addToFavorites(name) {
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            if (!favorites.includes(name)) {
+                favorites.push(name);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                showToast(`${name} sevimlilar'ga qo'shildi ❤️`, 'success');
+            } else {
+                showToast(`${name} allaqachon sevimlilar'da`, 'warning');
+            }
+        }
+
+        // ============================================
+        // TIMELINE
+        // ============================================
+        function generateTimeline() {
+            const container = document.getElementById('timelineContainer');
+            if (!container) return;
+
+            container.innerHTML = '';
+            const sorted = [...peopleData].sort((a, b) => a.born - b.born);
+
+            sorted.forEach((person, index) => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.style.animationDelay = `${index * 0.1}s`;
+
+                const categoryIcon = {
+                    'olim': '🧠',
+                    'sarkarda': '⚔️',
+                    'yozuvchi': '📜',
+                    'din': '🕌'
+                }[person.category] || '👤';
+
+                item.innerHTML = `
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">📅 ${person.born}-${person.died}</div>
+                        <div class="timeline-desc">
+                            <strong>${person.name}</strong><br>
+                            ${categoryIcon} ${person.category}
+                        </div>
+                    </div>
+                `;
+
+                item.onclick = () => showPersonBio(person.id);
+                container.appendChild(item);
+            });
+        }
+
+        // ============================================
+        // STATISTICS
+        // ============================================
+        function updateStatistics() {
+            const total = peopleData.length;
+            const scholars = peopleData.filter(p => p.category === 'olim').length;
+            const commanders = peopleData.filter(p => p.category === 'sarkarda').length;
+            const writers = peopleData.filter(p => p.category === 'yozuvchi').length;
+            const religious = peopleData.filter(p => p.category === 'din').length;
+
+            animateCounter(document.getElementById('totalPeople'), 0, total, 1500);
+            animateCounter(document.getElementById('totalScholars'), 0, scholars, 1500);
+            animateCounter(document.getElementById('totalCommanders'), 0, commanders, 1500);
+            animateCounter(document.getElementById('totalWriters'), 0, writers, 1500);
+            animateCounter(document.getElementById('totalReligious'), 0, religious, 1500);
+        }
+
+        function animateCounter(element, start, end, duration) {
+            const range = end - start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                element.textContent = current;
+                if (current === end) clearInterval(timer);
+            }, stepTime);
+        }
+
+        // ============================================
+        // CHARTS
+        // ============================================
+        function generateCharts() {
+            generateCategoryChart();
+            generateTopPeopleChart();
+        }
+
+        function generateCategoryChart() {
+            const container = document.getElementById('categoryChart');
+            if (!container) return;
+
+            const categories = {
+                'olim': 0,
+                'sarkarda': 0,
+                'yozuvchi': 0,
+                'din': 0
+            };
+
+            peopleData.forEach(p => categories[p.category]++);
+
+            container.innerHTML = '';
+            const icons = { 'olim': '🧠', 'sarkarda': '⚔️', 'yozuvchi': '📜', 'din': '🕌' };
+
+            for (const [category, count] of Object.entries(categories)) {
+                const percentage = (count / peopleData.length) * 100;
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.innerHTML = `
+                    <div class="bar-label">${icons[category]} ${category}</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: 0%">
+                            <span>${count} (${percentage.toFixed(1)}%)</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(bar);
+
+                setTimeout(() => {
+                    bar.querySelector('.bar-fill').style.width = percentage + '%';
+                }, 100);
+            }
+        }
+
+        function generateTopPeopleChart() {
+            const container = document.getElementById('topPeopleChart');
+            if (!container) return;
+
+            container.innerHTML = '';
+            const sorted = [...peopleData].sort((a, b) => (b.died - b.born) - (a.died - a.born)).slice(0, 5);
+
+            sorted.forEach(person => {
+                const lifespan = person.died - person.born;
+                const percentage = (lifespan / 120) * 100;
+
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.innerHTML = `
+                    <div class="bar-label">${person.name}</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: 0%">
+                            ${lifespan} yil
+                        </div>
+                    </div>
+                `;
+                container.appendChild(bar);
+
+                setTimeout(() => {
+                    bar.querySelector('.bar-fill').style.width = Math.min(percentage, 100) + '%';
+                }, 100);
+            });
+        }
+
+        // ============================================
+        // ADMIN
+        // ============================================
+        function switchAdminTab(tabName) {
+            document.querySelectorAll('.admin-tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            const selectedTab = document.getElementById(tabName + '-tab');
+            if (selectedTab) selectedTab.classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function addUser(e) {
+            e.preventDefault();
+
+            const newUser = {
+                id: users.length + 1,
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                role: document.getElementById('userRole').value,
+                date: new Date().toLocaleDateString('uz-UZ')
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            document.getElementById('userForm').reset();
+            loadUsersList();
+            showToast('✅ Foydalanuvchi qoʻshildi!', 'success');
+        }
+
+        function loadUsers() {
+            if (!localStorage.getItem('users')) {
+                users = [
+                    { id: 1, name: "Admin", email: "admin@example.com", role: "Admin", date: "2024-01-01" },
+                    { id: 2, name: "Editor", email: "editor@example.com", role: "Editor", date: "2024-01-05" }
+                ];
+                localStorage.setItem('users', JSON.stringify(users));
+            } else {
+                users = JSON.parse(localStorage.getItem('users'));
+            }
+        }
+
+        function loadUsersList() {
+            const tbody = document.getElementById('usersTable');
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td><span style="background: rgba(106, 216, 255, 0.2); padding: 5px 10px; border-radius: 5px;">${user.role}</span></td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm" onclick="deleteUser(${user.id})">🗑️ Oʻchirish</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function deleteUser(id) {
+            if (confirm('Aniqmi oʻchirmoqchisiz?')) {
+                users = users.filter(u => u.id !== id);
+                localStorage.setItem('users', JSON.stringify(users));
+                loadUsersList();
+                showToast('✅ Oʻchirildi!', 'success');
+            }
+        }
+
+        function addContent(e) {
+            e.preventDefault();
+
+            const newContent = {
+                id: peopleData.length + 1,
+                name: document.getElementById('personName').value,
+                born: parseInt(document.getElementById('personBorn').value),
+                died: parseInt(document.getElementById('personDied').value),
+                category: document.getElementById('personCategory').value,
+                description: document.getElementById('personDesc').value,
+                image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 250 280%22%3E%3Crect fill=%22%23333%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%22100%22 fill=%22%23666%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E📚%3C/text%3E%3C/svg%3E'
+            };
+
+            peopleData.push(newContent);
+            localStorage.setItem('peopleData', JSON.stringify(peopleData));
+
+            document.getElementById('contentForm').reset();
+            loadContentTable();
+            updateStatistics();
+            generateCharts();
+            showToast('✅ Yangi shaxs qoʻshildi!', 'success');
+        }
+
+        function loadContentTable() {
+            const tbody = document.getElementById('contentTable');
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+            peopleData.forEach(person => {
+                const row = document.createElement('tr');
+                const categoryIcon = {
+                    'olim': '🧠',
+                    'sarkarda': '⚔️',
+                    'yozuvchi': '📜',
+                    'din': '🕌'
+                }[person.category] || '👤';
+
+                row.innerHTML = `
+                    <td>${person.name}</td>
+                    <td>${person.born}</td>
+                    <td>${person.died}</td>
+                    <td>${categoryIcon} ${person.category}</td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm btn-danger" onclick="deleteContent(${person.id})">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function deleteContent(id) {
+            if (confirm('Aniqmi oʻchirmoqchisiz?')) {
+                const index = peopleData.findIndex(p => p.id === id);
+                if (index > -1) {
+                    peopleData.splice(index, 1);
+                    loadContentTable();
+                    updateStatistics();
+                    showToast('✅ Oʻchirildi!', 'success');
+                }
+            }
+        }
+
+        function saveSettings() {
+            const settings = {
+                siteName: document.getElementById('siteName').value,
+                siteDesc: document.getElementById('siteDesc').value,
+                siteKeywords: document.getElementById('siteKeywords').value,
+                siteEmail: document.getElementById('siteEmail').value
+            };
+
+            localStorage.setItem('siteSettings', JSON.stringify(settings));
+            showToast('💾 Sozlamalar saqlandi!', 'success');
+        }
+
+        // ============================================
+        // NAVIGATION
+        // ============================================
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                if (page.id !== 'bio-page') page.classList.remove('active');
+            });
+
+            const page = document.getElementById(pageId);
+            if (page && page.id !== 'bio-page') page.classList.add('active');
+
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (hamburger) hamburger.classList.remove('active');
+            if (mobileMenu) mobileMenu.classList.remove('active');
+
+            currentPage = pageId;
+            window.scrollTo(0, 0);
+        }
+
+        // ============================================
+        // LANGUAGE
+        // ============================================
+        function changeLang(lang) {
+            currentLang = lang;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('search').placeholder = lang === 'uz' ? 'Bobo kalon nomini yozing...' : lang === 'en' ? 'Type name...' : 'Введите имя...';
+        }
+
+        // ============================================
+        // MOBILE MENU
+        // ============================================
+        function toggleMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (hamburger) hamburger.classList.toggle('active');
+            if (mobileMenu) mobileMenu.classList.toggle('active');
+        }
+
+        // ============================================
+        // SCROLL
+        // ============================================
+        function setupScrollToTop() {
+            const topBtn = document.getElementById('topBtn');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    topBtn.classList.add('show');
+                } else {
+                    topBtn.classList.remove('show');
+                }
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // ============================================
+        // NOTIFICATIONS
+        // ============================================
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideUp 0.4s ease reverse';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+
+ 
+
+<!-- PREMIUM FUTURISTIC FOOTER -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+footer{
     position: relative;
     overflow: hidden;
     background:
-        radial-gradient(circle at top left,    #0d2a6e 0%, transparent 30%),
-        radial-gradient(circle at bottom right, #004f7a 0%, transparent 25%),
-        linear-gradient(150deg, #020810, #0a1628, #0c1f36);
-    padding: 80px 28px 32px;
-    color: var(--light);
-    font-family: var(--font-body);
-    border-top: 1px solid var(--border);
+    radial-gradient(circle at top left,#1e3a8a 0%,transparent 30%),
+    radial-gradient(circle at bottom right,#00c3ff 0%,transparent 25%),
+    linear-gradient(135deg,#020617,#0f172a,#111827);
+    
+    padding: 80px 25px 30px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    border-top: 1px solid rgba(255,255,255,0.08);
     backdrop-filter: blur(20px);
-    margin-top: 120px;
 }
 
-footer::before {
-    content: '';
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    background: rgba(0, 195, 255, 0.10);
-    border-radius: 50%;
-    top: -260px;
-    left: -160px;
-    filter: blur(130px);
-    pointer-events: none;
+/* GLOW EFFECT */
+footer::before{
+    content:'';
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:rgba(0,195,255,0.12);
+    border-radius:50%;
+    top:-250px;
+    left:-150px;
+    filter: blur(120px);
 }
 
-footer::after {
-    content: '';
-    position: absolute;
-    width: 380px;
-    height: 380px;
-    background: rgba(106, 216, 255, 0.07);
-    border-radius: 50%;
-    bottom: -190px;
-    right: -100px;
-    filter: blur(110px);
-    pointer-events: none;
+footer::after{
+    content:'';
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:rgba(106,216,255,0.08);
+    border-radius:50%;
+    bottom:-200px;
+    right:-100px;
+    filter: blur(100px);
 }
 
-.footer-container {
+.footer-container{
     position: relative;
     z-index: 2;
     max-width: 1300px;
-    margin: auto;
+    margin:auto;
 }
 
-.footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 36px;
+.footer-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap:40px;
 }
 
-.footer-card {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    padding: 28px;
-    border-radius: 20px;
-    backdrop-filter: blur(14px);
-    transition: var(--transition);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
-    animation: glowBox 6s infinite;
+.footer-card{
+    background: rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    padding:30px;
+    border-radius:25px;
+    backdrop-filter: blur(12px);
+    transition:0.4s ease;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
 }
 
-.footer-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    border-color: var(--border-hi);
-    box-shadow: 0 0 24px rgba(106, 216, 255, 0.3), 0 0 48px rgba(106, 216, 255, 0.14);
+.footer-card:hover{
+    transform:translateY(-10px) scale(1.02);
+    border-color:#6ad8ff;
+    box-shadow:
+    0 0 20px rgba(106,216,255,0.3),
+    0 0 40px rgba(106,216,255,0.15);
 }
 
-.footer-logo {
-    font-family: var(--font-display);
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 14px;
-    color: var(--primary);
-    text-shadow: 0 0 16px rgba(106, 216, 255, 0.6);
-    letter-spacing: 0.08em;
+.footer-logo{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:15px;
+    color:#6ad8ff;
+    text-shadow:0 0 15px rgba(106,216,255,0.6);
 }
 
-.footer-text {
-    color: rgba(240, 246, 255, 0.72);
-    line-height: 1.8;
-    font-size: 14px;
+.footer-text{
+    color:rgba(255,255,255,0.78);
+    line-height:1.8;
+    font-size:15px;
 }
 
-.footer-title {
-    font-family: var(--font-display);
-    font-size: 18px;
-    margin-bottom: 16px;
-    color: var(--primary);
-    font-weight: 600;
-    letter-spacing: 0.05em;
+.footer-title{
+    font-size:20px;
+    margin-bottom:18px;
+    color:#6ad8ff;
+    font-weight:600;
 }
 
-.footer-links { list-style: none; padding: 0; }
-.footer-links li { margin: 12px 0; }
-
-.footer-links a {
-    color: rgba(240, 246, 255, 0.75);
-    text-decoration: none;
-    transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
+.footer-links{
+    list-style:none;
+    padding:0;
 }
 
-.footer-links a:hover {
-    color: var(--primary);
-    transform: translateX(8px);
-    text-shadow: 0 0 10px rgba(106, 216, 255, 0.6);
+.footer-links li{
+    margin:14px 0;
 }
 
-.socials {
-    display: flex;
-    gap: 12px;
-    margin-top: 18px;
-    flex-wrap: wrap;
+.footer-links a{
+    color:rgba(255,255,255,0.82);
+    text-decoration:none;
+    transition:0.35s;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:15px;
 }
 
-.social-btn {
-    width: 46px;
-    height: 46px;
-    border-radius: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    transition: var(--transition);
-    text-decoration: none;
-    color: var(--light);
+.footer-links a:hover{
+    color:#6ad8ff;
+    transform:translateX(8px);
+    text-shadow:0 0 10px rgba(106,216,255,0.7);
 }
 
-.social-btn:hover {
-    background: var(--primary);
-    color: var(--dark-1);
-    transform: translateY(-6px) rotate(5deg);
-    box-shadow: 0 0 20px rgba(106, 216, 255, 0.5);
+/* SOCIAL BUTTONS */
+.socials{
+    display:flex;
+    gap:15px;
+    margin-top:20px;
+    flex-wrap:wrap;
 }
 
-.contact-box {
-    margin-top: 14px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 12px;
-    padding: 12px 16px;
-    font-size: 14px;
+.social-btn{
+    width:50px;
+    height:50px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.1);
+    transition:0.35s;
+    text-decoration:none;
+    color:white;
 }
 
-.contact-box a {
-    color: var(--primary);
-    text-decoration: none;
-    word-break: break-word;
+.social-btn:hover{
+    background:#6ad8ff;
+    color:#00111f;
+    transform:translateY(-6px) rotate(5deg);
+    box-shadow:0 0 20px rgba(106,216,255,0.5);
 }
 
-.footer-bottom {
+/* EMAIL BOX */
+.contact-box{
+    margin-top:18px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px;
+    padding:14px;
+}
+
+.contact-box a{
+    color:#6ad8ff;
+    text-decoration:none;
+    font-size:15px;
+    word-break:break-word;
+}
+
+/* BOTTOM */
+.footer-bottom{
     position: relative;
-    z-index: 2;
-    margin-top: 52px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-    text-align: center;
+    z-index:2;
+    margin-top:55px;
+    padding-top:25px;
+    border-top:1px solid rgba(255,255,255,0.08);
+    text-align:center;
 }
 
-.footer-bottom h2 {
-    font-family: var(--font-display);
-    font-size: 22px;
-    color: var(--primary);
-    margin-bottom: 10px;
-    text-shadow: 0 0 16px rgba(106, 216, 255, 0.55);
-    letter-spacing: 0.06em;
+.footer-bottom h2{
+    font-size:24px;
+    color:#6ad8ff;
+    margin-bottom:10px;
+    text-shadow:0 0 15px rgba(106,216,255,0.6);
 }
 
-.footer-bottom p {
-    color: rgba(240, 246, 255, 0.6);
-    font-size: 13px;
-    line-height: 1.8;
+.footer-bottom p{
+    color:rgba(255,255,255,0.7);
+    font-size:14px;
+    line-height:1.8;
 }
 
-/* ==========================================
-   TRANSLATE PANEL
-   ========================================== */
-.translate-wrapper { position: relative; }
-
-.translate-panel {
-    position: absolute;
-    top: 44px;
-    left: 0;
-    background: rgba(6, 14, 28, 0.97);
-    border: 1px solid var(--border-mid);
-    padding: 14px;
-    border-radius: 14px;
-    max-height: 300px;
-    overflow-y: auto;
-    width: 240px;
-    z-index: 999;
-    backdrop-filter: blur(16px);
-    box-shadow: var(--shadow);
+/* ANIMATION */
+@keyframes glow{
+    0%{box-shadow:0 0 5px rgba(106,216,255,0.2);}
+    50%{box-shadow:0 0 25px rgba(106,216,255,0.5);}
+    100%{box-shadow:0 0 5px rgba(106,216,255,0.2);}
 }
 
-.translate-search {
-    width: 100%;
-    padding: 7px 10px;
-    margin-bottom: 8px;
-    border-radius: 8px;
-    border: 1px solid var(--border-mid);
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--light);
-    font-size: 13px;
-    outline: none;
+.footer-card{
+    animation: glow 5s infinite;
 }
 
-.lang-btn {
-    display: block;
-    width: 100%;
-    margin-bottom: 5px;
-    padding: 7px 10px;
-    text-align: left;
-    border: none;
-    border-radius: 7px;
-    background: rgba(106, 216, 255, 0.07);
-    color: var(--light);
-    cursor: pointer;
-    transition: 0.2s;
-    font-size: 13px;
-}
-
-.lang-btn:hover { background: var(--primary); color: var(--dark-1); }
-
-/* ==========================================
-   SCROLLBAR
-   ========================================== */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--dark-1); }
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(var(--primary), var(--secondary));
-    border-radius: 4px;
-}
-
-/* ==========================================
-   SELECTION
-   ========================================== */
-::selection {
-    background: rgba(106, 216, 255, 0.28);
-    color: var(--light);
-}
-
-/* ==========================================
-   RESPONSIVE
-   ========================================== */
-@media (max-width: 1024px) {
-    .nav-menu  { display: none; }
-    .hamburger { display: flex; }
-
-    .bio-header { grid-template-columns: 1fr; gap: 28px; }
-    .bio-info h1 { text-align: center; }
-    .bio-content h3 {
-        text-align: center;
-        border: none;
-        padding: 0 0 8px;
-        border-bottom: 2px solid var(--accent);
+/* MOBILE */
+@media(max-width:768px){
+    footer{
+        padding:60px 18px 25px;
     }
 
-    .timeline::before { left: 18px; }
-    .timeline-item { padding-left: 66px !important; padding-right: 0 !important; text-align: left !important; }
-    .timeline-marker { left: 8px; }
+    .footer-grid{
+        gap:25px;
+    }
 
-    .card-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-}
+    .footer-card{
+        padding:24px;
+    }
 
-@media (max-width: 768px) {
-    .main-container { padding: 76px 18px 40px; }
-    .hero-section { padding: 44px 22px; }
-    .hero-title { font-size: 1.8rem; }
-    .card-grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 14px; }
-    .nav-container { padding: 12px 16px; gap: 10px; }
-    .logo { font-size: 17px; }
-    .nav-search input { width: 140px; }
-    .admin-tabs { gap: 7px; }
-    .admin-tab-btn { padding: 9px 14px; font-size: 12px; }
-    .stats-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-    .modal-content { width: 95%; padding: 24px; }
-    footer { padding: 60px 18px 26px; }
-    .footer-grid { gap: 22px; }
-}
-
-@media (max-width: 480px) {
-    .hero-title { font-size: 1.5rem; }
-    .search-box { flex-direction: column; }
-    #search { max-width: 100%; }
-    .card { border-radius: 14px; }
-    .card-image { height: 190px; }
-    .card-title { font-size: 14px; }
-    .filter-btn { padding: 7px 13px; font-size: 11px; }
-    .bio-stats { flex-direction: column; gap: 10px; }
-    .form-buttons { flex-direction: column; }
-    .form-buttons button { width: 100%; }
-    .admin-table { font-size: 12px; }
-    .admin-table th, .admin-table td { padding: 9px; }
-    .footer-grid { grid-template-columns: 1fr; gap: 22px; }
-    .toast { left: 14px; right: 14px; max-width: none; }
-    .stat-number { font-size: 38px; }
-    .stat-icon { font-size: 42px; }
-}
-
-@media print {
-    .navbar, footer, #topBtn, .modal { display: none; }
-    .page { page-break-after: always; }
-    .card { box-shadow: none; border: 1px solid #ccc; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
+    .footer-bottom h2{
+        font-size:20px;
     }
 }
+</style>
+
+<footer>
+    <div class="footer-container">
+
+        <div class="footer-grid">
+
+            <!-- ABOUT -->
+            <div class="footer-card">
+                <div class="footer-logo">🏛️ BIU</div>
+
+                <p class="footer-text">
+                    Dunyodagi buyuk olimlar, sarkardalar, yozuvchilar va din allomalari haqida premium tarixiy ensiklopediya.
+                </p>
+
+                <div class="socials">
+                    <a href="https://t.me/Biu_mualifi_AI_bot" class="social-btn">↗️</a>
+
+                    <a href="https://x.com/i/grok" class="social-btn">X</a>
+
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=admin@bobokalonlar.uz" 
+           class="social-btn" 
+           target="_blank"
+           title="Email yozish">
+            📧
+        </a>
+                </div>
+            </div>
+
+            <!-- LINKS -->
+            <div class="footer-card">
+                <h3 class="footer-title">🚀 Navigatsiya</h3>
+
+                <ul class="footer-links">
+                    <li>
+                        <a href="#" onclick="showPage('home')">
+                            🏠 Bosh Sahifa
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" onclick="showPage('timeline')">
+                            📅 Timeline
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" onclick="showPage('statistics')">
+                            📊 Statistika
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" onclick="showPage('admin')">
+                            ⚙️ Admin Panel
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- CONTACT -->
+            <div class="footer-card">
+                <h3 class="footer-title">📬 Aloqa</h3>
+
+                <p class="footer-text">
+                    Savollar, takliflar yoki hamkorlik uchun bog‘laning.
+                </p>
+
+                <div class="contact-box">
+    📧 
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=admin@bobokalonlar.uz" target="_blank">
+        admin@bobokalonlar.uz
+    </a>
+</div>
+
+                <div class="contact-box">
+                    📱 
+                    <a href="https://t.me/Biu_mualifi_AI_bot">
+                        Telegram Bot
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM -->
+        <div class="footer-bottom">
+            <h2>✨ Bobo Kalonlarimiz</h2>
+
+            <p>
+                © 2026 Barcha huquqlar himoyalangan
+            </p>
+
+            <p>
+                Muallif: Teshaboyev Salohiddin 
+            </p>
+        </div>
+
+    </div>
+</footer>
