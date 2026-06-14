@@ -1,891 +1,1385 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bobo Kalonlar — Ariza</title>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<style>
-/* ===== RESET & BASE ===== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --cream: #f5f0e8;
-  --warm-white: #faf8f4;
-  --gold: #c9a84c;
-  --gold-light: #e4c97e;
-  --deep: #1a1208;
-  --ink: #2d2410;
-  --muted: #7a6d55;
-  --border: #ddd5c0;
-  --blue: #1a3a6b;
-  --blue-hover: #0f2548;
-  --success: #2d6a4f;
-  --error: #b91c1c;
-  --card-shadow: 0 20px 60px rgba(26,18,8,0.12), 0 4px 16px rgba(26,18,8,0.08);
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--cream);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px 16px;
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* ===== BACKGROUND TEXTURE ===== */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(ellipse at 20% 10%, rgba(201,168,76,0.10) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 90%, rgba(26,58,107,0.08) 0%, transparent 50%),
-    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ===== HEADER ===== */
-.site-header {
-  width: 100%;
-  max-width: 1100px;
-  text-align: center;
-  margin-bottom: 32px;
-  position: relative;
-  z-index: 1;
-}
-
-.site-header .logo-line {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 6px;
-}
-
-.logo-ornament {
-  width: 36px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold));
-}
-.logo-ornament.right {
-  background: linear-gradient(90deg, var(--gold), transparent);
-}
-
-.site-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(22px, 4vw, 36px);
-  font-weight: 900;
-  color: var(--deep);
-  letter-spacing: 0.02em;
-}
-
-.site-header .subtitle {
-  font-size: 13px;
-  color: var(--muted);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-/* ===== MAIN CARD ===== */
-.main-card {
-  width: 100%;
-  max-width: 1100px;
-  background: var(--warm-white);
-  border-radius: 20px;
-  box-shadow: var(--card-shadow);
-  border: 1px solid var(--border);
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  position: relative;
-  z-index: 1;
-  animation: cardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== VIDEO PANEL (left) ===== */
-.video-panel {
-  position: relative;
-  background: var(--deep);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 560px;
-  overflow: hidden;
-}
-
-.video-panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-/* Ornamental border inside video panel */
-.video-panel::after {
-  content: '';
-  position: absolute;
-  inset: 12px;
-  border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 12px;
-  pointer-events: none;
-}
-
-.video-wrapper {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-}
-
-/* === O'ZGARTIRILDI: object-fit: cover — video har doim to'liq ko'rinadi === */
-.video-wrapper video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  opacity: 0.85;
-}
-
-.video-overlay {
-  position: relative;
-  z-index: 2;
-  padding: 32px;
-  text-align: center;
-  width: 100%;
-}
-
-.video-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(201,168,76,0.15);
-  border: 1px solid rgba(201,168,76,0.4);
-  color: var(--gold-light);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border-radius: 100px;
-  margin-bottom: 20px;
-  backdrop-filter: blur(8px);
-}
-
-.video-badge::before {
-  content: '▶';
-  font-size: 9px;
-}
-
-.video-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(20px, 2.5vw, 30px);
-  color: #fff;
-  font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 12px;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
-}
-
-.video-desc {
-  font-size: 13px;
-  color: rgba(255,255,255,0.65);
-  line-height: 1.6;
-  max-width: 280px;
-  margin: 0 auto 24px;
-}
-
-/* Steps shown on video panel */
-.steps-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: left;
-}
-
-.steps-list li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(255,255,255,0.85);
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.step-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(201,168,76,0.2);
-  border: 1px solid rgba(201,168,76,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  flex-shrink: 0;
-  color: var(--gold-light);
-}
-
-/* ===== FORM PANEL (right) ===== */
-.form-panel {
-  padding: 48px 44px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.form-panel-header {
-  margin-bottom: 28px;
-}
-
-.form-panel-header h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  color: var(--deep);
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.form-panel-header p {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-/* Gold divider */
-.divider {
-  width: 40px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  border-radius: 2px;
-  margin: 14px 0 22px;
-}
-
-/* ===== GOOGLE SIGN-IN AREA ===== */
-#gSignIn {
-  margin-bottom: 20px;
-}
-
-/* User welcome banner */
-.user-banner {
-  display: none;
-  align-items: center;
-  gap: 12px;
-  background: linear-gradient(135deg, #f0f7ff, #e8f4fd);
-  border: 1px solid #bddafc;
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-bottom: 22px;
-  animation: fadeSlide 0.4s ease both;
-}
-
-@keyframes fadeSlide {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.user-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--blue), #2563eb);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.user-banner-text strong {
-  display: block;
-  color: var(--blue);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.user-banner-text span {
-  font-size: 12px;
-  color: #5a7a9a;
-}
-
-/* ===== FORM FIELDS ===== */
-.form-body { display: none; }
-
-.field-group {
-  margin-bottom: 18px;
-}
-
-.field-group label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 7px;
-}
-
-.field-group input,
-.field-group textarea {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  color: var(--ink);
-  background: #fff;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  outline: none;
-}
-
-.field-group input::placeholder,
-.field-group textarea::placeholder {
-  color: #bbb;
-}
-
-.field-group input:focus,
-.field-group textarea:focus {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
-}
-
-.field-group input[readonly] {
-  background: #f8f6f0;
-  color: var(--muted);
-  cursor: default;
-}
-
-.field-group textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-/* Phone prefix wrapper */
-.phone-wrap {
-  display: flex;
-  gap: 0;
-}
-
-.phone-prefix {
-  padding: 12px 14px;
-  background: #f0ece3;
-  border: 1.5px solid var(--border);
-  border-right: none;
-  border-radius: 10px 0 0 10px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--muted);
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-}
-
-.phone-wrap input {
-  border-radius: 0 10px 10px 0 !important;
-}
-
-/* Error messages */
-.field-error {
-  font-size: 11.5px;
-  color: var(--error);
-  margin-top: 5px;
-  display: none;
-  align-items: center;
-  gap: 4px;
-}
-
-.field-error.visible {
-  display: flex;
-}
-
-/* ===== BUTTONS ===== */
-.btn-submit {
-  width: 100%;
-  padding: 14px 24px;
-  background: linear-gradient(135deg, var(--blue) 0%, #1e4a8c 100%);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s;
-  position: relative;
-  overflow: hidden;
-  margin-top: 6px;
-  letter-spacing: 0.02em;
-}
-
-.btn-submit::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.btn-submit:hover:not(:disabled)::before { opacity: 1; }
-.btn-submit:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(26,58,107,0.35);
-}
-.btn-submit:active:not(:disabled) { transform: translateY(0); }
-.btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
-
-.btn-clear {
-  width: 100%;
-  padding: 11px 24px;
-  background: transparent;
-  color: var(--muted);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 10px;
-  display: none;
-}
-
-.btn-clear:hover { background: #f4ede0; border-color: #c9b08a; color: var(--ink); }
-
-/* Success message */
-.success-msg {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  background: #d1fae5;
-  border: 1px solid #6ee7b7;
-  color: var(--success);
-  padding: 12px 16px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 14px;
-  animation: fadeSlide 0.4s ease both;
-}
-
-.success-msg.visible { display: flex; }
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  body { padding: 16px 12px; align-items: flex-start; }
-
-  .main-card {
-    grid-template-columns: 1fr;
-    border-radius: 16px;
-  }
-
-  /* === O'ZGARTIRILDI: min-height o'rniga height: 56vw — telefonda to'liq ko'rinadi === */
-  .video-panel {
-    height: 56vw;
-    min-height: 200px;
-    max-height: 320px;
-    order: -1;
-  }
-
-  .video-panel::after { inset: 8px; }
-
-  .video-overlay {
-    padding: 24px 20px;
-  }
-
-  .steps-list { display: none; }
-
-  .form-panel {
-    padding: 32px 24px;
-  }
-
-  .field-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .site-header h1 { font-size: 20px; }
-  /* === O'ZGARTIRILDI: min-height o'rniga height: 62vw === */
-  .video-panel { height: 62vw; min-height: 180px; max-height: 260px; }
-  .form-panel { padding: 24px 18px; }
-  .form-panel-header h2 { font-size: 22px; }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .main-card { max-width: 860px; }
-  .form-panel { padding: 40px 36px; }
-  .video-title { font-size: 22px; }
-}
-
-/* ===== LOADING SPINNER ===== */
-.spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255,255,255,0.4);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  vertical-align: middle;
-  margin-right: 8px;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* Animated gold dots in video panel when no video */
-.pulse-ring {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 2px solid rgba(201,168,76,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
-  position: relative;
-  animation: pulseRing 2s ease-in-out infinite;
-}
-
-@keyframes pulseRing {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.3); }
-  50%       { box-shadow: 0 0 0 16px rgba(201,168,76,0); }
-}
-
-.pulse-ring .play-icon {
-  font-size: 28px;
-  color: var(--gold-light);
-  margin-left: 4px;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageTitle">Bobokalon — BIU</title>
+  <meta name="description" content="Buyuk shaxs haqida to'liq ma'lumot" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='80' dominant-baseline='middle' text-anchor='middle'%3E🏛️%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── PAGE-LEVEL TOKENS ── */
+    :root {
+      --accent-gold: #f4e27a;
+      --accent-gold-dim: rgba(244,226,122,0.14);
+      --ink: rgba(240,246,255,0.82);
+      --section-bg: rgba(8,20,40,0.78);
+      --radius: 20px;
+    }
+
+    /* ── VIDEO BG ── */
+    #bg-video {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; z-index: -1;
+      opacity: 0.38;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 94vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 0 72px;
+      overflow: hidden;
+    }
+
+    .hero-img {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center top;
+      transform: scale(1.06);
+      transition: transform 8s ease;
+      filter: brightness(0.52) saturate(1.2);
+    }
+
+    .hero:hover .hero-img { transform: scale(1); }
+
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to top,  rgba(4,10,22,0.98) 0%, rgba(4,10,22,0.55) 40%, transparent 75%),
+        linear-gradient(to right, rgba(4,10,22,0.75) 0%, transparent 60%);
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 40px; height: 2px;
+      background: var(--primary);
+      box-shadow: 0 0 10px rgba(106,216,255,0.6);
+    }
+
+    .hero-name {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent-gold) 55%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: glow 4s ease-in-out infinite;
+    }
+
+    .hero-dates {
+      font-size: 18px;
+      color: rgba(240,246,255,0.65);
+      margin-bottom: 28px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-tags {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .hero-tag {
+      padding: 6px 16px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+      background: rgba(106,216,255,0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-stats {
+      display: flex; gap: 36px; flex-wrap: wrap;
+    }
+
+    .hero-stat { text-align: left; }
+
+    .hero-stat-val {
+      font-family: 'Cinzel', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1;
+      text-shadow: 0 0 20px rgba(244,226,122,0.45);
+    }
+
+    .hero-stat-label {
+      font-size: 11px;
+      color: rgba(240,246,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-top: 5px;
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.35);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: pulse 2s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    .scroll-cue::after {
+      content: '';
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, rgba(106,216,255,0.6), transparent);
+    }
+
+    /* ── BACK NAV ── */
+    .back-nav {
+      position: fixed;
+      top: 20px; left: 24px;
+      z-index: 500;
+    }
+
+    .back-nav a {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 18px;
+      background: rgba(4,10,22,0.82);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .back-nav a:hover {
+      border-color: var(--primary);
+      background: var(--primary-dim);
+      transform: translateX(-4px);
+    }
+
+    /* ── MAIN CONTENT ── */
+    .content-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px 100px;
+    }
+
+    /* ── SECTION BASE ── */
+    .section {
+      margin-bottom: 72px;
+      animation: pageFadeUp 0.6s ease both;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .section-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(106,216,255,0.18), rgba(0,212,255,0.08));
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--light);
+      letter-spacing: 0.04em;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border-mid), transparent);
+    }
+
+    /* ── BIO CARD ── */
+    .bio-card {
+      background: var(--section-bg);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      line-height: 1.95;
+      font-size: 16px;
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bio-card::before {
+      content: '"';
+      font-family: 'Cinzel', serif;
+      font-size: 220px;
+      color: rgba(106,216,255,0.04);
+      position: absolute;
+      top: -30px; left: 20px;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .bio-card p { margin-bottom: 20px; text-align: justify; }
+
+    /* ── QUOTES ── */
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 22px;
+    }
+
+    .quote-card {
+      background: var(--accent-gold-dim);
+      border: 1px solid rgba(244,226,122,0.22);
+      border-left: 4px solid var(--accent-gold);
+      border-radius: 16px;
+      padding: 28px 26px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .quote-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(244,226,122,0.55);
+      box-shadow: 0 12px 36px rgba(244,226,122,0.15);
+    }
+
+    .quote-text {
+      font-style: italic;
+      color: var(--accent-gold);
+      font-size: 15.5px;
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+
+    .quote-text::before { content: '"'; font-size: 1.4em; }
+    .quote-text::after  { content: '"'; font-size: 1.4em; }
+
+    .quote-source {
+      font-size: 12px;
+      color: rgba(244,226,122,0.55);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── WORKS ── */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .work-card {
+      background: var(--section-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: var(--transition);
+      cursor: default;
+    }
+
+    .work-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--border-hi);
+      box-shadow: var(--shadow), var(--glow-sm);
+    }
+
+    .work-icon {
+      font-size: 32px;
+      margin-bottom: 14px;
+    }
+
+    .work-title {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+    }
+
+    .work-year {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+
+    .work-desc {
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* ── TIMELINE ── */
+    .tl-wrap {
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .tl-wrap::before {
+      content: '';
+      position: absolute;
+      left: 10px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), rgba(106,216,255,0.1));
+      box-shadow: 0 0 12px rgba(106,216,255,0.3);
+    }
+
+    .tl-item {
+      position: relative;
+      margin-bottom: 36px;
+      animation: slideUp 0.5s ease both;
+    }
+
+    .tl-dot {
+      position: absolute;
+      left: -36px; top: 6px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: 3px solid var(--dark-1);
+      box-shadow: 0 0 14px rgba(106,216,255,0.65);
+      transition: var(--transition);
+    }
+
+    .tl-item:hover .tl-dot {
+      transform: scale(1.4);
+      box-shadow: 0 0 24px rgba(106,216,255,0.9);
+    }
+
+    .tl-year {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .tl-box {
+      background: var(--section-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      transition: var(--transition);
+    }
+
+    .tl-item:hover .tl-box {
+      border-color: var(--border-mid);
+      background: rgba(8,20,40,0.92);
+      transform: translateX(6px);
+    }
+
+    .tl-event {
+      font-weight: 600;
+      color: var(--accent-gold);
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .tl-detail {
+      font-size: 13.5px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* ── AI CHATBOT ── */
+    .chat-section {
+      background: var(--section-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .chat-header {
+      padding: 20px 28px;
+      background: linear-gradient(135deg, rgba(106,216,255,0.12), rgba(0,212,255,0.06));
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .chat-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 0 16px rgba(106,216,255,0.4);
+    }
+
+    .chat-header-info { flex: 1; }
+
+    .chat-name {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      letter-spacing: 0.04em;
+    }
+
+    .chat-status {
+      font-size: 11px;
+      color: var(--success);
+      display: flex; align-items: center; gap: 5px;
+      margin-top: 3px;
+    }
+
+    .chat-status::before {
+      content: '';
+      width: 7px; height: 7px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .chat-messages {
+      height: 420px;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: var(--border-mid);
+      border-radius: 4px;
+    }
+
+    .msg {
+      max-width: 78%;
+      animation: fadeInScale 0.3s ease;
+    }
+
+    .msg-bot  { align-self: flex-start; }
+    .msg-user { align-self: flex-end; }
+
+    .msg-bubble {
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.65;
+      word-break: break-word;
+    }
+
+    .msg-bot  .msg-bubble {
+      background: rgba(106,216,255,0.1);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+      color: var(--ink);
+    }
+
+    .msg-user .msg-bubble {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark-1);
+      font-weight: 600;
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg-time {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 5px;
+      letter-spacing: 0.05em;
+    }
+
+    .msg-bot  .msg-time { text-align: left; }
+    .msg-user .msg-time { text-align: right; }
+
+    .msg-typing .msg-bubble {
+      display: flex; gap: 5px; align-items: center;
+      padding: 16px 20px;
+    }
+
+    .dot-typing {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      animation: bounce 1.2s infinite;
+    }
+    .dot-typing:nth-child(2) { animation-delay: 0.2s; }
+    .dot-typing:nth-child(3) { animation-delay: 0.4s; }
+
+    .quick-prompts {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      padding: 14px 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .qp-btn {
+      padding: 7px 14px;
+      background: rgba(106,216,255,0.07);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .qp-btn:hover {
+      background: var(--primary);
+      color: var(--dark-1);
+      border-color: transparent;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 12px;
+      padding: 18px 24px;
+      border-top: 1px solid var(--border);
+      align-items: flex-end;
+    }
+
+    #chatInput {
+      flex: 1;
+      padding: 13px 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      color: var(--light);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      resize: none;
+      min-height: 48px;
+      max-height: 130px;
+      transition: var(--transition);
+      line-height: 1.55;
+    }
+
+    #chatInput::placeholder { color: var(--muted); }
+
+    #chatInput:focus {
+      border-color: var(--primary);
+      background: rgba(106,216,255,0.05);
+      box-shadow: 0 0 16px rgba(106,216,255,0.25);
+    }
+
+    .send-btn {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      color: var(--dark-1);
+      font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(106,216,255,0.35);
+    }
+
+    .send-btn:hover {
+      transform: scale(1.1) rotate(-8deg);
+      box-shadow: var(--glow-lg);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* ── RELATED ── */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .rel-card {
+      background: var(--section-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .rel-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--border-hi);
+      box-shadow: var(--shadow), var(--glow-sm);
+    }
+
+    .rel-card img {
+      width: 100%; height: 140px;
+      object-fit: cover;
+      filter: brightness(0.82) saturate(1.1);
+      transition: transform 0.4s ease;
+    }
+
+    .rel-card:hover img { transform: scale(1.1); }
+
+    .rel-info {
+      padding: 14px 16px;
+    }
+
+    .rel-name {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-gold);
+      margin-bottom: 4px;
+    }
+
+    .rel-cat {
+      font-size: 11px;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── ERROR STATE ── */
+    .error-state {
+      text-align: center;
+      padding: 80px 30px;
+      color: var(--muted);
+    }
+    .error-state .icon { font-size: 64px; margin-bottom: 20px; }
+    .error-state h2 { color: var(--primary); margin-bottom: 12px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero { min-height: 85vh; }
+      .hero-content { padding: 0 22px; }
+      .hero-name { font-size: 2.4rem; }
+      .hero-stats { gap: 22px; }
+      .content-wrap { padding: 0 18px 80px; }
+      .bio-card, .chat-section { padding: 0; }
+      .bio-card { padding: 26px 22px; }
+      .quotes-grid { grid-template-columns: 1fr; }
+      .works-grid  { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+      .chat-messages { height: 320px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-name { font-size: 1.9rem; }
+      .hero-stats { flex-wrap: wrap; gap: 16px; }
+      .hero-stat-val { font-size: 1.8rem; }
+      .works-grid  { grid-template-columns: 1fr 1fr; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Header -->
-<header class="site-header">
-  <div class="logo-line">
-    <span class="logo-ornament"></span>
-    <h1>BIU</h1>
-    <span class="logo-ornament right"></span>
-  </div>
-  <p class="subtitle">Bobokalonlar-insoniyat-ustozlari</p>
-</header>
+<!-- BG VIDEO -->
+<video autoplay muted loop id="bg-video" playsinline>
+  <source src="animate-this-sunrise-cityscape-with-ultra-realisti.mp4" type="video/mp4">
+</video>
 
-<!-- Main Card -->
-<div class="main-card">
+<!-- BACK NAV -->
+<nav class="back-nav">
+  <a href="bobokalonlarimiz.html">← BIU</a>
+</nav>
 
-  <!-- LEFT: Video Panel -->
-  <div class="video-panel">
-    <div class="video-wrapper">
-      <video autoplay muted loop playsinline id="bgVideo">
-        <source src="Dow.001.3gp" type="video/mp4">
-        <!-- Audio-only fallback gracefully handled -->
-      </video>
-    </div>
-    <div class="video-overlay">
+<!-- ======================================================
+     HERO
+     ====================================================== -->
+<section class="hero" id="hero">
+  <div class="hero-img" id="heroBg"></div>
+  <div class="hero-overlay"></div>
 
-      <div class="pulse-ring" id="pulseRing" style="display:none;">
-        <span class="play-icon">▶</span>
-      </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow" id="heroEyebrow">Buyuk Shaxs</p>
+    <h1 class="hero-name" id="heroName">—</h1>
+    <p class="hero-dates" id="heroDates"></p>
 
-      <h2 class="video-title"></h2>
-      <p class="video-desc"></p>
-    </div>
+    <div class="hero-tags" id="heroTags"></div>
+
+    <div class="hero-stats" id="heroStats"></div>
   </div>
 
-  <!-- RIGHT: Form Panel -->
-  <div class="form-panel">
-    <div class="form-panel-header">
-      <h2>Ariza topshirish</h2>
-      <p>Quyidagi ma'lumotlarni to'ldiring</p>
-      <div class="divider"></div>
+  <div class="scroll-cue">Pastga aylantiring</div>
+</section>
+
+<!-- ======================================================
+     MAIN CONTENT
+     ====================================================== -->
+<main class="content-wrap">
+
+  <!-- TARJIMAI HOL -->
+  <div class="section" style="animation-delay:0.1s">
+    <div class="section-header">
+      <div class="section-icon">📖</div>
+      <h2 class="section-title">Tarjimai Hol</h2>
+      <div class="section-line"></div>
     </div>
-
-    <!-- Google Sign-In -->
-    <div id="gSignIn"></div>
-
-    <!-- User Banner -->
-    <div class="user-banner" id="userBanner">
-      <div class="user-avatar" id="userAvatar">U</div>
-      <div class="user-banner-text">
-        <strong id="userName"></strong>
-        <span id="userEmailDisplay"></span>
-      </div>
+    <div class="bio-card" id="bioText">
+      <p>Ma'lumot yuklanmoqda…</p>
     </div>
-
-    <!-- Form Body (shown after sign-in) -->
-    <div class="form-body" id="formBody">
-
-      <div class="field-row">
-        <div class="field-group">
-          <label>Ism</label>
-          <input type="text" id="firstName" placeholder="Abdulloh">
-          <div class="field-error" id="firstNameError">✗ Ism kiriting</div>
-        </div>
-        <div class="field-group">
-          <label>Familiya</label>
-          <input type="text" id="lastName" placeholder="Karimov">
-          <div class="field-error" id="lastNameError">✗ Familiya kiriting</div>
-        </div>
-      </div>
-
-      <div class="field-group">
-        <label>Email</label>
-        <input type="email" id="email" readonly placeholder="email@gmail.com">
-      </div>
-
-      <div class="field-group">
-        <label>Telefon raqam</label>
-        <div class="phone-wrap">
-          <span class="phone-prefix">🇺🇿 +998</span>
-          <input type="text" id="phone" placeholder="90 123 45 67" maxlength="9">
-        </div>
-        <div class="field-error" id="phoneError">✗ 9 ta raqam kiriting</div>
-      </div>
-
-      <div class="field-group">
-        <label>Qo'shimcha ma'lumot <span style="font-weight:400;text-transform:none;letter-spacing:0">(ixtiyoriy)</span></label>
-        <textarea id="extra" placeholder="O'zingiz haqingizda qo'shimcha ma'lumot..."></textarea>
-      </div>
-
-      <button class="btn-submit" id="submitBtn" onclick="handleSubmit()">
-        Arizani yuborish →
-      </button>
-
-      <div class="success-msg" id="successMsg">
-        ✅ Arizangiz muvaffaqiyatli yuborildi!
-      </div>
-    </div>
-
-    <button class="btn-clear" id="clearBtn" onclick="clearData()">
-      ⟳ Akkauntdan chiqish
-    </button>
-
   </div>
-</div>
 
+  <!-- IQTIBOSLAR -->
+  <div class="section" style="animation-delay:0.2s" id="quotesSection">
+    <div class="section-header">
+      <div class="section-icon">💬</div>
+      <h2 class="section-title">Mashhur Iqtiboslar</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="quotes-grid" id="quotesGrid"></div>
+  </div>
+
+  <!-- ASARLAR / KASHFIYOTLAR -->
+  <div class="section" style="animation-delay:0.3s" id="worksSection">
+    <div class="section-header">
+      <div class="section-icon">📚</div>
+      <h2 class="section-title" id="worksSectionTitle">Asarlar va Kashfiyotlar</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="works-grid" id="worksGrid"></div>
+  </div>
+
+  <!-- HAYOT TIMELINE -->
+  <div class="section" style="animation-delay:0.4s">
+    <div class="section-header">
+      <div class="section-icon">📅</div>
+      <h2 class="section-title">Hayot Yo'li</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="tl-wrap" id="timelineWrap"></div>
+  </div>
+
+  <!-- AI CHATBOT -->
+  <div class="section" style="animation-delay:0.5s">
+    <div class="section-header">
+      <div class="section-icon">🤖</div>
+      <h2 class="section-title">AI Suhbat</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="chat-section">
+      <div class="chat-header">
+        <div class="chat-avatar">🏛️</div>
+        <div class="chat-header-info">
+          <div class="chat-name" id="chatTitle">Bobokalon bilan suhbat</div>
+          <div class="chat-status">Faol · AI yordamchisi</div>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages"></div>
+
+      <div class="quick-prompts" id="quickPrompts"></div>
+
+      <div class="chat-input-row">
+        <textarea id="chatInput" placeholder="Savol yozing…" rows="1"></textarea>
+        <button class="send-btn" id="sendBtn" title="Yuborish">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOSHQALAR -->
+  <div class="section" style="animation-delay:0.6s" id="relatedSection">
+    <div class="section-header">
+      <div class="section-icon">👥</div>
+      <h2 class="section-title">Shu Davrdan Boshqalar</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="related-grid" id="relatedGrid"></div>
+  </div>
+
+</main>
+
+<!-- TOP BTN -->
+<button id="topBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆️</button>
+
+<!-- ======================================================
+     DATA + SCRIPT
+     ====================================================== -->
 <script>
-// ===== CONFIG =====
-const CLIENT_ID   = "318653553640-uv3r040c4im18no4mjeq8eeomj24b1o8.apps.googleusercontent.com";
-const TELEGRAM_BOT_TOKEN = "7123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh";
-const TELEGRAM_CHAT_ID   = "123456789";
-const API_ENDPOINT = "https://bobokalonlar-insoniyat-utozlari-biu.onrender.com/api/send-form";
+/* ============================================================
+   PEOPLE DATA — same as main file, trimmed for template demo
+   ============================================================ */
+const peopleData = [
+  {
+    id: "alisher_navoiy",
+    name: "Alisher Navoiy",
+    born: 1441, died: 1501,
+    category: "yozuvchi",
+    image: "download (1).jpeg",
+    tags: ["Shoir", "Davlat arbobi", "Mutafakkir", "Til yaratuvchi"],
+    bio: [
+      "Alisher Navoiy — O'zbek adabiyoti va tilining asoschisi, XV asrning buyuk shoiri va mutafakkiri. U 1441-yilda Hirotda tug'ildi va o'sha davrning eng yirik madaniy markazida ulg'aydi.",
+      "Navoiy o'zbek tilida adabiyotning rivojlanishiga beqiyos hissa qo'shdi. U «Xamsa» asarini yozib, forsiy adabiyotdagi «Xamsa» an'anasiga munosib javob berdi va o'zbek tilining forsiydan kam emasligini isbotladi.",
+      "Huseyin Boyqaro saroyida vazir lavozimida ishlagan Navoiy madaniyat, ta'lim va me'morlik sohasida ham katta ishlar qildi. Hirotda ko'plab masjidlar, maktablar va karvonsaroylar qurilishini tashkil etdi.",
+      "Navoiyning ijodiy merosi 30 dan ortiq asarni o'z ichiga oladi. Uning «Mahbub ul-qulub», «Muhokamat ul-lug'atayn» kabi asarlari nafaqat adabiy, balki falsafiy va tilshunoslik jihatidan ham muhimdir."
+    ],
+    quotes: [
+      { text: "Bil ondinki, inson oti andin qolur, Yaxshi ot bilan bu olamdin ketsa ham.", source: "Hayratul-Abror" },
+      { text: "Ko'ngil maqsudi vasl ersa, ne g'am hajr alam birla, Ko'p olamning maoshidin qiyin ermastur olam birla.", source: "Devon" },
+      { text: "Til — insonning eng yaxshi do'sti va eng yomon dushmanidir.", source: "Mahbub ul-Qulub" },
+      { text: "Ilm — nurdir, jaholat — zulmat.", source: "Nasoyim ul-Muhabbat" }
+    ],
+    works: [
+      { icon:"📜", title:"Xamsa", year:"1483–1485", desc:"Besh dostondan iborat ulkan she'riy asar — o'zbek adabiyotining cho'qqisi." },
+      { icon:"📖", title:"Muhokamat ul-lug'atayn", year:"1499", desc:"O'zbek tili forsiy tildan kam emasligini isbotlagan tilshunoslik asari." },
+      { icon:"💎", title:"Mahbub ul-qulub", year:"1500", desc:"Axloqiy-falsafiy nasr asari, jamiyat va inson haqida." },
+      { icon:"🌹", title:"Xazoyin ul-Maoniy", year:"1490–98", desc:"To'rt devondan iborat lirik she'rlar to'plami." },
+      { icon:"🌟", title:"Lison ut-Tayr", year:"1499", desc:"Tasavvuf falsafasiga bag'ishlangan allegorik doston." },
+      { icon:"📚", title:"Nasoyim ul-Muhabbat", year:"1495", desc:"770 dan ortiq sufi tarjimai holini o'z ichiga olgan ensiklopedik asar." }
+    ],
+    timeline: [
+      { year:"1441", event:"Hirotda tug'ildi", detail:"Hirot shahri — O'rta Osiyoning madaniy poytaxti." },
+      { year:"1451", event:"Samarqandda ta'lim", detail:"Yosh Navoiy ilm olish uchun Samarqandga bordi." },
+      { year:"1469", event:"Saroyga xizmatga kirdi", detail:"Sulton Husayn Boyqaro hukmronligi ostida muhrdor bo'ldi." },
+      { year:"1472", event:"Vazir etib tayinlandi", detail:"Xuroson viloyatining bosh vaziri lavozimini egalladi." },
+      { year:"1483", event:"Xamsa yozila boshladi", detail:"Besh ulkan dostoni yozishni boshladi." },
+      { year:"1485", event:"Xamsa yakunlandi", detail:"Besh yil ichida Xamsa to'liq yakunlandi." },
+      { year:"1499", event:"Muhim asarlar", detail:"Muhokamat ul-lug'atayn va Lison ut-Tayr yozildi." },
+      { year:"1501", event:"Hirotda vafot etdi", detail:"60 yoshida Hirotda vafot etdi, merosi abadiy qoldi." }
+    ],
+    relatedIds: ["amir_temur", "mirzo_ulugbek", "zahiriddin_bobur"]
+  },
 
-// ===== DOM REFS =====
-const userBanner  = document.getElementById("userBanner");
-const userAvatar  = document.getElementById("userAvatar");
-const userNameEl  = document.getElementById("userName");
-const userEmailDisplay = document.getElementById("userEmailDisplay");
-const formBody    = document.getElementById("formBody");
-const clearBtn    = document.getElementById("clearBtn");
-const submitBtn   = document.getElementById("submitBtn");
-const successMsg  = document.getElementById("successMsg");
+  {
+    id: "amir_temur",
+    name: "Amir Temur",
+    born: 1336, died: 1405,
+    category: "sarkarda",
+    image: "download (2).jpeg",
+    tags: ["Sarkarda", "Davlat asoschisi", "Strategist", "Me'mor homiysi"],
+    bio: [
+      "Amir Temur — XIV asrning eng buyuk sarkardasi va Temuriylar saltanatining asoschisi. 1336-yil Shahrisabzda tug'ilgan u, kichik yoshidanoq harbiy iste'dodini namoyon qildi.",
+      "Temur o'ziga xos harbiy taktikasi bilan Osiyo, Kavkaz va Sharqiy Yevropaning katta qismini zabt etdi. Uning armiyasi o'sha davrning eng intizomli va tashkil etilgan kuchlaridan biri hisoblanardi.",
+      "Samarqandni poytaxti sifatida tanlagan Temur shaharni ulkan me'moriy obidalar bilan bezadi. Registon, Bibi-Xonim masjidi, Shohizinda majmuasi — bularning barchasi uning me'morlikka qo'shgan hissasidir.",
+      "Temur nafaqat sarkarda, balki ilm va madaniyatning katta homiysi ham edi. U olimlar, shoirlar va me'morlarni saroyiga taklif etib, ularni qo'llab-quvvatladi."
+    ],
+    quotes: [
+      { text: "Agar siz qudratimizga shubha qilsangiz, biz qurgan binolarimizga qarang.", source: "Tarixiy manba" },
+      { text: "Kuch birlikdadir.", source: "Temurning hikmatlaridan" },
+      { text: "Davlatni boshqarish uchun avvalo o'zingizni boshqaring.", source: "Tuzuklar" },
+      { text: "Zafar — haq yolida kurashganlarga nasib etadi.", source: "Tuzuklar" }
+    ],
+    works: [
+      { icon:"⚔️", title:"Tuzuklar (Temur qonunlari)", year:"XIV asr", desc:"Harbiy va davlat boshqaruvi bo'yicha Temurning shaxsiy qonun-qoidalari." },
+      { icon:"🕌", title:"Bibi-Xonim Masjidi", year:"1399–1404", desc:"Samarqanddagi ulkan masjid — o'rta asrlar me'morligining durdonasi." },
+      { icon:"🏛️", title:"Shohizinda", year:"XIV asr", desc:"Samarqanddagi maqbaralar majmuasi, temuriylar san'atining namunasi." },
+      { icon:"🌟", title:"Registon Ansambli", year:"XIV asr", desc:"Samarqandning markazidagi uch madrasadan iborat muhtasham maydon." }
+    ],
+    timeline: [
+      { year:"1336", event:"Shahrisabzda tug'ildi", detail:"Kesh (hozirgi Shahrisabz) shahrida Barlos qabilasida tug'ildi." },
+      { year:"1360", event:"Harbiy faoliyat boshlandi", detail:"O'rta Osiyoda harbiy kuchini oshira boshladi." },
+      { year:"1370", event:"Samarqandni poytaxt qildi", detail:"Movarounnahrni birlashtirdi va Samarqandni taxt shahri deb e'lon qildi." },
+      { year:"1380", event:"Eron va Afg'on yurtlari zabt etildi", detail:"G'arbga yurishlar boshlandi." },
+      { year:"1398", event:"Hindiston yurishi", detail:"Dehli sultonligiga harbiy yurish uyushtirdi." },
+      { year:"1402", event:"Anqara jangi", detail:"Usmonli sultoni Boyazidni mag'lub etdi." },
+      { year:"1405", event:"Otrar yaqinida vafot etdi", detail:"Xitoyga yurish chog'ida Otrar shahrida vafot etdi." }
+    ],
+    relatedIds: ["mirzo_ulugbek", "alisher_navoiy"]
+  },
 
-// ===== VIDEO FALLBACK =====
-const video = document.getElementById("bgVideo");
-if (video) {
-  video.addEventListener("error", () => {
-    video.style.display = "none";
-    document.getElementById("pulseRing").style.display = "flex";
+  {
+    id: "mirzo_ulugbek",
+    name: "Mirzo Ulug'bek",
+    born: 1394, died: 1449,
+    category: "olim",
+    image: "download (3).jpeg",
+    tags: ["Astronom", "Matematik", "Hukmdor", "Alloma"],
+    bio: [
+      "Mirzo Ulug'bek — XV asrning buyuk astronomi va matematiki, Amir Temurning nabirasi. U 1394-yilda dunyoga keldi va Samarqandda yirik ilmiy maktab yaratdi.",
+      "Ulug'bek tomonidan Samarqandda qurilgan rasadxona o'sha davrning eng zamonaviy astronomik kuzatuv markazi edi. U yerda olingan natijalar asrlar davomida Yevropa astronomiyasiga ham ta'sir ko'rsatdi.",
+      "Uning asosiy ilmiy merosi — «Ziji Ko'ragoni» — 1018 ta yulduzning aniq koordinatalarini o'z ichiga olgan katalog. Bu asar XVI asrda Yevropada ham nashr etildi.",
+      "Ulug'bek fanning homiysi sifatida Samarqand madrasasida shaxsan dars berdi. Matematik va astronomiya sohasidagi ishlari hali ham jahon olimlari tomonidan o'rganilmoqda."
+    ],
+    quotes: [
+      { text: "Din — siyosat yo'li bilan emas, balki ilm yo'li bilan mustahkamlanadi.", source: "Tarixiy manba" },
+      { text: "Ilm — eng katta boylik.", source: "Ulug'bekning hikmatlaridan" },
+      { text: "Osmon — allohning kitobi, yulduzlar — uning harflari.", source: "Ziji Ko'ragoni muqaddimasi" }
+    ],
+    works: [
+      { icon:"🔭", title:"Ziji Ko'ragoni", year:"1437", desc:"1018 yulduz koordinatalarini o'z ichiga olgan astronomik katalog." },
+      { icon:"🏛️", title:"Samarqand Rasadxonasi", year:"1420", desc:"O'rta asrlarning eng ilg'or astronomik kuzatuv markazi." },
+      { icon:"📐", title:"Trigonometriya jadvallari", year:"XV asr", desc:"Sinus va tangens qiymatlarini o'ta aniqlik bilan hisoblagan jadvallar." },
+      { icon:"🎓", title:"Samarqand Madrasasi", year:"1420", desc:"Ulug'bek tomonidan qurilgan va shaxsan dars bergan ilm maskani." }
+    ],
+    timeline: [
+      { year:"1394", event:"Sultoniyadа tug'ildi", detail:"Amir Temurning nabirasi sifatida ko'tarildi." },
+      { year:"1409", event:"Samarqand hokimi", detail:"15 yoshida Movarounnahr hokimi etib tayinlandi." },
+      { year:"1420", event:"Rasadxona qurildi", detail:"Samarqanddagi ulkan rasadxona qurilishi boshlandi." },
+      { year:"1420", event:"Madrasa qurildi", detail:"Registon maydonidagi mashhur madrasa qurildi." },
+      { year:"1437", event:"Ziji Ko'ragoni yakunlandi", detail:"Astronomik katalogi to'liq tugallandi." },
+      { year:"1449", event:"Vafot etdi", detail:"O'z o'g'li tomonidan qatl etildi — fanning buyuk yo'qotishi." }
+    ],
+    relatedIds: ["amir_temur", "ibn_sino"]
+  },
+
+  {
+    id: "ibn_sino",
+    name: "Ibn Sino",
+    born: 980, died: 1037,
+    category: "olim",
+    image: "download (5).jpeg",
+    tags: ["Tabib", "Faylasuf", "Matematik", "Shoir"],
+    bio: [
+      "Abu Ali ibn Sino — XI asrning buyuk faylasufi va tabibi, G'arbda Avitsenna nomi bilan mashhur. Buxoro yaqinidagi Afshona qishlog'ida tug'ilgan u, bolaligidanoq fenomenal aql-zakosi bilan ajralib turdi.",
+      "Ibn Sino 18 yoshida eng yirik tabib sifatida tan olindi. Uning «Al-Qonun fit-Tibb» («Tibbiyot qonuni») asari 700 yil davomida Yevropa universitetlarida asosiy tibbiyot darsligi sifatida o'tildi.",
+      "Falsafa sohasida ham u aristotelchilik va neoplatonizm an'analarini sintezlashtirdi. Uning «Ash-Shifo» ensiklopediyasi mantiq, tabiiyot, matematika va metafizikani qamrab oladi.",
+      "Ibn Sino 450 dan ortiq asar yozdi. Ular tibbiyot, falsafa, astronomiya, kimyo, geologiya va adabiyotni qamrab oladi."
+    ],
+    quotes: [
+      { text: "Tabib — uch qurolga ega bo'lishi kerak: so'z, o'simlik va pichoq.", source: "Al-Qonun" },
+      { text: "Bilim ikki turli bo'ladi: birinchisi — bilgan narsangiz, ikkinchisi — qayerdan bilish mumkinligini bilishingiz.", source: "Ash-Shifo" },
+      { text: "Aql — eng katta ne'mat.", source: "Risola" },
+      { text: "Ko'p ovqat yemaslik — eng yaxshi dori.", source: "Al-Qonun" }
+    ],
+    works: [
+      { icon:"🏥", title:"Al-Qonun fit-Tibb", year:"1025", desc:"Tibbiyotning qonuni — 700 yil Yevropa universitetlarida darsligi." },
+      { icon:"📚", title:"Ash-Shifo", year:"1027", desc:"18 tomlik ensiklopediya: mantiq, falsafa, tabiiyot, matematika." },
+      { icon:"⭐", title:"Kitob an-Najot", year:"1015", desc:"Falsafiy asarlar majmuasi — ash-Shif oning qisqartmasi." },
+      { icon:"🔬", title:"Al-Urjuza fit-Tibb", year:"XI asr", desc:"She'riy shaklda yozilgan tibbiyot darsligi." }
+    ],
+    timeline: [
+      { year:"980", event:"Buxoro yaqinida tug'ildi", detail:"Afshona qishlog'ida ziyoli oilada tug'ildi." },
+      { year:"990", event:"Qur'on va adabiyotni o'rgandi", detail:"10 yoshida Qur'onni yod oldi." },
+      { year:"998", event:"Somoniy sultonini davoladi", detail:"18 yoshida Nuh ibn Mansurni davolab mashhur bo'ldi." },
+      { year:"1012", event:"Al-Qonun yozila boshladi", detail:"Tibbiyotning asosiy ensiklopediyasi yaratila boshladi." },
+      { year:"1025", event:"Al-Qonun yakunlandi", detail:"5 tomlik tibbiyot qonuni to'liq tugallandi." },
+      { year:"1037", event:"Hamadonni vafot etdi", detail:"57 yoshida Hamadonda vafot etdi." }
+    ],
+    relatedIds: ["mirzo_ulugbek", "al_beruniy"]
+  },
+
+  {
+    id: "al_beruniy",
+    name: "Al-Beruniy",
+    born: 973, died: 1048,
+    category: "olim",
+    image: "download (7).jpeg",
+    tags: ["Enciklopedist", "Geograf", "Astronom", "Tarixchi"],
+    bio: [
+      "Abu Rayhon Muhammad ibn Ahmad al-Beruniy — XI asrning universal dahosi. Xorazmda tug'ilgan u, 146 ta asar yozib qoldirdi.",
+      "Beruniy Hindistonni ilmiy jihatdan o'rgangan birinchi olim hisoblanadi. 17 yil davomida u yerda yashab, hindi tiliga tarjimonlik qildi va «Hindiston haqida kitob» asarini yozdi.",
+      "Uning matematika, astronomiya, geografiya va tarix sohasidagi ishlari Yevropa Renessansiga katta ta'sir ko'rsatdi.",
+      "Beruniy yer shari radiusini o'sha davr uchun hayratlanarli aniqlik bilan hisobladi: u olgan natija zamonaviy ma'lumotlardan atigi 17 km farq qiladi."
+    ],
+    quotes: [
+      { text: "Ilmni qidirish har bir musulmon erkak va ayolga farzdir.", source: "Tarixiy manba" },
+      { text: "Kuzatish — bilimning kaliti.", source: "Qonun al-Mas'udiy" },
+      { text: "Xato qilish insoniy, ammo xatoda qolish — nodonlik.", source: "Hindiston haqida kitob" }
+    ],
+    works: [
+      { icon:"🌍", title:"Hindiston haqida kitob", year:"1030", desc:"Hindiston tarixi, dini, fani va madaniyatini o'rganuvchi ulkan asar." },
+      { icon:"⚗️", title:"Mineralogiya", year:"XI asr", desc:"Qimmatbaho tosh va metallarni o'rganuvchi ilmiy asar." },
+      { icon:"🌐", title:"Geodeziya", year:"1025", desc:"Yer yuzining geometrik o'lchamlarini hisoblash bo'yicha asar." },
+      { icon:"📅", title:"Xronologiya", year:"1000", desc:"Turli xalqlarning taqvim tizimlari haqidagi mukammal asar." }
+    ],
+    timeline: [
+      { year:"973", event:"Xorazmda tug'ildi", detail:"Kath shahrida tug'ildi." },
+      { year:"998", event:"Ibn Sino bilan yozishmalar", detail:"Ilmiy munozaralar boshlandi." },
+      { year:"1017", event:"G'azna saroyiga bordi", detail:"Mahmud G'aznaviy tomonidan saroyga taklif etildi." },
+      { year:"1017", event:"Hindistonga safari", detail:"17 yil davomida Hindistonni o'rgandi." },
+      { year:"1030", event:"Hindiston haqida kitob", detail:"Asosiy ensiklopedik asari yakunlandi." },
+      { year:"1048", event:"G'aznada vafot etdi", detail:"75 yoshida vafot etdi." }
+    ],
+    relatedIds: ["ibn_sino", "mirzo_ulugbek"]
+  },
+
+  {
+    id: "zahiriddin_bobur",
+    name: "Zahiriddin Bobur",
+    born: 1483, died: 1530,
+    category: "yozuvchi",
+    image: "download (4).jpeg",
+    tags: ["Shoir", "Hukmdor", "Memorist", "Strategist"],
+    bio: [
+      "Zahiriddin Muhammad Bobur — Boburiylar sulolasining asoschisi, buyuk shoir va memorialist. U 1483-yilda Andijonda tug'ildi va Farg'ona vodiysining hukmdori bo'ldi.",
+      "Bobur 12 yoshida hokimiyatga keldi va hayoti davomida ko'plab harbiy zafar va mag'lubiyatlarni boshdan kechirdi. Samarqandni ikki marta zabt etdi, ammo saqlab qola olmadi.",
+      "1526-yilda Hindistonni zabt etib, Bobur Boburiylar imperiyasini asos soldi. Bu imperiya Akbar, Shoh Jahon kabi buyuk hukmdorlar davrida yanada kuchaydi.",
+      "Bobur adabiyotda ham iste'dodli edi. Uning «Boburnoma» asari — o'zbek tilidagi birinchi avtobiografik memuarlar bo'lib, adabiyot va tarix uchun tengsiz manbadir."
+    ],
+    quotes: [
+      { text: "Hayot bir nafasdir, lekin yaxshi nom abadiydir.", source: "Boburnoma" },
+      { text: "Odam o'z vatanini sevishi kerak — vatansiz odam daraxt ildizsizdek.", source: "Boburnoma" },
+      { text: "Shahsuvorda yo'l yurmaydi, balki sabr bilan harakatlanadi.", source: "Boburnoma" }
+    ],
+    works: [
+      { icon:"📖", title:"Boburnoma", year:"1525–1530", desc:"O'zbek tilidagi birinchi avtobiografik memuarlar — jahon adabiyotining durdonasi." },
+      { icon:"📜", title:"Devon (She'rlar to'plami)", year:"XV–XVI asr", desc:"Lirik she'rlar to'plami, ghazallar, ruboiylar." },
+      { icon:"🌸", title:"Mubayyin", year:"XVI asr", desc:"Fiqhga oid risoladir." }
+    ],
+    timeline: [
+      { year:"1483", event:"Andijonda tug'ildi", detail:"Farg'ona vodiysi hukmdori Umarshayx Mirzoning o'g'li." },
+      { year:"1495", event:"Farg'ona hukmdori", detail:"12 yoshida otasi vafotidan so'ng taxtga o'tirdi." },
+      { year:"1497", event:"Samarqandni zabt etdi", detail:"Birinchi marta Samarqandni egalladi." },
+      { year:"1504", event:"Kobulni egalladi", detail:"Hindistonga boradigan tayanch nuqtasini qo'lga kiritdi." },
+      { year:"1519", event:"Hindistonga yurishlar", detail:"Hindistonga birinchi yurish uyushtirildi." },
+      { year:"1526", event:"Panipat jangi", detail:"Dehli sultonini yengdi va Boburiylar imperiyasini asos soldi." },
+      { year:"1530", event:"Agroda vafot etdi", detail:"47 yoshida Agroda vafot etdi." }
+    ],
+    relatedIds: ["alisher_navoiy", "mirzo_ulugbek"]
+  }
+];
+
+/* ============================================================
+   PAGE ROUTING — kim ekanligi URL dan aniqlanadi
+   ============================================================ */
+function getPersonId() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('id')) return params.get('id');
+
+  // filename dan: alisher_navoiy.html → alisher_navoiy
+  const file = location.pathname.split('/').pop().replace('.html','');
+  return file !== 'bobokalon_template' ? file : 'alisher_navoiy';
+}
+
+const personId = getPersonId();
+const person = peopleData.find(p => p.id === personId) || peopleData[0];
+
+/* ============================================================
+   RENDER HERO
+   ============================================================ */
+function renderHero(p) {
+  document.title = `${p.name} — BIU`;
+  document.querySelector('meta[name="description"]').content = `${p.name} (${p.born}–${p.died}) haqida to'liq ma'lumot`;
+
+  document.getElementById('heroBg').style.backgroundImage = `url('${p.image}')`;
+  document.getElementById('heroEyebrow').textContent = `BIU · ${p.category.toUpperCase()}`;
+  document.getElementById('heroName').textContent = p.name;
+  document.getElementById('heroDates').textContent = `${p.born} — ${p.died}`;
+  document.getElementById('chatTitle').textContent = `${p.name} bilan suhbat`;
+  document.getElementById('pageTitle').textContent = `${p.name} — BIU`;
+
+  const tagsEl = document.getElementById('heroTags');
+  p.tags.forEach(t => {
+    const s = document.createElement('span');
+    s.className = 'hero-tag';
+    s.textContent = t;
+    tagsEl.appendChild(s);
   });
-  // If no video source loads
-  setTimeout(() => {
-    if (video.readyState === 0) {
-      video.style.display = "none";
-      document.getElementById("pulseRing").style.display = "flex";
-    }
-  }, 1500);
-}
 
-// ===== GOOGLE AUTH =====
-function handleCredentialResponse(res) {
-  const data = jwt_decode(res.credential);
-  localStorage.setItem("userName",  data.name);
-  localStorage.setItem("userEmail", data.email);
-  showForm(data.name, data.email);
-}
-
-function showForm(name, email) {
-  // Banner
-  userBanner.style.display = "flex";
-  const initials = name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0,2);
-  userAvatar.textContent = initials;
-  userNameEl.textContent = "Salom, " + name + "!";
-  userEmailDisplay.textContent = email;
-
-  // Form
-  formBody.style.display = "block";
-  clearBtn.style.display  = "block";
-
-  // Pre-fill
-  document.getElementById("email").value     = email;
-  document.getElementById("firstName").value = localStorage.getItem("formFirstName") || "";
-  document.getElementById("lastName").value  = localStorage.getItem("formLastName")  || "";
-  document.getElementById("phone").value     = localStorage.getItem("formPhone")     || "";
-  document.getElementById("extra").value     = localStorage.getItem("formExtra")     || "";
-
-  // Hide Google button
-  document.getElementById("gSignIn").style.display = "none";
-}
-
-window.onload = () => {
-  google.accounts.id.initialize({
-    client_id: CLIENT_ID,
-    callback:  handleCredentialResponse
+  const lifespan = p.died - p.born;
+  const ago = new Date().getFullYear() - p.born;
+  const statsEl = document.getElementById('heroStats');
+  [
+    { val: p.born, label: "Tug'ilgan yili" },
+    { val: `${lifespan} yil`, label: "Umr ko'rdi" },
+    { val: `${ago} yil`, label: "Bugun yoshi bo'lurdi" },
+    { val: p.works?.length ?? '—', label: "Asarlar" }
+  ].forEach(item => {
+    const d = document.createElement('div');
+    d.className = 'hero-stat';
+    d.innerHTML = `<div class="hero-stat-val">${item.val}</div><div class="hero-stat-label">${item.label}</div>`;
+    statsEl.appendChild(d);
   });
-  google.accounts.id.renderButton(
-    document.getElementById("gSignIn"),
-    { size: "large", width: "100%", theme: "outline", shape: "rectangular" }
-  );
-
-  const savedName  = localStorage.getItem("userName");
-  const savedEmail = localStorage.getItem("userEmail");
-  if (savedName && savedEmail) showForm(savedName, savedEmail);
-};
-
-// ===== VALIDATION =====
-function clearErrors() {
-  document.querySelectorAll(".field-error").forEach(el => el.classList.remove("visible"));
 }
 
-function showError(id, msg) {
-  const el = document.getElementById(id);
-  if (msg) el.textContent = "✗ " + msg;
-  el.classList.add("visible");
+/* ============================================================
+   RENDER BIO
+   ============================================================ */
+function renderBio(p) {
+  const el = document.getElementById('bioText');
+  el.innerHTML = (p.bio || []).map(para => `<p>${para}</p>`).join('');
 }
 
-function validate(data) {
-  clearErrors();
-  let ok = true;
-
-  if (!data.firstName || data.firstName.length < 2) {
-    showError("firstNameError", "Ism kamida 2 ta harf bo'lishi kerak");
-    ok = false;
+/* ============================================================
+   RENDER QUOTES
+   ============================================================ */
+function renderQuotes(p) {
+  const grid = document.getElementById('quotesGrid');
+  if (!p.quotes?.length) {
+    document.getElementById('quotesSection').style.display = 'none';
+    return;
   }
-  if (!data.lastName || data.lastName.length < 2) {
-    showError("lastNameError", "Familiya kamida 2 ta harf bo'lishi kerak");
-    ok = false;
-  }
-  if (!/^[0-9]{9}$/.test(data.phone)) {
-    showError("phoneError", "9 ta raqam kiriting (masalan: 901234567)");
-    ok = false;
-  }
-  return ok;
+  p.quotes.forEach((q, i) => {
+    const c = document.createElement('div');
+    c.className = 'quote-card';
+    c.style.animationDelay = `${i * 0.1}s`;
+    c.innerHTML = `
+      <div class="quote-text">${q.text}</div>
+      <div class="quote-source">— ${q.source}</div>
+    `;
+    grid.appendChild(c);
+  });
 }
 
-// ===== TELEGRAM =====
-async function sendToTelegram(data) {
-  const msg = `
-📋 *Yangi Ariza — Bobo Kalonlar*
-👤 *Ism:* ${data.firstName} ${data.lastName}
-📧 *Email:* ${data.email}
-📱 *Telefon:* +998${data.phone}
-ℹ️ *Ma'lumot:* ${data.extra || "—"}
-⏰ *Vaqt:* ${new Date().toLocaleString("uz-UZ")}
+/* ============================================================
+   RENDER WORKS
+   ============================================================ */
+function renderWorks(p) {
+  const grid = document.getElementById('worksGrid');
+  if (!p.works?.length) {
+    document.getElementById('worksSection').style.display = 'none';
+    return;
+  }
+  const icons = { olim:'🔬', sarkarda:'⚔️', yozuvchi:'📜', din:'🕌' };
+  const titleMap = { olim:'Ilmiy Asarlar va Kashfiyotlar', sarkarda:'Harbiy Yutuqlar va Obidalar',
+                     yozuvchi:'Adabiy Asarlar', din:'Diniy Asarlar va Ta'limot' };
+  document.getElementById('worksSectionTitle').textContent = titleMap[p.category] || 'Asarlar';
+
+  p.works.forEach((w, i) => {
+    const c = document.createElement('div');
+    c.className = 'work-card';
+    c.style.animationDelay = `${i * 0.08}s`;
+    c.innerHTML = `
+      <div class="work-icon">${w.icon || icons[p.category]}</div>
+      <div class="work-title">${w.title}</div>
+      <div class="work-year">📅 ${w.year}</div>
+      <div class="work-desc">${w.desc}</div>
+    `;
+    grid.appendChild(c);
+  });
+}
+
+/* ============================================================
+   RENDER TIMELINE
+   ============================================================ */
+function renderTimeline(p) {
+  const wrap = document.getElementById('timelineWrap');
+  if (!p.timeline?.length) { wrap.innerHTML = '<p style="color:var(--muted)">Ma'lumot yo'q.</p>'; return; }
+
+  p.timeline.forEach((ev, i) => {
+    const item = document.createElement('div');
+    item.className = 'tl-item';
+    item.style.animationDelay = `${i * 0.1}s`;
+    item.innerHTML = `
+      <div class="tl-dot"></div>
+      <div class="tl-year">${ev.year}</div>
+      <div class="tl-box">
+        <div class="tl-event">${ev.event}</div>
+        <div class="tl-detail">${ev.detail}</div>
+      </div>
+    `;
+    wrap.appendChild(item);
+  });
+}
+
+/* ============================================================
+   RENDER RELATED
+   ============================================================ */
+function renderRelated(p) {
+  const grid = document.getElementById('relatedGrid');
+  const ids = p.relatedIds || [];
+  const related = peopleData.filter(x => ids.includes(x.id) && x.id !== p.id).slice(0, 6);
+
+  if (!related.length) {
+    document.getElementById('relatedSection').style.display = 'none';
+    return;
+  }
+
+  related.forEach(r => {
+    const link = document.createElement('a');
+    link.className = 'rel-card';
+    link.href = `${r.id}.html`;
+    link.innerHTML = `
+      <img src="${r.image}" alt="${r.name}" loading="lazy">
+      <div class="rel-info">
+        <div class="rel-name">${r.name}</div>
+        <div class="rel-cat">${r.category}</div>
+      </div>
+    `;
+    grid.appendChild(link);
+  });
+}
+
+/* ============================================================
+   AI CHATBOT
+   ============================================================ */
+const QUICK_PROMPTS = [
+  "Kim edi u?",
+  "Asosiy asarlari",
+  "Qachon yashagan?",
+  "Muhim kashfiyotlari",
+  "Uning hikmatlaridan biri"
+];
+
+let chatHistory = [];
+let isTyping = false;
+
+function buildSystemPrompt(p) {
+  return `Siz ${p.name} haqida ma'lumot beradigan AI yordamchisisiz. Foydalanuvchi savol bersa, faqat ${p.name} haqida qisqa, aniq, va mazmunli javob bering. Javoblar o'zbek tilida bo'lsin. Asosiy faktlar: tug'ilgan yili ${p.born}, vafoti ${p.died}, kategoriyasi: ${p.category}. Asarlari: ${(p.works||[]).map(w=>w.title).join(', ')}. Bio: ${(p.bio||[]).join(' ')} Agar savol boshqa mavzuda bo'lsa, muloyimlik bilan faqat ${p.name} haqida so'rang deb ayting. Javoblar 3–5 jumladan oshmasin.`;
+}
+
+function addMessage(role, text) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = `msg msg-${role}`;
+
+  const now = new Date();
+  const time = `${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  div.innerHTML = `
+    <div class="msg-bubble">${text}</div>
+    <div class="msg-time">${time}</div>
   `;
-  try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg, parse_mode: "Markdown" })
-    });
-  } catch (e) {
-    console.error("Telegram xatosi:", e);
-  }
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
 }
 
-// ===== SUBMIT =====
-async function handleSubmit() {
-  const data = {
-    firstName: document.getElementById("firstName").value.trim(),
-    lastName:  document.getElementById("lastName").value.trim(),
-    email:     document.getElementById("email").value.trim(),
-    phone:     document.getElementById("phone").value.trim(),
-    extra:     document.getElementById("extra").value.trim()
-  };
+function addTypingIndicator() {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg msg-bot msg-typing';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<div class="msg-bubble"><div class="dot-typing"></div><div class="dot-typing"></div><div class="dot-typing"></div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
 
-  if (!validate(data)) return;
+function removeTypingIndicator() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
 
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = '<span class="spinner"></span> Yuborilmoqda...';
+async function sendMessage(text) {
+  if (!text.trim() || isTyping) return;
+  isTyping = true;
+
+  const sendBtn = document.getElementById('sendBtn');
+  sendBtn.disabled = true;
+
+  addMessage('user', text);
+  chatHistory.push({ role: 'user', content: text });
+  addTypingIndicator();
 
   try {
-    const payload = { ...data, name: `${data.firstName} ${data.lastName}` };
-
-    const response = await fetch(API_ENDPOINT, {
-      method:  "POST",
-      headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify(payload)
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: buildSystemPrompt(person),
+        messages: chatHistory
+      })
     });
 
-    const result = await response.json();
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || 'Kechirasiz, javob olishda muammo yuz berdi.';
 
-    if (response.ok && result.success) {
-      localStorage.setItem("formFirstName", data.firstName);
-      localStorage.setItem("formLastName",  data.lastName);
-      localStorage.setItem("formPhone",     data.phone);
-      localStorage.setItem("formExtra",     data.extra);
+    removeTypingIndicator();
+    addMessage('bot', reply);
+    chatHistory.push({ role: 'assistant', content: reply });
 
-      await sendToTelegram(data);
-
-      successMsg.classList.add("visible");
-
-      setTimeout(() => {
-        window.location.href = "bobo-kalonlar.html";
-      }, 1800);
-    } else {
-      alert("❌ Xatolik: " + (result?.error || "Noma'lum xatolik yuz berdi"));
-    }
   } catch (err) {
-    console.error("Xatolik:", err);
-    alert("❌ Server bilan bog'lanishda xatolik. Qayta urinib ko'ring.");
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = "Arizani yuborish →";
+    removeTypingIndicator();
+    addMessage('bot', 'Tarmoq xatosi yuz berdi. Iltimos, qayta urinib ko'ring.');
   }
+
+  isTyping = false;
+  sendBtn.disabled = false;
 }
 
-// Phone — only digits
-document.getElementById("phone").addEventListener("input", function() {
-  this.value = this.value.replace(/\D/g, "").slice(0, 9);
+function initChat(p) {
+  // Welcome message
+  addMessage('bot', `Assalomu alaykum! Men ${p.name} (${p.born}–${p.died}) haqida savollarga javob beraman. Nimani bilmoqchisiz? 😊`);
+
+  // Quick prompts
+  const qpEl = document.getElementById('quickPrompts');
+  QUICK_PROMPTS.forEach(q => {
+    const btn = document.createElement('button');
+    btn.className = 'qp-btn';
+    btn.textContent = q;
+    btn.onclick = () => {
+      document.getElementById('chatInput').value = q;
+      sendChat();
+    };
+    qpEl.appendChild(btn);
+  });
+
+  // Send button
+  document.getElementById('sendBtn').onclick = sendChat;
+
+  // Enter key
+  document.getElementById('chatInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+  });
+
+  // Auto-resize textarea
+  document.getElementById('chatInput').addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 130) + 'px';
+  });
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = 'auto';
+  sendMessage(text);
+}
+
+/* ============================================================
+   SCROLL UTILITIES
+   ============================================================ */
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('topBtn');
+  btn.classList.toggle('show', window.scrollY > 400);
 });
 
-// ===== CLEAR =====
-function clearData() {
-  if (confirm("Akkauntdan chiqmoqchimisiz? Barcha ma'lumotlar o'chiriladi.")) {
-    localStorage.clear();
-    location.reload();
-  }
-}
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderHero(person);
+  renderBio(person);
+  renderQuotes(person);
+  renderWorks(person);
+  renderTimeline(person);
+  renderRelated(person);
+  initChat(person);
+});
 </script>
 </body>
 </html>
